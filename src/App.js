@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Catelog from "./components/Catelog";
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
+import Notifications from "./components/Notifications";
 import Details from "./components/Details";
 import Checkout from "./components/Checkout/Checkout";
 import Default from "./components/Default";
@@ -18,6 +19,7 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
         <Route path="/details" component={Details} />
