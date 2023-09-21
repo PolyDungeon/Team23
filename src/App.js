@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
 import Catelog from "./components/Catelog";
 import Homepage from "./components/Homepage";
+import Profile from "./components/Profile";
 import Details from "./components/Details";
 import Checkout from "./components/Checkout/Checkout";
 import Default from "./components/Default";
@@ -17,6 +18,7 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />

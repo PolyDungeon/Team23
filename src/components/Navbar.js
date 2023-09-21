@@ -23,6 +23,11 @@ export default class Navbar extends Component {
                             About
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to="/profile" className="nav-link">
+                            My Profile
+                        </Link>
+                    </li>
                 </ul>
                 <Link to="/checkout" className="ml-auto">
                     <ButtonContainer>
@@ -45,5 +50,6 @@ background: rgba(255, 255, 255);
 .navbar-brand {
     width: 100px; /* Adjust the width of the logo */
     height: 100px; /* Adjust the height of the logo */
+    border: 2px solid red;
 }
 `;
