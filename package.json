@@ -8,7 +8,10 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^5.0.1",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "aws-sdk": "2.1464.0",
+    "@aws-sdk/client-dynamodb": "3.418.0",
+    "@aws-sdk/lib-dynamodb": "3.418.0"
   },
   "scripts": {
     "start": "react-scripts start",
