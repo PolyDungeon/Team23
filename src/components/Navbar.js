@@ -15,7 +15,12 @@ export default class Navbar extends Component {
                 <ul className="navbar-nav align-items-center">
                     <li className="nav-item">
                         <Link to="/catelog" className="nav-link">
-                            Products
+                            Store
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/profile" className="nav-link">
+                            My Profile
                         </Link>
                     </li>
                     <li className="nav-item">
@@ -23,14 +28,9 @@ export default class Navbar extends Component {
                             Notifications
                         </Link>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item"> 
                         <Link to="/about" className="nav-link">
                             About
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/profile" className="nav-link">
-                            My Profile
                         </Link>
                     </li>
                 </ul>
@@ -52,9 +52,15 @@ background: rgba(255, 255, 255);
     text-transform: capitalize;
     padding: 0.5rem 1rem; /* Adjust the padding to shrink the size */
 }
+
 .navbar-brand {
     width: 100px; /* Adjust the width of the logo */
     height: 100px; /* Adjust the height of the logo */
-    border: 2px solid red;
+    //border: 2px solid red;
+}
+
+.nav-item {
+    //border: 2px solid black;
+    //margin-right: 1%;
 }
 `;
