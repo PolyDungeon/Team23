@@ -49,9 +49,11 @@ export default class Catelog  extends Component {
                                             
                                 </TruckerCatelog>
                             </div>
+                            <div className="text-capitalize text-center col-15 content">
+                                <Title name="" title="Catelog" />
+                            </div>
                             <div className="col-10 content">
                                 {/* Rest of your content */}
-                                <Title name="" title="Catelog" />
                                 <div className="row">
                                     <TruckerCatelog>
                                         {value => {
