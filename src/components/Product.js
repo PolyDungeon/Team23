@@ -18,16 +18,16 @@ export default class Product extends Component {
                                 </Link>
                                 <button
                                     className="cart-btn"
-                                    disabled={inCart ? true : false}
+                                    disabled={inCart}
                                     onClick={() => {
                                         value.addToCart(id);
                                         value.openPopup(id);
                                     }}
                                 >
                                     {inCart ? (
-                                        <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
+                                        <p className="text-capitalize mb-0">In Cart</p>
                                     ) : (
-                                        <i className="fas fa-cart-plus" />
+                                        <span>Add</span>
                                     )}
                                 </button>
                             </div>
@@ -79,7 +79,7 @@ const ProductWrapper =styled.div`
 .card-footer{
     background:rgba(200, 197, 197);
     border-top:transparent;
-    transition:all 1s linear;
+    transition:all is linear;
 }
 &:hover{
     .card{
@@ -111,7 +111,7 @@ const ProductWrapper =styled.div`
     font-size:1.4rem;
     border-radius:0.5 rem 0 0 0;
     transform:translate(100%, 100%);
-    transition:all 1s linear;
+    transition:all is linear;
 }
 .img-container:hover .cart-btn{
     transform:translate(0, 0);
