@@ -9,6 +9,7 @@ import Checkout from "./components/Checkout/Checkout";
 import Default from "./components/Default";
 import Popup from './components/Popup';
 import About from './components/About';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
+        <Route path="/signup" component={SignUp} />
         <Route component={Default} />
       </Switch>
       <Popup />
