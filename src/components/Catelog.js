@@ -28,14 +28,14 @@ export default class Catelog  extends Component {
                                     <Sidebar
                                         isSidebarOpen={this.state.isSidebarOpen}
                                         toggleSidebar={this.toggleSidebar}
-                                        onAddProduct={() => {
+                                        onAddProduct={(newTitle, newImg, newPrice, newCompany) => {
                                             // Add a new product to the storeProducts array
                                             const newProduct = {
                                                 id: value.products.length + 1, // Generate a unique ID
-                                                title: "Cheese Kurds",
-                                                img: "img/random.png", // Provide an image URL
-                                                price: 10000000, // Set the price
-                                                company: "Polish Kurds",
+                                                title: newTitle,
+                                                img: newImg, // Provide an image URL
+                                                price: newPrice, // Set the price
+                                                company: newCompany,
                                                 info: "",
                                                 inCart: false,
                                                 count: 0,

@@ -13,6 +13,8 @@ import Default from "./components/Default";
 import Popup from './components/Popup';
 import About from './components/About';
 import SignUp from './components/SignUp';
+import AdminTools from './components/Admin/AdminTools';
+import ItemsPage from './components/Products/FindItems';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/admin" component={AdminTools} />
+        <Route path="/Products/FindItems" component={ItemsPage} />
         <Route component={Default} />
       </Switch>
       <Popup />

@@ -38,6 +38,11 @@ export default class Navbar extends Component {
                             SignUp
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to="/admin" className="nav-link">
+                            Admin
+                        </Link>
+                    </li>
                 </ul>
                 <Link to="/checkout" className="ml-auto">
                     <ButtonContainer>
