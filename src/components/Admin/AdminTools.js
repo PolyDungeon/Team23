@@ -7,9 +7,21 @@ export default class AdminTools extends Component{
         return(
         <div className="content">
         <h1>Admin Tools</h1>
-        <Link to="/admin/reports" className='nav-link'>
+        
+        <Link to="/admin/reports">
             Reports
         </Link>
+        <br/>
+        <Link to="/admin/createAdmin">
+            Create Admin
+        </Link>
+        <br/>
+        <Link to="/admin/createSponsor">
+            Create Sponsor Organization
+        </Link>
+        <br/>
+
+        
         </div>
         )
     }
