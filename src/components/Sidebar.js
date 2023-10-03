@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import {ButtonContainer} from './Button';
+import {Link} from 'react-router-dom';
 
 const Sidebar = ({ onAddProduct }) => {
     const [isAddButtonVisible, setAddButtonVisible] = useState(false);
@@ -10,12 +12,11 @@ const Sidebar = ({ onAddProduct }) => {
     return (
         <div className="sidebar">
             {isAddButtonVisible && (
-                <button
-                    className="btn btn-primary btn-block"
-                    onClick={onAddProduct}
-                >
-                    Add Product
-                </button>
+                <Link to="/Products/FindItems" className="ml-auto">
+                    <ButtonContainer>
+                        product page
+                    </ButtonContainer>
+                </Link>
             )}
             <button
                 className={`toggle-button ${isAddButtonVisible ? 'open' : ''}`}
