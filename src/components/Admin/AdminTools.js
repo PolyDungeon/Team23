@@ -12,11 +12,11 @@ export default class AdminTools extends Component{
             Reports
         </Link>
         <br/>
-        <Link to="/admin/createAdmin">
+        <Link to="/admin/create/admin">
             Create Admin
         </Link>
         <br/>
-        <Link to="/admin/createSponsor">
+        <Link to="/admin/create/sponsororg">
             Create Sponsor Organization
         </Link>
         <br/>
