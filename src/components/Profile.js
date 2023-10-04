@@ -1,30 +1,21 @@
 import React from 'react';
+import Title from "./Title";
 import { useState } from 'react';
-/*
-const Profile = () => {
-    return (
-        <div>
-            <h1>Profile Page</h1>
-            <p>This is the profile page content.</p>
-        </div>
-    );
-}
-*/
 
 const Profile = () => {
   // Initialize state for user data
   const [userData, setUserData] = useState({
     userID: 'df910ds92sdf', // Database unique identifier
-    username: 'ExampleUser', 
-    password: 'passwordExample',
+    email: 'ExampleUser@yahoo.com', 
+    password: 'password123',
     points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
   });
 
   // Function to handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
     setUserData({
       ...userData,
       [name]: value,
@@ -51,7 +42,7 @@ const Profile = () => {
       <div>
         <h2>User Information</h2>
         <p>
-          Username: {userData.username}
+          Email: {userData.email}
         </p>
         <p>
           Points: {userData.points}
