@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
+
 
 
 
@@ -7,7 +8,34 @@ export default class createAdmin extends Component{
 
         return(
         <div className="content">
+        
         <h1>Create an Admin User</h1>
+        
+
+        <p>Email:  
+            <input
+                type="email"
+                name="adminEmail"
+                placeholder="example@email.com"
+            />
+        </p>
+        <p>Temporary Password:
+            <input
+                type="password"
+                name="adminTempPassword"
+                placeholder="Enter Password"
+            />
+        </p>
+        <p>Confirm Password:
+            <input
+                type="password"
+                name="adminTempPassword"
+                placeholder="Enter Password"
+            />
+        </p>
+        
+        <button>Create New Account</button>
+
         </div>
         )
     }
