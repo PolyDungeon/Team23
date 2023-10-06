@@ -13,7 +13,11 @@ import Default from "./components/Default";
 import Popup from './components/Popup';
 import About from './components/About';
 import SignUp from './components/SignUp';
+import AdminTools from './components/Admin/AdminTools';
 import ItemsPage from './components/Products/FindItems';
+import AdminReports from './components/Admin/adminReports';
+import createAdmin from './components/Admin/createAdmin';
+import createSponsorOrg from './components/Admin/createSponsorOrg';
 
 function App() {
   return (
@@ -28,7 +32,16 @@ function App() {
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/admin">
+          <Route path="/admin/home" component={AdminTools}/>
+          <Route path="/admin/reports" component={AdminReports} />
+          <Route path="/admin/create">
+            <Route path="/admin/create/admin" component={createAdmin}/>
+            <Route path="/admin/create/sponsororg" component={createSponsorOrg}/>
+          </Route>
+        </Route>
         <Route path="/Products/FindItems" component={ItemsPage} />
+        
         <Route component={Default} />
       </Switch>
       <Popup />
