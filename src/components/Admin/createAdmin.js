@@ -33,6 +33,13 @@ export default class createAdmin extends Component{
                 placeholder="Enter Password"
             />
         </p>
+
+        <div>
+            <label>Set Permissions</label>
+            <input
+                type="checkbox"
+            />
+        </div>
         
         <button>Create New Account</button>
 
