@@ -15,7 +15,7 @@ import About from './components/About';
 import SignUp from './components/SignUp';
 import AdminTools from './components/Admin/AdminTools';
 import ItemsPage from './components/Products/FindItems';
-import Reports from './components/Admin/Reports';
+import AdminReports from './components/Admin/adminReports';
 import createAdmin from './components/Admin/createAdmin';
 import createSponsorOrg from './components/Admin/createSponsorOrg';
 
@@ -34,7 +34,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/admin">
           <Route path="/admin/home" component={AdminTools}/>
-          <Route path="/admin/reports" component={Reports} />
+          <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
             <Route path="/admin/create/admin" component={createAdmin}/>
             <Route path="/admin/create/sponsororg" component={createSponsorOrg}/>
