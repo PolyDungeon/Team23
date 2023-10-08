@@ -261,6 +261,18 @@ class ProductProvider extends Component {
                 }}
             >
                 {this.props.children}
+
+
+                {this.state.successfulPurchasePopup && (
+                    // Render successful purchase popup here
+                    <div>Successful Purchase!</div>
+                )}
+
+                {this.state.failedPurchasePopup && (
+                    // Render failed purchase popup here
+                    <div>Failed Purchase</div>
+                )}
+
             </ProductContext.Provider>
         );
     }
