@@ -201,7 +201,7 @@ class ProductProvider extends Component {
         var totalPrice = this.state.checkout.reduce((accumulator, item) => accumulator + item.total, 0);
 
         // Temporary set points
-        totalPrice = 80;
+        totalPrice = 10;
 
         // If we have enough points to purchase everything in the cart
         if (totalPrice <= this.state.userPoints) {
@@ -267,7 +267,8 @@ class ProductProvider extends Component {
                     // Render successful purchase popup here
                     <div className="popup-container">
                     <div className="popup-content">
-                        <p>Successful Purchase!</p>
+                        <h2>Congratulations!</h2>
+                        <p>Your purchase has been processed and your items will be shipped to you soon.</p>
                         <button
                             className="close-button"
                             onClick={() =>
@@ -286,7 +287,8 @@ class ProductProvider extends Component {
                     // Render failed purchase popup here
                     <div className="popup-container">
                     <div className="popup-content">
-                        <p>Failed Purchase</p>
+                        <h2>Unsuccessful Purchase</h2>
+                        <p>Please make sure you have enough points to purchase the items in your cart.</p>
                         <button
                             className="close-button"
                             onClick={() =>
