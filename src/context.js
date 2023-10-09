@@ -201,7 +201,7 @@ class ProductProvider extends Component {
         var totalPrice = this.state.checkout.reduce((accumulator, item) => accumulator + item.total, 0);
 
         // Temporary set points
-        totalPrice = 10;
+        totalPrice = 80;
 
         // If we have enough points to purchase everything in the cart
         if (totalPrice <= this.state.userPoints) {
@@ -265,12 +265,40 @@ class ProductProvider extends Component {
 
                 {this.state.successfulPurchasePopup && (
                     // Render successful purchase popup here
-                    <div>Successful Purchase!</div>
+                    <div className="popup-container">
+                    <div className="popup-content">
+                        <p>Successful Purchase!</p>
+                        <button
+                            className="close-button"
+                            onClick={() =>
+                                this.setState({
+                                    successfulPurchasePopup: false,
+                                })
+                            }
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
                 )}
 
                 {this.state.failedPurchasePopup && (
                     // Render failed purchase popup here
-                    <div>Failed Purchase</div>
+                    <div className="popup-container">
+                    <div className="popup-content">
+                        <p>Failed Purchase</p>
+                        <button
+                            className="close-button"
+                            onClick={() =>
+                                this.setState({
+                                    failedPurchasePopup: false,
+                                })
+                            }
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
                 )}
 
             </ProductContext.Provider>
