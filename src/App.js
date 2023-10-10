@@ -13,11 +13,11 @@ import Default from "./components/Default";
 import Popup from './components/Popup';
 import About from './components/About';
 import SignUp from './components/SignUp';
-import AdminTools from './components/Admin/AdminTools';
+import AdminProfile from './components/Admin/AdminProfile';
 import ItemsPage from './components/Products/FindItems';
-import Reports from './components/Admin/Reports';
-import createAdmin from './components/Admin/createAdmin';
-import createSponsorOrg from './components/Admin/createSponsorOrg';
+import AdminReports from './components/Admin/AdminReports';
+import createAdmin from './components/Admin/CreateAdmin';
+import createSponsorOrg from './components/Admin/CreateSponsorOrg';
 
 function App() {
   return (
@@ -33,8 +33,8 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/signup" component={SignUp} />
         <Route path="/admin">
-          <Route path="/admin/home" component={AdminTools}/>
-          <Route path="/admin/reports" component={Reports} />
+          <Route path="/admin/home" component={AdminProfile}/>
+          <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
             <Route path="/admin/create/admin" component={createAdmin}/>
             <Route path="/admin/create/sponsororg" component={createSponsorOrg}/>
