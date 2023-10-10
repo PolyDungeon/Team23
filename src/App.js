@@ -1,5 +1,5 @@
-import React from 'react';
-import {Switch,Route} from "react-router-dom";
+import React, { useState } from 'react';
+import { Switch, Route } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
@@ -16,6 +16,15 @@ import SignUp from './components/SignUp';
 import ItemsPage from './components/Products/FindItems';
 
 function App() {
+  // Define searchResults state
+  const [searchResults, setPrintableSearchResults] = useState([]);
+
+  // Define addToSearchResults function to update the state
+  function addToSearchResults(newEntry) {
+    // Push the new entry to the existing array
+    setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
+  }
+
   return (
     <React.Fragment>
       <Navbar />
@@ -23,12 +32,15 @@ function App() {
         <Route exact path="/" component={Homepage} />
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
-        <Route path="/catelog" component={Catelog} />
+        <Route path="/catelog" render={() => <Catelog printableSearchResults={searchResults} />} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/Products/FindItems" component={ItemsPage} />
+        <Route
+          path="/Products/FindItems"
+          render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
+        />
         <Route component={Default} />
       </Switch>
       <Popup />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {ButtonContainer} from './Button';
 import {Link} from 'react-router-dom';
 
-const Sidebar = ({ onAddProduct }) => {
+const Sidebar = () => {
     const [isAddButtonVisible, setAddButtonVisible] = useState(false);
 
     const toggleAddButton = () => {
