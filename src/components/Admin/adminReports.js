@@ -12,10 +12,12 @@ import "react-datepicker/dist/react-datepicker.css";
     Still need to implement submitting the data and generating a report.
 */
 
+
 const AdminReports = () =>{
 
     const [startDate,setStartDate] = useState(new Date(2023,7,1));
     const [endDate,setEndDate] = useState(new Date());
+    
     
 
     const initialFormData = {
