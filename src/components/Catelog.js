@@ -32,10 +32,10 @@ export default class Catelog  extends Component {
                                             // Add a new product to the storeProducts array
                                             const newProduct = {
                                                 id: value.products.length + 1, // Generate a unique ID
-                                                title: newTitle,
-                                                img: newImg, // Provide an image URL
-                                                price: newPrice, // Set the price
-                                                company: newCompany,
+                                                title: "Cheese Kurds",
+                                                img: "img/random.png", // Provide an image URL
+                                                price: 1000, // Set the price
+                                                company: "Polish Kurds",
                                                 info: "",
                                                 inCart: false,
                                                 count: 0,
