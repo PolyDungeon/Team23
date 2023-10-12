@@ -81,6 +81,7 @@ const FindProducts = ({addToSearchResults, printableSearchResults }) => {
         this.price = price;
         this.rating = newRating;
         this.img = thumbnail;
+        this.inCart = false;
         this.printSearch = printSearch;
         this.searchResultsArray = searchResultsArray;
         this.selectedFiles = selectedFiles;
