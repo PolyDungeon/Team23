@@ -34,8 +34,8 @@ export default class Navbar extends Component {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/SignUp" className="nav-link">
-                            SignUp
+                        <Link to="/driver/signup" className="nav-link">
+                            Apply
                         </Link>
                     </li>
                     <li className="nav-item">

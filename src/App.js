@@ -12,7 +12,7 @@ import Checkout from "./components/Checkout/Checkout";
 import Default from "./components/Default";
 import Popup from './components/Popup';
 import About from './components/About';
-import SignUp from './components/SignUp';
+import DriverApp from './components/Driver/DriverApp';
 import AdminProfile from './components/Admin/AdminProfile';
 import ItemsPage from './components/Products/FindItems';
 import AdminReports from './components/Admin/AdminReports';
@@ -31,7 +31,7 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/driver/signup" component={DriverApp} />
         <Route path="/admin">
           <Route path="/admin/home" component={AdminProfile}/>
           <Route path="/admin/reports" component={AdminReports} />

@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import Title from "./Title";
+import { createAuditLog } from '../Functions';
 
-const SignUp = () => {
+
+
+const DriverApp = () => {
     // Define the initial state for the questionnaire
     const initialFormData = {
-        name: '',
+        firstName: '',
+        lastName: '',
+        userName: '',
         email: '',
+        phone: '',
         userType: 'Trucker', // Default to Trucker
-        organization: '', // Empty for Trucker
+        organization: '', 
     };
 
     // Create state variables for the form data and submission message
@@ -23,7 +28,7 @@ const SignUp = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        createAuditLog('driverAppSubmit', formData.organization, formData.userName, 0, null, 'success', null)
         //put calls to the database here. 
 
 
@@ -35,20 +40,38 @@ const SignUp = () => {
             <div>
                 <div className=
                     "text-capitalize text-center ">
-                    <Title name="" title="Sign Up" />
+                    <h1>Driver Application</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Name: </label>
+                        <label>First Name:</label>&nbsp;
                         <input
                             type="text"
-                            name="name"
-                            value={formData.name}
+                            name="firstName"
+                            value={formData.firstName}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div>
-                        <label>Email: </label>
+                        <label>Last Name:</label>&nbsp;
+                        <input
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>User Name:</label>&nbsp;
+                        <input
+                            type="text"
+                            name="userName"
+                            value={formData.userName}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Email:</label>&nbsp;
                         <input
                             type="email"
                             name="email"
@@ -57,27 +80,24 @@ const SignUp = () => {
                         />
                     </div>
                     <div>
-                        <label>User Type:</label>
-                        <select
-                            name="userType"
-                            value={formData.userType}
+                        <label>Phone Number:</label>&nbsp;
+                        <input
+                            type="phone"
+                            name="phone"
+                            value={formData.phone}
                             onChange={handleInputChange}
-                        >
-                            <option value="Trucker">Trucker</option>
-                            <option value="Sponsor">Sponsor</option>
-                        </select>
+                        />
                     </div>
-                    {formData.userType === 'Sponsor' && (
-                        <div>
-                            <label>Organization:</label>
-                            <input
-                                type="text"
-                                name="organization"
-                                value={formData.organization}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    )}
+                    <div>
+                        <label>Sponsor:</label>&nbsp;
+                        <input
+                            type="text"
+                            name="organization"
+                            value={formData.organization}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    
                     <div className=
                         "text-capitalize text-center ">
                         <button type="submit">Submit</button>
@@ -89,4 +109,4 @@ const SignUp = () => {
             );
 };
 
-export default SignUp;
+export default DriverApp;
