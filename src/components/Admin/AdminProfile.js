@@ -1,22 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./admin.css"
-import { useState } from 'react';
+import { userData } from '../UserData';
 
 const AdminProfile = () => {
-
-
-    const [userData, setUserData] = useState({
-        userID: 'df910ds92sdf', // Database unique identifier
-        name: 'John Smith',
-        email: 'exampleUser@yahoo.com',
-        phone: '123-456-7890',
-        password: 'password123',
-        points: 100, // Replace with user's actual points
-        newPassword: '',
-        confirmNewPassword: '',
-      });
-        
+ 
         return(
         
         <div class="page">
@@ -32,21 +20,7 @@ const AdminProfile = () => {
                 <button>
                     Reset Password
                 </button>
-
-               
-
-
-
-
             </div>
-
-
-
-
-
-
-
-
             <div class="tools">
                 <h3>Admin Tools</h3>
                 <div class='box'>

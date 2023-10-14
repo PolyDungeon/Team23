@@ -11,8 +11,8 @@ const auditData = {
 
 function submitAudit(){
     switch(auditData.type){
-        case 'driverAppSubmit':
-            console.log(auditData.date + " - Driver Application - "+ auditData.sponsor + " - " + auditData.driver)
+        case 'driverApp':
+            console.log(auditData.date + " - Driver Application - "+ auditData.sponsor + " - " + auditData.driver + " - " + auditData.status)
             break;
         case 'pointChange':
 

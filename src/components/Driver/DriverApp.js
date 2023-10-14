@@ -28,7 +28,7 @@ const DriverApp = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('driverAppSubmit', formData.organization, formData.userName, 0, null, 'success', null)
+        createAuditLog('driverApp', formData.organization, formData.userName, 0, null, 'submitted', null)
         //put calls to the database here. 
 
 
@@ -48,6 +48,7 @@ const DriverApp = () => {
                         <input
                             type="text"
                             name="firstName"
+                            required
                             value={formData.firstName}
                             onChange={handleInputChange}
                         />
@@ -57,6 +58,7 @@ const DriverApp = () => {
                         <input
                             type="text"
                             name="lastName"
+                            required
                             value={formData.lastName}
                             onChange={handleInputChange}
                         />
@@ -66,6 +68,7 @@ const DriverApp = () => {
                         <input
                             type="text"
                             name="userName"
+                            required
                             value={formData.userName}
                             onChange={handleInputChange}
                         />
@@ -75,6 +78,7 @@ const DriverApp = () => {
                         <input
                             type="email"
                             name="email"
+                            required
                             value={formData.email}
                             onChange={handleInputChange}
                         />
@@ -84,6 +88,7 @@ const DriverApp = () => {
                         <input
                             type="phone"
                             name="phone"
+                            required
                             value={formData.phone}
                             onChange={handleInputChange}
                         />
@@ -93,6 +98,7 @@ const DriverApp = () => {
                         <input
                             type="text"
                             name="organization"
+                            required
                             value={formData.organization}
                             onChange={handleInputChange}
                         />
@@ -103,7 +109,10 @@ const DriverApp = () => {
                         <button type="submit">Submit</button>
                     </div>
                 </form>
-                {submissionMessage && <p>{submissionMessage}</p>}
+                {submissionMessage && (
+                    <p>{submissionMessage}</p>
+                    
+                )}
             </div>
         </div>
             );

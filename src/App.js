@@ -18,6 +18,7 @@ import ItemsPage from './components/Products/FindItems';
 import AdminReports from './components/Admin/AdminReports';
 import createAdmin from './components/Admin/CreateAdmin';
 import createSponsorOrg from './components/Admin/CreateSponsorOrg';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route path="/login" component={Login}/>
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
