@@ -15,9 +15,9 @@ import About from './components/About';
 import SignUp from './components/SignUp';
 import AdminProfile from './components/Admin/AdminProfile';
 import ItemsPage from './components/Products/FindItems';
-import AdminReports from './components/Admin/AdminReports';
-import createAdmin from './components/Admin/CreateAdmin';
-import createSponsorOrg from './components/Admin/CreateSponsorOrg';
+import AdminReports from './components/Admin/adminReports';
+import createAdmin from './components/Admin/createAdmin';
+import createSponsorOrg from './components/Admin/createSponsorOrg';
 
 function App() {
   return (
