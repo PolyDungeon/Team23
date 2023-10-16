@@ -1,6 +1,7 @@
 import React from 'react';
 import Title from "./Title";
 import { useState, useRef } from 'react';
+import zxcvbn from 'zxcvbn';
 
 const Profile = () => {
   // Initialize state for user data
@@ -49,6 +50,7 @@ const Profile = () => {
   const usernameInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const passwordInputRef2 = useRef(null);
+  const passStrengthRef = useRef(null);
 
 
   const changeEmail = () => {
@@ -92,15 +94,44 @@ const Profile = () => {
     }
   };
 
+  const handlePasswordStrength = (event) => {
+    const password = event.target.value; // Get the new value from the input field
+    console.log("Value = ", password);
+
+    passStrengthRef.current.textContent = "";
+
+    if(password == "") return;
+
+    if (password.length <= 7) {
+      passStrengthRef.current.textContent = "Password is too short";
+    }
+    else if (zxcvbn(password).score < 3) {
+      passStrengthRef.current.textContent = "Password is weak";
+    }
+    else {
+      passStrengthRef.current.textContent = "Password is good";
+    }
+  };
+
+
+
   return (
-    <div>
+    <div id="profile-container">
       <h1>My Pofile</h1>
       <p>Email: {userData.email} {userData.isEditing ? (
         <>
           <input 
             type="email"
+            size="22"
             ref={emailInputRef}
-            placeholder="Enter new email..." >
+            placeholder="Enter new email..." 
+            required
+            onInvalid={(e) => {
+              e.target.setCustomValidity('Please enter a valid email address.');
+            }}
+            onChange={(e) => {
+              e.target.setCustomValidity('');
+            }}>
             </input>
         </>
       ) : ('')}</p>
@@ -108,6 +139,7 @@ const Profile = () => {
         <>
           <input 
             type="username" 
+            size="22"
             ref={usernameInputRef} 
             placeholder="Enter new username..." >
             </input>
@@ -115,16 +147,22 @@ const Profile = () => {
       ) : ('')}</p>
       <p>Password: {userData.password} {userData.isEditing ? (
         <>
-          <input 
-            type="password" 
-            ref={passwordInputRef} 
-            placeholder="Enter new password..." >
-            </input>
-          <input 
-            type="password" 
-            ref={passwordInputRef2} 
-            placeholder="Reenter new password..." >
-            </input>
+          <div className="password-container">
+            <input 
+              type="password" 
+              size = "22"
+              ref={passwordInputRef} 
+              onChange={handlePasswordStrength}
+              placeholder="Enter new password..." >
+              </input>
+            <input 
+              type="password" 
+              size="22"
+              ref={passwordInputRef2} 
+              placeholder="Reenter new password..." >
+              </input>
+            </div>
+            <p ref={passStrengthRef} className="password-strength"></p>
         </>
       ) : ('')}</p>
       <p>Driver Points: {userData.points}</p>
