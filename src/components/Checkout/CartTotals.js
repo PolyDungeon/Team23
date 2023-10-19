@@ -1,8 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { createAuditLog } from '../Functions';
 
 export default function CartTotals({value}) {
-    const {cartSubTotal, cartTax, cartTotal,clearCart, handlePurchase} = value;
+    const {cartSubTotal, cartTax, cartTotal,clearCart} = value;
+
+    const handlePurchase = (event) => {
+        createAuditLog('pointChange', null, 'Name', cartTotal, null, 'spent', null)
+    }
+
+
     return <React.Fragment>
        <div className="container">
            <div className="row">
@@ -32,9 +39,7 @@ export default function CartTotals({value}) {
                     <button
                             className="btn btn-outline-danger text-uppercase mb-3 px-5"
                             type="button"
-                            onClick={() => {
-                                handlePurchase();
-                            }}>
+                            onClick={handlePurchase}>
                             Purchase Items
                         </button>
                </div>

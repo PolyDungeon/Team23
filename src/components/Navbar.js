@@ -4,6 +4,7 @@ import logo from '../logo.svg';
 import cart from '../Cart.svg';
 import styled from 'styled-components';
 import { ButtonContainer } from './Button';
+import { userData } from './UserData';
 
 export default class Navbar extends Component {
     render() {
@@ -13,6 +14,11 @@ export default class Navbar extends Component {
                     <img src={logo} alt="store" className="navbar-brand" />
                 </Link>
                 <ul className="navbar-nav align-items-center">
+                    <li className='nav-item'>
+                        <Link to="/login" className="nav-link">
+                            Login
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link to="/catelog" className="nav-link">
                             Store
@@ -34,15 +40,18 @@ export default class Navbar extends Component {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/SignUp" className="nav-link">
-                            SignUp
+                        <Link to="/driver/signup" className="nav-link">
+                            Apply
                         </Link>
                     </li>
+                    { userData.type === 'admin' && (
                     <li className="nav-item">
                         <Link to="/admin/home" className="nav-link">
                             Admin
                         </Link>
                     </li>
+                    )
+                    }
                 </ul>
                 <Link to="/checkout" className="ml-auto">
                     <ButtonContainer>
