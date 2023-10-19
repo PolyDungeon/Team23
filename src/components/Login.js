@@ -1,5 +1,4 @@
 import React, { useState} from 'react';
-import { userData, updateType } from './UserData';
 import { createAuditLog } from './Functions';
 
 const Login = () => {

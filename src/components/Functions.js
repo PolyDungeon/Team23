@@ -21,7 +21,7 @@ function submitAudit(){
 
             break;
         case 'loginAttempt':
-
+            console.log(auditData.date + " - Login Attempt - " + auditData.driver + " - " + auditData.status)
             break;
         default:
             break;
