@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from "jquery";
 
-const FindProducts = ({addToSearchResults, printableSearchResults }) => {
+const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
 
     var searchResultsArray = [];
     var selectedFiles = [];
@@ -27,12 +27,13 @@ const FindProducts = ({addToSearchResults, printableSearchResults }) => {
         newDiv.style.display = "flex";
         newDiv.style.alignItems = "center";
         newDiv.addEventListener("click", function () {
-            if (newDiv.style.backgroundColor == "green") {
+            if (newDiv.style.backgroundColor === "green") {
                 newDiv.style.backgroundColor = "#f5f5f5";
                 selectedFiles.splice(selectedFiles.indexOf(entry), 1);
             }
             else {
                 newDiv.style.backgroundColor = "green";
+
                 selectedFiles.push(entry);
                 console.log(selectedFiles);
             }
@@ -59,8 +60,19 @@ const FindProducts = ({addToSearchResults, printableSearchResults }) => {
         for (var i = 0; i < selectedFiles.length; i++) {
             var curFile = selectedFiles[i];
             console.log("submitting " + curFile.title);
-            addToSearchResults(curFile);
-            
+            const newProduct = {
+                id: i, // Generate a unique ID
+                title: curFile.title,
+                img: curFile.img, // Provide an image URL
+                price: curFile.price, // Set the price
+                company: curFile.rating,
+                info: "",
+                inCart: false,
+                count: 0,
+                total: 0,
+            };
+            addToSearchResults(newProduct);
+
             console.log("the big list " + printableSearchResults);
             console.log("submitted " + curFile.title);
         }
@@ -81,7 +93,11 @@ const FindProducts = ({addToSearchResults, printableSearchResults }) => {
         this.price = price;
         this.rating = newRating;
         this.img = thumbnail;
+        this.info = "";
         this.inCart = false;
+        this.id = 0;
+        this.count = 0;
+        this.total = 0;
         this.printSearch = printSearch;
         this.searchResultsArray = searchResultsArray;
         this.selectedFiles = selectedFiles;
@@ -138,7 +154,7 @@ const FindProducts = ({addToSearchResults, printableSearchResults }) => {
             <form name="theform">
                 Name:
                 <input type="text" name="newname" id="inputField" size="20" onKeyDown={handleKeyDown} />
-                <input type="button" name="addname" id="button" value="Add" onClick={handleClick} />
+                <input type="button" name="addname" id="button" value="Search" onClick={handleClick} />
                 <input type="button" name="submitFiles" id="button" value="Submit Selection" onClick={handleSubmitClick} />
                 <br></br>
                 <ul id='ItemList'></ul>

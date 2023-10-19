@@ -58,7 +58,8 @@ export default class Catelog extends Component {
                                 <div className="row">
                                     <TruckerCatelog>
                                         {value => {
-                                            const allProducts = value.products.concat(printableSearchResults); // Merge existing products with printableSearchResults
+                                            value.products = printableSearchResults;
+                                            const allProducts = value.products; // Merge existing products with printableSearchResults
                                             return allProducts.map(product => (
                                                 <Product key={product.id} product={product} />
                                             ));
