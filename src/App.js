@@ -19,6 +19,8 @@ import AdminReports from './components/Admin/AdminReports';
 import createAdmin from './components/Admin/CreateAdmin';
 import createSponsorOrg from './components/Admin/CreateSponsorOrg';
 import Login from './components/Login';
+import SponsorProfile from './components/Sponsor/SponsorProfile';
+import ChangePassword from './components/ChangePassword';
 
 
 
@@ -57,6 +59,8 @@ function App() {
           path="/Products/FindItems"
           render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
         />
+        <Route path="/sponsor/home" component={SponsorProfile}/>
+        <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>
       <Popup />
