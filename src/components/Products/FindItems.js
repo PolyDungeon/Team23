@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import $ from "jquery";
+import { TruckerCatelog } from '../../context';
 
 const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
-
+    const {addProduct} = useContext(TruckerCatelog);
     var searchResultsArray = [];
     var selectedFiles = [];
     function printSearch() {
@@ -71,8 +72,8 @@ const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
                 count: 0,
                 total: 0,
             };
-            addToSearchResults(newProduct);
-
+            //addToSearchResults(newProduct);
+            addProduct(newProduct);
             console.log("the big list " + printableSearchResults);
             console.log("submitted " + curFile.title);
         }
