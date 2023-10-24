@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import $ from "jquery";
+import { TruckerCatelog } from '../../context';
 
-const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
-
+const FindProducts = () => {
+    const {addProduct} = useContext(TruckerCatelog);
     var searchResultsArray = [];
     var selectedFiles = [];
     function printSearch() {
         for (var i = 0; i < searchResultsArray.length; i++) {
-            addElement(searchResultsArray[i]);
+            if(!searchResultsArray[i].price.includes("to")){
+                addElement(searchResultsArray[i]);
+            }
         }
     }
 
@@ -64,19 +67,27 @@ const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
                 id: i, // Generate a unique ID
                 title: curFile.title,
                 img: curFile.img, // Provide an image URL
-                price: curFile.price, // Set the price
+                price: parseFloat(curFile.price.substring(1)), // Set the price
                 company: curFile.rating,
                 info: "",
                 inCart: false,
                 count: 0,
                 total: 0,
             };
-            addToSearchResults(newProduct);
-
-            console.log("the big list " + printableSearchResults);
+            addProduct(newProduct);
             console.log("submitted " + curFile.title);
         }
         clearSelected();
+    }
+
+    function selectAllProducts() {
+        selectedFiles = [];
+        var listElements = document.getElementsByTagName("li");
+        for (var i = 0; listElements[i]; i++) {
+            $(listElements[i]).css("backgroundColor", "green");
+            selectedFiles.push($(listElements[i]).value);
+        }
+        console.log(selectedFiles);
     }
 
     function clearSelected() {
@@ -146,7 +157,10 @@ const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
     const handleSubmitClick = () => {
         submitProducts();
     };
-
+    
+    const handleSelectAll = () => {
+        selectAllProducts();
+    };
 
     return (
         <div>
@@ -156,6 +170,7 @@ const FindProducts = ({ addToSearchResults, printableSearchResults }) => {
                 <input type="text" name="newname" id="inputField" size="20" onKeyDown={handleKeyDown} />
                 <input type="button" name="addname" id="button" value="Search" onClick={handleClick} />
                 <input type="button" name="submitFiles" id="button" value="Submit Selection" onClick={handleSubmitClick} />
+                <input type="buttom" name="selectAll" id="button" value="Select All Files" onClick={handleSelectAll}/>
                 <br></br>
                 <ul id='ItemList'></ul>
             </form>
