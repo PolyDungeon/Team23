@@ -3,12 +3,12 @@ import $ from "jquery";
 import { TruckerCatelog } from '../../context';
 
 const FindProducts = () => {
-    const {addProduct} = useContext(TruckerCatelog);
+    const { addProduct } = useContext(TruckerCatelog);
     var searchResultsArray = [];
     var selectedFiles = [];
     function printSearch() {
         for (var i = 0; i < searchResultsArray.length; i++) {
-            if(!searchResultsArray[i].price.includes("to")){
+            if (!searchResultsArray[i].price.includes("to")) {
                 addElement(searchResultsArray[i]);
             }
         }
@@ -82,10 +82,11 @@ const FindProducts = () => {
 
     function selectAllProducts() {
         selectedFiles = [];
-        var listElements = document.getElementsByTagName("li");
-        for (var i = 0; listElements[i]; i++) {
-            $(listElements[i]).css("backgroundColor", "green");
-            selectedFiles.push($(listElements[i]).value);
+        $('#ItemList li').each(function (i) {
+            $(this).css("backgroundColor", "green"); // This is your rel value
+        });
+        for (var i = 0; i < searchResultsArray.length; i++) {
+            selectedFiles.push(searchResultsArray[i]);
         }
         console.log(selectedFiles);
     }
@@ -157,7 +158,7 @@ const FindProducts = () => {
     const handleSubmitClick = () => {
         submitProducts();
     };
-    
+
     const handleSelectAll = () => {
         selectAllProducts();
     };
@@ -170,7 +171,7 @@ const FindProducts = () => {
                 <input type="text" name="newname" id="inputField" size="20" onKeyDown={handleKeyDown} />
                 <input type="button" name="addname" id="button" value="Search" onClick={handleClick} />
                 <input type="button" name="submitFiles" id="button" value="Submit Selection" onClick={handleSubmitClick} />
-                <input type="buttom" name="selectAll" id="button" value="Select All Files" onClick={handleSelectAll}/>
+                <input type="button" name="selectAll" id="button" value="Select All Files" onClick={handleSelectAll} />
                 <br></br>
                 <ul id='ItemList'></ul>
             </form>
