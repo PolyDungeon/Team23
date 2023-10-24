@@ -44,6 +44,11 @@ export default class Navbar extends Component {
                             Apply
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to="/sponsor/home" className="nav-link">
+                            Sponsor
+                        </Link>
+                    </li>
                     { userData.type === 'admin' && (
                     <li className="nav-item">
                         <Link to="/admin/home" className="nav-link">

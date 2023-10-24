@@ -15,10 +15,10 @@ function submitAudit(){
             console.log(auditData.date + " - Driver Application - "+ auditData.sponsor + " - " + auditData.driver + " - " + auditData.status)
             break;
         case 'pointChange':
-
+            console.log(auditData.date + " - Point Change - " + auditData.sponsor + " - " + auditData.driver + " - " + auditData.pts + " - " + auditData.status + " - " + auditData.reason)
             break;
         case 'passwordChange':
-
+            console.log(auditData.date + " - Password Change - " + auditData.driver + " - " + auditData.passType + " - " + auditData.status + " - " + auditData.reason)
             break;
         case 'loginAttempt':
             console.log(auditData.date + " - Login Attempt - " + auditData.driver + " - " + auditData.status)
@@ -27,6 +27,11 @@ function submitAudit(){
             break;
     }
 }
+
+
+
+
+
 
 
 export function createAuditLog(type,sp,dr,pts,passType,status, reason){

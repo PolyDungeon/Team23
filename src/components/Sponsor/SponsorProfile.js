@@ -19,10 +19,11 @@ const SponsorProfile = () => {
                     Email: {userData.email} <br/>
                     Phone: {userData.phone} <br/>
                 </p>
-
+                <Link to= "/changePassword">
                 <button>
                     Reset Password
                 </button>
+                </Link>
             </div>
             <div class="tools">
                 <h3>Sponsor Tools</h3>

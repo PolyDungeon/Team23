@@ -174,7 +174,7 @@ const Profile = () => {
       ) : (
         <button onClick={handleEdit}>Edit</button>
       )}
-
+``
     {console.log("RENDERING")}
     </div>
   );
