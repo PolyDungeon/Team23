@@ -1,6 +1,5 @@
-import React, { useContext }, { useContext } from 'react';
+import React, { useContext } from 'react';
 import $ from "jquery";
-import { TruckerCatelog } from '../../context';
 import { TruckerCatelog } from '../../context';
 
 const FindProducts = () => {
