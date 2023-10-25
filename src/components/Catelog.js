@@ -17,7 +17,6 @@ export default class Catelog extends Component {
 
 
     render() {
-        const { printableSearchResults } = this.props;
         return (
             <React.Fragment>
                 <div className="py-5">
@@ -58,9 +57,7 @@ export default class Catelog extends Component {
                                 <div className="row">
                                     <TruckerCatelog>
                                         {value => {
-                                            value.products = printableSearchResults;
-                                            const allProducts = value.products; // Merge existing products with printableSearchResults
-                                            return allProducts.map(product => (
+                                            return value.products.map(product => (
                                                 <Product key={product.id} product={product} />
                                             ));
                                         }}

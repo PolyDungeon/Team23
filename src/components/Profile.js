@@ -58,7 +58,7 @@ const Profile = () => {
     const newEmail = emailInputRef.current.value;
     console.log("changeEmail()", newEmail);
     // Check if newEmail is allowed
-    if(newEmail != "") {
+    if(newEmail !== "") {
       setUserData((prevUserData) => ({
         ...prevUserData,
         email: newEmail,
@@ -71,7 +71,7 @@ const Profile = () => {
     console.log("changeUsername()", newUsername);
     
     // Check if newUsername is allowed
-    if(newUsername != "") {
+    if(newUsername !== "") {
       setUserData((prevUserData) => ({
         ...prevUserData,
         username: newUsername,
@@ -86,7 +86,7 @@ const Profile = () => {
 
     console.log("changePassword()");
     
-    if (newPassword == newPassword2 && newPassword != "") { // If the passwords match
+    if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
       console.log(newPassword);
 
       setUserData((prevUserData) => ({
@@ -107,7 +107,7 @@ const Profile = () => {
 
     passStrengthRef.current.textContent = "";
 
-    if(password == "") return;
+    if(password === "") return;
 
     if (password.length <= 7) {
       passStrengthRef.current.textContent = "Password is too short";

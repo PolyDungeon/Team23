@@ -138,12 +138,15 @@ class ProductProvider extends Component {
 
     addTotals = () => {
         const totals = this.getTotals();
+        var newSubTotal = totals.subTotal.toFixed(2);
+        var newTax = totals.tax.toFixed(2);
+        var newTotal = totals.total.toFixed(2);
         this.setState(
             () => {
                 return {
-                    cartSubTotal: totals.subTotal,
-                    cartTax: totals.tax,
-                    cartTotal: totals.total
+                    cartSubTotal: newSubTotal,
+                    cartTax: newTax,
+                    cartTotal: newTotal
                 };
             },
             () => {
