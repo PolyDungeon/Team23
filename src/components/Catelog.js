@@ -17,7 +17,6 @@ export default class Catelog extends Component {
 
 
     render() {
-        const { printableSearchResults } = this.props;
         return (
             <React.Fragment>
                 <div className="py-5">
