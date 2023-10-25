@@ -92,3 +92,41 @@ body{
 .content {
     margin-left: 200px; /* Adjust the margin to match the sidebar width */
 }
+
+#profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border: 2px solid #000; /* 2px width, solid style, black color */
+  padding: 20px; /* Add padding to space out the content from the edges */
+}
+
+#profile-container2 {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #c3d347; 
+  width: 60%;
+  align-items: flex-start;
+}
+
+#profile-container2 h1 {
+  align-self: center;
+  text-align: center;
+}
+
+#profile-container2 input {
+  margin-left: auto;
+}
+
+#example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid #000; /* 2px width, solid style, black color */
+}
+#column-container {
+  border: 2px solid #dc2020; /* 2px width, solid style, black color */
+}
+
