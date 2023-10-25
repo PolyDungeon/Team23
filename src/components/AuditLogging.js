@@ -21,47 +21,25 @@ const postAudit = async () => {
     })
 }
 
-function submitAudit(){
-    switch(auditData.type){
-        case 'driverApp':
-            console.log(auditData.date + " - Driver Application - "+ auditData.sponsor + " - " + auditData.driver + " - " + auditData.status)
-            break;
-        case 'pointChange':
-            console.log(auditData.date + " - Point Change - " + auditData.sponsor + " - " + auditData.driver + " - " + auditData.pts + " - " + auditData.status + " - " + auditData.reason)
-            break;
-        case 'passwordChange':
-            console.log(auditData.date + " - Password Change - " + auditData.driver + " - " + auditData.passType + " - " + auditData.status + " - " + auditData.reason)
-            break;
-        case 'loginAttempt':
-            console.log(auditData.date + " - Login Attempt - " + auditData.driver + " - " + auditData.status)
-            break;
-        default:
-            break;
-    }
-}
 
 async function  checkID(id){
+    console.log(id)
     const response = await fetch(GetQURL + id, {
         method: 'GET'     
     })
 
-    if(response.ok){
+    if(response.body == []){
         console.log("Success")
     }else{
         console.log("Failure")
     }
-    return false
 }
-
-
-
-
-
-
 
 export function createAuditLog(type,sp,dr,pts,passType,status, reason){
     
-    var id = uuidv4()
+    //var id = uuidv4()
+    var id = '2'
+    checkID(id)
 
     auditData.auditID = id
     auditData.type = type
@@ -72,6 +50,5 @@ export function createAuditLog(type,sp,dr,pts,passType,status, reason){
     auditData.passType = passType
     auditData.status = status
     auditData.reason = reason
-    submitAudit()
     postAudit()
 }
