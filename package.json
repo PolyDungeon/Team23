@@ -2,6 +2,7 @@
   "name": "TruckBucks",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://test.d37k60a9pqwxvi.amplifyapp.com",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.418.0",
     "@aws-sdk/lib-dynamodb": "3.418.0",
@@ -19,7 +20,8 @@
     "react-datepicker": "4.18.0",
     "axios": "1.5.1",
     "styled-components": "^4.3.2",
-    "zxcvbn": "4.4.2"
+    "zxcvbn": "4.4.2",
+    "uuid": "9.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

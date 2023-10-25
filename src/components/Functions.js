@@ -1,4 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const auditData = {
+    auditID: '',
     type: '',
     date: '',
     sponsor: '',
@@ -7,6 +10,15 @@ const auditData = {
     passType: '',
     status: '',
     reason: ''
+}
+const PostURL = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/audit'
+const GetQURL = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/audit/'
+
+const postAudit = async () => {
+    const response = await fetch(PostURL, {
+        method: 'POST',
+        body: JSON.stringify(auditData)
+    })
 }
 
 function submitAudit(){
@@ -28,6 +40,19 @@ function submitAudit(){
     }
 }
 
+async function  checkID(id){
+    const response = await fetch(GetQURL + id, {
+        method: 'GET'     
+    })
+
+    if(response.ok){
+        console.log("Success")
+    }else{
+        console.log("Failure")
+    }
+    return false
+}
+
 
 
 
@@ -35,6 +60,10 @@ function submitAudit(){
 
 
 export function createAuditLog(type,sp,dr,pts,passType,status, reason){
+    
+    var id = uuidv4()
+
+    auditData.auditID = id
     auditData.type = type
     auditData.date = new Date().toGMTString()
     auditData.sponsor = sp
@@ -44,4 +73,5 @@ export function createAuditLog(type,sp,dr,pts,passType,status, reason){
     auditData.status = status
     auditData.reason = reason
     submitAudit()
+    postAudit()
 }
