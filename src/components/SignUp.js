@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import Title from "./Title";
 
 const SignUp = () => {
+    const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/items';
     // Define the initial state for the questionnaire
     const initialFormData = {
-        name: '',
-        email: '',
-        userType: 'Trucker', // Default to Trucker
-        organization: '', // Empty for Trucker
+        userID: ''
     };
 
     // Create state variables for the form data and submission message
@@ -21,14 +19,26 @@ const SignUp = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            if (response.ok) {
+              setSubmissionMessage('Data submitted successfully!');
+            } else {
+              setSubmissionMessage('Error submitting data');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            setSubmissionMessage('Error submitting data');
+          }
+        };
 
-        //put calls to the database here. 
-
-
-        setSubmissionMessage('Data submitted successfully!');
-    };
+        
+    
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
