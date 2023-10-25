@@ -3,7 +3,7 @@ import $ from "jquery";
 import { TruckerCatelog } from '../../context';
 
 const FindProducts = () => {
-    const { addProduct } = useContext(TruckerCatelog);
+    const { addProduct, convertToPoints } = useContext(TruckerCatelog);
     var searchResultsArray = [];
     var selectedFiles = [];
     function printSearch() {
@@ -49,7 +49,7 @@ const FindProducts = () => {
         newUrl.appendChild(newTitle);
         newUrl.title = title;
         newUrl.href = url;
-        const newPrice = document.createTextNode("Price:" + price);
+        const newPrice = document.createTextNode("Price:" + convertToPoints(parseFloat(price.substring(1))));
 
         // add the text node to the newly created div
         newDiv.appendChild(newImage);
