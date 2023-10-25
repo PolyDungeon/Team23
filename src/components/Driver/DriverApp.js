@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { createAuditLog } from '../Functions';
+import { createAuditLog } from '../AuditLogging';
+
 
 
 
