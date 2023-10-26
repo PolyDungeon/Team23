@@ -65,7 +65,7 @@ const About = () => {
             <div className="content">
                 
                 <h1>TruckBucks</h1>
-                    <p >Team: {}</p>
+                    <p >Team: {data.team}</p>
                     <p>Sprint: {data.sprint}</p>
                     <p>Version: {data.version}</p>
                     <h5>What is TruckBucks?</h5>

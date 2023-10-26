@@ -6,14 +6,14 @@ import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 
 
+
 const SignUp = () => {
-    const passwordInputRef = useRef(null);
-    const passwordInputRef2 = useRef(null);
     const passStrengthRef = useRef(null);
 
     const tempUserData = {
         username: '',
         password: '',
+        conpassword: '',
         email: '',
         phone: '',
         firstName: '',
@@ -29,45 +29,33 @@ const SignUp = () => {
         const {name, value} = event.target
         setUserData({...userData, [name]: value})
     }
-    const handleAddressChange = (event) => {
-        const {name, value} = event.target
-        setUserData({...userData.address, [name]: value})
-    }
 
-
-    const handleSubmit = async (event) => {
+    const handleSubmit =  (event) => {
+      
         event.preventDefault()
+
+        if(userData.password === userData.password){
         let attributeList = [];
         attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
         attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + userData.phone}))
-        //attributeList.push( new CognitoUserAttribute({Name : 'custom:firstName',Value : userData.firstName}))
-        //attributeList.push( new CognitoUserAttribute({Name : 'custom:lastName',Value : userData.lastName}))
+        attributeList.push( new CognitoUserAttribute({Name : 'given_name',Value : userData.firstName}))
+        attributeList.push( new CognitoUserAttribute({Name : 'family_name',Value : userData.lastName}))
         
-        await changePassword()
-        setTimeout(()=>{},1000)
+        
         UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
           if(err){
             console.error(err);
           }
           console.log(data);
-        });
 
+          
+        });
+        setUserData(tempUserData)
+      }else{
+        console.error("Password does not work.")
+      }
     };
 
-    const  changePassword = async() => {
-        const newPassword = passwordInputRef.current.value;
-        const newPassword2 = passwordInputRef2.current.value;
-        
-        if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
-          
-    
-          setUserData((userData) => ({
-            ...userData,
-            password: newPassword,
-          }));
-        }
-      };
-    
       const handlePasswordStrength = (event) => {
         const password = event.target.value; // Get the new value from the input field
         console.log("Value = ", password);
@@ -86,6 +74,11 @@ const SignUp = () => {
           passStrengthRef.current.textContent = "Password is good";
         }
       };
+
+    const handlePassChange = (event) =>{
+      handlePasswordStrength(event)
+      handleInputChange(event)
+    }
 
 
     return(
@@ -146,8 +139,9 @@ const SignUp = () => {
                             type="password" 
                             size = "22"
                             required
-                            ref={passwordInputRef} 
-                            onChange={handlePasswordStrength}
+                            name='password'
+                            value={userData.password}
+                            onChange={handlePassChange}
                             />
                             <br/>
                             <label>Confirm Password:</label>&nbsp;
@@ -155,7 +149,10 @@ const SignUp = () => {
                             type="password" 
                             size="22"
                             required
-                            ref={passwordInputRef2} 
+                            name='conpassword'
+                            value={userData.conpassword}
+                  
+                            onChange={handleInputChange}
                             />
                             </div>
                             <p ref={passStrengthRef} className="password-strength"></p>
