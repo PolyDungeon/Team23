@@ -15,9 +15,9 @@ import About from './components/About';
 import DriverApp from './components/Driver/DriverApp';
 import AdminProfile from './components/Admin/AdminProfile';
 import ItemsPage from './components/Products/FindItems';
-import AdminReports from './components/Admin/adminReports';
-import createAdmin from './components/Admin/createAdmin';
-import createSponsorOrg from './components/Admin/createSponsorOrg';
+import AdminReports from './components/Admin/AdminReports';
+import CreateAdmin from './components/Admin/CreateAdmin';
+import CreateSponsorOrg from './components/Admin/CreateSponsorOrg';
 import Login from './components/Login';
 import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
@@ -25,7 +25,16 @@ import SignUp from './components/SignUp';
 
 
 
+
 function App() {
+    // Define searchResults state
+    const [searchResults, setPrintableSearchResults] = useState([]);
+
+    // Define addToSearchResults function to update the state
+    function addToSearchResults(newEntry) {
+      // Push the new entry to the existing array
+      setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
+    }
   return (
     <React.Fragment>
       <Navbar />
@@ -44,8 +53,8 @@ function App() {
           <Route path="/admin/home" component={AdminProfile}/>
           <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
-            <Route path="/admin/create/admin" component={createAdmin}/>
-            <Route path="/admin/create/sponsororg" component={createSponsorOrg}/>
+            <Route path="/admin/create/admin" component={CreateAdmin}/>
+            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg}/>
           </Route>
         </Route>
         <Route
