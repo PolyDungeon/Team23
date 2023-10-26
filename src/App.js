@@ -21,6 +21,7 @@ import createSponsorOrg from './components/Admin/CreateSponsorOrg';
 import Login from './components/Login';
 import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
+import SignUp from './components/SignUp';
 
 
 
@@ -46,6 +47,7 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
+        <Route path="/signup" component={SignUp}/>
         <Route path="/driver/signup" component={DriverApp} />
         <Route path="/admin">
           <Route path="/admin/home" component={AdminProfile}/>

@@ -1,6 +1,15 @@
 import React, { Component} from 'react';
 
 
+const userData = {
+    userID: '',
+    email: '',
+    userName: '',
+    type: 'admin',
+    
+}
+
+
 
 
 export default class createAdmin extends Component{

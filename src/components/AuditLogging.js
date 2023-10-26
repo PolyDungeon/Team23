@@ -27,19 +27,18 @@ async function  checkID(id){
     const response = await fetch(GetQURL + id, {
         method: 'GET'     
     })
-
-    if(response.body == []){
-        console.log("Success")
-    }else{
-        console.log("Failure")
-    }
 }
 
 export function createAuditLog(type,sp,dr,pts,passType,status, reason){
     
-    //var id = uuidv4()
-    var id = '2'
-    checkID(id)
+    
+    var id = uuidv4()
+    
+
+    if(checkID(id)){
+        console.log("True")
+    }
+    
 
     auditData.auditID = id
     auditData.type = type
