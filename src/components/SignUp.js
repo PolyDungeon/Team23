@@ -1,12 +1,7 @@
-import { Auth } from 'aws-amplify';
-import { useState, useSyncExternalStore, useRef } from 'react';
+import { useState, useRef } from 'react';
 import zxcvbn from 'zxcvbn';
-
-
-
-
-
-
+import UserPool from '../UserPool';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 
 
@@ -40,18 +35,30 @@ const SignUp = () => {
     }
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        changePassword()
-        //signUp()
+        let attributeList = [];
+        attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
+        attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + userData.phone}))
+        //attributeList.push( new CognitoUserAttribute({Name : 'custom:firstName',Value : userData.firstName}))
+        //attributeList.push( new CognitoUserAttribute({Name : 'custom:lastName',Value : userData.lastName}))
+        
+        await changePassword()
+        setTimeout(()=>{},1000)
+        UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
+          if(err){
+            console.error(err);
+          }
+          console.log(data);
+        });
 
     };
 
-    const changePassword = () => {
+    const  changePassword = async() => {
         const newPassword = passwordInputRef.current.value;
         const newPassword2 = passwordInputRef2.current.value;
         
-        if (newPassword == newPassword2 && newPassword != "") { // If the passwords match
+        if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
           
     
           setUserData((userData) => ({
@@ -67,7 +74,7 @@ const SignUp = () => {
     
         passStrengthRef.current.textContent = "";
     
-        if(password == "") return;
+        if(password === "") return;
      
         if (password.length <= 7) {
           passStrengthRef.current.textContent = "Password is too short";
@@ -80,29 +87,6 @@ const SignUp = () => {
         }
       };
 
-      /*
-      async function signUp() {
-        try {
-          const { user } = await Auth.signUp({
-            preferred_username: userData.username,
-            password: userData.password,
-            email: userData.email,
-            attributes: {
-              phone : userData.phone,
-              firstName: userData.firstName,
-              lastName: userData.lastName
-            },
-            autoSignIn: { // optional - enables auto sign in after user is confirmed
-              enabled: true,
-            }
-          });
-          console.log(user);
-        } catch (error) {
-          console.log('error signing up:', error);
-        }
-      }
-      */
-    
 
     return(
         <div>
