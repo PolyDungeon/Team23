@@ -7,11 +7,11 @@ const AdminProfile = () => {
  
         return(
         
-        <div class="page">
+        <div className="page">
             
-            <div class="profile">
+            <div className="profile">
                 <h3>Profile</h3>
-                <p class='info'>
+                <p className='info'>
                     Name: {userData.name} <br/>
                     Email: {userData.email} <br/>
                     Phone: {userData.phone} <br/>
@@ -21,19 +21,19 @@ const AdminProfile = () => {
                     Reset Password
                 </button>
             </div>
-            <div class="tools">
+            <div className="tools">
                 <h3>Admin Tools</h3>
-                <div class='box'>
+                <div className='box'>
                     <Link to="/admin/reports">
                         Reports
                     </Link>
                 </div>
-                <div class='box'>
+                <div className='box'>
                     <Link to="/admin/create/admin">
                         Create Admin
                     </Link>
                 </div>
-                <div class='box'>
+                <div className='box'>
                     <Link to="/admin/create/sponsororg">
                         Create Sponsor Organization
                     </Link>
