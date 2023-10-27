@@ -8,6 +8,7 @@ const AdminCreate = () =>{
     const responsePassword = useRef(null)
 
     const [userData, setUserData] = useState({
+        userID: '',
         email: '',
         username: '',
         password: '!Password123',
@@ -16,7 +17,6 @@ const AdminCreate = () =>{
     
     const handleSubmit = (event) => {
         event.preventDefault()
-
         if(userData.username.indexOf(' ') >= 0){
             responseMessage.current.textContent = "Username can't have space."
             return
@@ -31,13 +31,16 @@ const AdminCreate = () =>{
         UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
             if(err){
               console.error(err);
+              responseMessage.current.textContent = err.message + '.'
+              responsePassword.current.textContent = ''
+            }else{
+                console.log(data);
+                userData.userID = data.userSub
+                console.log(userData.userID)
+                responseMessage.current.textContent = "Successfully created account " + userData.username + "."
+                responsePassword.current.textContent = "Password is: " + userData.password
             }
-            console.log(data);
           });
-
-
-        responseMessage.current.textContent = "Successfully create account " + userData.username + "."
-        responsePassword.current.textContent = "Password is: " + userData.password
     }
     
     const handleInputChange = (event) => {
