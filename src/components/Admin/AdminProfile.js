@@ -29,13 +29,18 @@ const AdminProfile = () => {
                     </Link>
                 </div>
                 <div className='box'>
-                    <Link to="/admin/create/admin">
-                        Create Admin
+                    <Link to="/admin/create/user">
+                        Create New User
                     </Link>
                 </div>
                 <div className='box'>
                     <Link to="/admin/create/sponsororg">
                         Create Sponsor Organization
+                    </Link>
+                </div>
+                <div className='box'>
+                    <Link to="/admin/update/user">
+                        Update User Type
                     </Link>
                 </div>
             </div>
