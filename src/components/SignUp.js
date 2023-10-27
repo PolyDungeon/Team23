@@ -17,7 +17,8 @@ const SignUp = () => {
         email: '',
         phone: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        type: 'driver'
     };
 
 
@@ -40,6 +41,7 @@ const SignUp = () => {
         attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + userData.phone}))
         attributeList.push( new CognitoUserAttribute({Name : 'given_name',Value : userData.firstName}))
         attributeList.push( new CognitoUserAttribute({Name : 'family_name',Value : userData.lastName}))
+        attributeList.push( new CognitoUserAttribute({Name : 'custom:type',Value : userData.type}))
         
         
         UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
