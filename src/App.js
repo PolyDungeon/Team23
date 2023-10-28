@@ -22,6 +22,8 @@ import Login from './components/Login';
 import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
+import { CurrentUser } from './components/Login';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -39,7 +41,15 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Homepage} />
+        <Route exact path="/" render={()=>{
+          return (
+            (CurrentUser.id === '') ?
+            <Redirect to='/login'/> :
+            <Redirect to='/home'/>
+          )
+        }}
+          />
+        <Route exact path="/home" component={Homepage}/>
         <Route path="/login" component={Login}/>
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />

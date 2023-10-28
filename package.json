@@ -2,7 +2,6 @@
   "name": "TruckBucks",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://test.d37k60a9pqwxvi.amplifyapp.com",
   "dependencies": {
     "@aws-amplify/ui-react": "^5.3.1",
     "@aws-sdk/client-dynamodb": "3.418.0",
@@ -19,7 +18,8 @@
     "react-scripts": "^5.0.1",
     "styled-components": "^4.3.2",
     "uuid": "9.0.1",
-    "zxcvbn": "4.4.2"
+    "zxcvbn": "4.4.2",
+    "react-router": "6.17.0"
   },
   "scripts": {
     "start": "react-scripts start",

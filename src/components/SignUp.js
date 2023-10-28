@@ -9,20 +9,40 @@ import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 const SignUp = () => {
     const passStrengthRef = useRef(null);
+    const responseMessage = useRef(null);
 
     const tempUserData = {
-        username: '',
-        password: '',
-        conpassword: '',
-        email: '',
-        phone: '',
-        firstName: '',
-        lastName: '',
-        type: 'driver'
-    };
+      userID: '',
+      type: 'driver',
+      username: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: {
+          line1: '',
+          line2: '',
+          city: '',
+          state: '',
+          zip: ''
+      },
+      sponsorList:[{
+          sponsor: '',
+          points: 0
+      }],
+      password: '',
+      conpassword: ''
+      
+  };
 
-
-
+  const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
+  const postUser = async () => {
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(userData)
+    })
+    return response
+}
 
     const [userData, setUserData] = useState(tempUserData)
 
@@ -32,10 +52,9 @@ const SignUp = () => {
     }
 
     const handleSubmit =  (event) => {
-      
-        event.preventDefault()
+      event.preventDefault()
 
-        if(userData.password === userData.password){
+      if(userData.password === userData.password){
         let attributeList = [];
         attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
         attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + userData.phone}))
@@ -47,12 +66,17 @@ const SignUp = () => {
         UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
           if(err){
             console.error(err);
-          }
-          console.log(data);
+            responseMessage.current.textContent = err.message + '.'
+          }else{
+            console.log(data);
+            userData.userID = data.userSub
+            responseMessage.current.textContent = "Successfully created account " + userData.username + "."
 
-          
-        });
-        setUserData(tempUserData)
+            const postResponse = postUser()
+
+            setUserData(tempUserData)
+          }
+        })
       }else{
         console.error("Password does not work.")
       }
@@ -164,6 +188,7 @@ const SignUp = () => {
                     <button type='submit'>Create Account</button>
 
                 </form>
+                <p ref={responseMessage} className='submit-response'/>
         </div>
     );
 }

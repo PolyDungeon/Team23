@@ -1,11 +1,17 @@
 import React, { useState} from 'react';
 import { createAuditLog } from './AuditLogging';
+import { authenticate } from './Authenticate';
+
+export var CurrentUser = {
+        id: ''
+}
 
 const Login = () => {
+    
     const initialFormData = {
-        userName: '',
+        username: '',
         password: '',
-        userType: ''
+        type: ''
     };
 
     // Create state variables for the form data and submission message
@@ -21,9 +27,17 @@ const Login = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('loginAttempt', null, formData.userName, 0, null, 'submitted', null)
-        //put calls to the database here. 
-
+        createAuditLog('loginAttempt', null, formData.username, 0, null, 'submitted', null)
+        authenticate(formData.username, formData.password)
+        .then((data)=>{
+            console.log(data)
+            CurrentUser.id = data.accessToken.payload.sub
+            console.log(CurrentUser.id)
+            window.history.pushState({},null,'/')
+        }, (err)=>{
+            console.log(err)
+        })
+        .catch(err=>console.log(err))
         setSubmissionMessage('Data submitted successfully!');
     };
 
@@ -39,9 +53,9 @@ const Login = () => {
                         <label>Username:</label>&nbsp;
                         <input
                             type="username"
-                            name="userName"
+                            name="username"
                             required
-                            value={formData.userName}
+                            value={formData.username}
                             onChange={handleInputChange}
                         />
                     </div>

@@ -2,9 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./admin.css"
 import { userData } from '../UserData';
+import UserPool from '../../UserPool';
+import { CurrentUser } from '../Login';
 
 const AdminProfile = () => {
- 
+
+        const user = UserPool.getCurrentUser()
+
+        user.getUserAttributes((err,result)=>{
+            if(err){
+                console.log(err)
+            }
+            console.log(result)
+        })
+
+        console.log(CurrentUser.id)
+
+
         return(
         
         <div className="page">

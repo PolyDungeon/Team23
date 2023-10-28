@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import UserPool from '../../UserPool';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import { post } from 'jquery';
+
 
 
 const AdminCreate = () =>{
@@ -62,7 +62,6 @@ const AdminCreate = () =>{
             }else{
                 console.log(data);
                 userData.userID = data.userSub
-                console.log(userData.userID)
                 responseMessage.current.textContent = "Successfully created account " + userData.username + "."
                 responsePassword.current.textContent = "Temporary Password is: " + userData.password
 
