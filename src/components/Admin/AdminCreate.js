@@ -1,18 +1,44 @@
 import React, {useRef, useState} from 'react';
 import UserPool from '../../UserPool';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { post } from 'jquery';
 
 
 const AdminCreate = () =>{
     const responseMessage = useRef(null)
     const responsePassword = useRef(null)
 
+    const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
+
+    const postUser = async () => {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        })
+        return response
+    }
+
     const [userData, setUserData] = useState({
         userID: '',
-        email: '',
+        type: 'admin',
         username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        address: {
+            line1: '',
+            line2: '',
+            city: '',
+            state: '',
+            zip: ''
+        },
+        sponsorList:[{
+            sponsor: '',
+            points: 0
+        }],
         password: '!Password123',
-        type: ''
+        
     })
     
     const handleSubmit = (event) => {
@@ -38,7 +64,9 @@ const AdminCreate = () =>{
                 userData.userID = data.userSub
                 console.log(userData.userID)
                 responseMessage.current.textContent = "Successfully created account " + userData.username + "."
-                responsePassword.current.textContent = "Password is: " + userData.password
+                responsePassword.current.textContent = "Temporary Password is: " + userData.password
+
+               const postResponse =  postUser()
             }
           });
     }
