@@ -18,10 +18,19 @@ function submitAudit(){
 
             break;
         case 'passwordChange':
-
+            console.log(auditData.date + " - Password Change - " + auditData.status);
+            break;
+        case 'usernameChange':
+            console.log(auditData.date + " - Username Change - " + auditData.status);
+            break;
+        case 'emailChange':
+            console.log(auditData.date + " - Email Change - " + auditData.status);
             break;
         case 'loginAttempt':
             console.log(auditData.date + " - Login Attempt - " + auditData.driver + " - " + auditData.status)
+            break;
+        case 'createAccount':
+            console.log(auditData.date + " - Account Creation - " + " - " + auditData.status);
             break;
         default:
             break;
