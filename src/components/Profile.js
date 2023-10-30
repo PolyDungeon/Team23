@@ -1,9 +1,16 @@
 import React from 'react';
 import Title from "./Title";
 import { useState, useRef } from 'react';
+import { createAuditLog } from './Functions';
 import zxcvbn from 'zxcvbn';
 
+
+
 const Profile = () => {
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState('');
+
   // Initialize state for user data
   const [userData, setUserData] = useState({
     email: 'ExampleUser@yahoo.com', 
@@ -17,7 +24,8 @@ const Profile = () => {
   }); 
 
   const handleEdit = () => {
-    console.log("handleEdit()");
+    setIsEditing(true);
+    //console.log("handleEdit()");
     setUserData((prevUserData) => ({
       ...prevUserData,
       isEditing: true,
@@ -25,7 +33,8 @@ const Profile = () => {
   };
 
   const handleCancel = () => {
-    console.log("handleCancel()");
+    setIsEditing(false);
+    //console.log("handleCancel()");
     setUserData((prevUserData) => ({
       ...prevUserData,
       isEditing: false,
@@ -33,12 +42,15 @@ const Profile = () => {
   };
 
   const handleSaveChanges = () => {
-    console.log("handleSaveChanges()");
+    setIsEditing(false);
+    //console.log("handleSaveChanges()");
     
     changeEmail();
     changeUsername();
     changePassword();
 
+    
+    //togglePasswordVisibility();
     
 
     setUserData((prevUserData) => ({
@@ -55,20 +67,27 @@ const Profile = () => {
 
 
   const changeEmail = () => {
+    
     const newEmail = emailInputRef.current.value;
-    console.log("changeEmail()", newEmail);
+    setIsEditing(false);
+    //console.log("changeEmail()", newEmail);
     // Check if newEmail is allowed
     if(newEmail !== "") {
       setUserData((prevUserData) => ({
         ...prevUserData,
         email: newEmail,
       }));
+
+
+    // Make the change in the database
+
+    createAuditLog('emailChange', null, null, 0, null, 'submitted', null);
     }
   };
 
   const changeUsername = () => {
     const newUsername = usernameInputRef.current.value;
-    console.log("changeUsername()", newUsername);
+    //console.log("changeUsername()", newUsername);
     
     // Check if newUsername is allowed
     if(newUsername !== "") {
@@ -76,47 +95,66 @@ const Profile = () => {
         ...prevUserData,
         username: newUsername,
       }));
+
+
+    // Make the change in the database
+
+    createAuditLog('usernameChange', null, null, 0, null, 'submitted', null);
+
     }
-    
   };
 
   const changePassword = () => {
     const newPassword = passwordInputRef.current.value;
     const newPassword2 = passwordInputRef2.current.value;
 
-    console.log("changePassword()");
+    //console.log("changePassword()");
     
     if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
-      console.log(newPassword);
+      //console.log(newPassword);
 
       setUserData((prevUserData) => ({
         ...prevUserData,
         password: newPassword,
         maskedPassword: getMaskedPass(),
       }));
+
+      // Make the change in the database
+
+      createAuditLog('passwordChange', null, null, 0, null, 'submitted', null);
+    }
+    else {
+      if(!(newPassword == "" && newPassword2 == "")) {
+        alert("Passwords do no match");
+      }
+      
     }
 
     // Asynchronous issues
-    togglePasswordVisibility();
-    togglePasswordVisibility();
+    /*var returnVal = togglePasswordVisibility();
+    console.log("returnVal = " + returnVal);*/
+    
   };
 
   const handlePasswordStrength = (event) => {
     const password = event.target.value; // Get the new value from the input field
-    console.log("Value = ", password);
+    //console.log("Value = ", password);
 
     passStrengthRef.current.textContent = "";
 
     if(password === "") return;
 
     if (password.length <= 7) {
-      passStrengthRef.current.textContent = "Password is too short";
+      passStrengthRef.current.textContent = "Password is too short.";
+      passStrengthRef.current.style.color = 'red';
     }
     else if (zxcvbn(password).score < 3) {
-      passStrengthRef.current.textContent = "Password is weak";
+      passStrengthRef.current.textContent = "Password is weak.";
+      passStrengthRef.current.style.color = 'yellow';
     }
     else {
-      passStrengthRef.current.textContent = "Password is good";
+      passStrengthRef.current.textContent = "Password is good!";
+      passStrengthRef.current.style.color = 'green';
     }
   };
 
@@ -150,12 +188,10 @@ const getMaskedPass = (event) => {
     //console.log(`Character ${char} at index ${index}`);
     maskVersion += "*";
   });
-  console.log("mask version is " + maskVersion);
+  //console.log("mask version is " + maskVersion);
   return maskVersion;
 };
   
-
-
 
   return (
     <div id="profile-container">
@@ -223,12 +259,6 @@ const getMaskedPass = (event) => {
       </div>
 
     </div>
-/*
-    <div id="example">
-      <div id="column-container">
-      <p>hello</p>
-      </div>
-    </div>*/
   );
 }
 
