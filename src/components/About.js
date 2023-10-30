@@ -48,7 +48,7 @@ const About = () => {
             }
             const resultsArray = await response.json();
             
-            setData({sprint: resultsArray[0].sprintID, version: resultsArray[0].version})
+            setData({team: resultsArray[0].team, sprint: resultsArray[0].sprintID, version: resultsArray[0].version})
         }catch( error){
             console.error('error fetching data',error);
         }
