@@ -9,6 +9,7 @@ const Profile = () => {
     email: 'ExampleUser@yahoo.com', 
     username: 'df910ds92sdf', // Database unique identifier
     password: 'password123',
+    maskedPassword: '***********',
     points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
@@ -76,6 +77,7 @@ const Profile = () => {
         username: newUsername,
       }));
     }
+    
   };
 
   const changePassword = () => {
@@ -90,8 +92,13 @@ const Profile = () => {
       setUserData((prevUserData) => ({
         ...prevUserData,
         password: newPassword,
+        maskedPassword: getMaskedPass(),
       }));
     }
+
+    // Asynchronous issues
+    togglePasswordVisibility();
+    togglePasswordVisibility();
   };
 
   const handlePasswordStrength = (event) => {
@@ -113,70 +120,115 @@ const Profile = () => {
     }
   };
 
+const togglePasswordVisibility = (event) => {
+  var btn = document.getElementById("showPassBtn");
+
+  if(btn.textContent == "Show") {
+    btn.textContent = "Hide";
+    //Show the password
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      maskedPassword: userData.password,
+    }));
+  }
+  else {
+    btn.textContent = "Show";
+    //hide password
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      maskedPassword: getMaskedPass(),
+    }));
+   
+  }
+
+  getMaskedPass();
+};
+  
+const getMaskedPass = (event) => {
+  var maskVersion = "";
+  userData.password.split('').forEach((char, index) => {
+    //console.log(`Character ${char} at index ${index}`);
+    maskVersion += "*";
+  });
+  console.log("mask version is " + maskVersion);
+  return maskVersion;
+};
+  
+
 
 
   return (
     <div id="profile-container">
-      <h1>My Pofile</h1>
-      <p>Email: {userData.email} {userData.isEditing ? (
-        <>
-          <input 
-            type="email"
-            size="22"
-            ref={emailInputRef}
-            placeholder="Enter new email..." 
-            required
-            onInvalid={(e) => {
-              e.target.setCustomValidity('Please enter a valid email address.');
-            }}
-            onChange={(e) => {
-              e.target.setCustomValidity('');
-            }}>
-            </input>
-        </>
-      ) : ('')}</p>
-      <p>Username: {userData.username} {userData.isEditing ? (
-        <>
-          <input 
-            type="username" 
-            size="22"
-            ref={usernameInputRef} 
-            placeholder="Enter new username..." >
-            </input>
-        </>
-      ) : ('')}</p>
-      <div>Password: {userData.password} {userData.isEditing ? (
-        <>
-          <div className="password-container">
+      <div id="profile-container2">
+        <h1>My Pofile</h1>
+        <div>Email: {userData.email} {userData.isEditing ? (
+          <>
             <input 
-              type="password" 
-              size = "22"
-              ref={passwordInputRef} 
-              onChange={handlePasswordStrength}
-              placeholder="Enter new password..." >
-              </input>
-            <input 
-              type="password" 
+              type="email"
               size="22"
-              ref={passwordInputRef2} 
-              placeholder="Reenter new password..." >
+              ref={emailInputRef}
+              placeholder="Enter new email..." 
+              required
+              onInvalid={(e) => {
+                e.target.setCustomValidity('Please enter a valid email address.');
+              }}
+              onChange={(e) => {
+                e.target.setCustomValidity('');
+              }}>
               </input>
-            </div>
-            <p ref={passStrengthRef} className="password-strength"></p>
-        </>
-      ) : ('')}</div>
-      <p>Driver Points: {userData.points}</p>
-      {userData.isEditing ? (
-        <>
-          <button onClick={handleCancel}>Cancel</button>
-          <button onClick={handleSaveChanges}>Save Changes</button>
-        </>
-      ) : (
-        <button onClick={handleEdit}>Edit</button>
-      )}
+          </>
+        ) : ('')}</div>
+        <p>Username: {userData.username} {userData.isEditing ? (
+          <>
+            <input 
+              type="username" 
+              size="22"
+              ref={usernameInputRef} 
+              placeholder="Enter new username..." >
+              </input>
+          </>
+        ) : ('')}</p>
+        <div id="pass">Password: {userData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {userData.isEditing ? (
+          <>
+            <div className="password-container">
+              <input 
+                type="password" 
+                size = "22"
+                ref={passwordInputRef} 
+                onChange={handlePasswordStrength}
+                placeholder="Enter new password..." >
+                </input>
+              <input 
+                type="password" 
+                size="22"
+                ref={passwordInputRef2} 
+                placeholder="Reenter new password..." >
+              </input>
+              
+              <p ref={passStrengthRef} className="password-strength"></p>
+              </div>
+          </>
+        ) : ('')}</div>
+        <p>Driver Points: {userData.points}</p>
+        {userData.isEditing ? (
+          <>
+            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleSaveChanges}>Save Changes</button>
+          </>
+        ) : (
+          <button onClick={handleEdit}>Edit</button>
+        )}
 
-    {console.log("RENDERING")}
+      {console.log("RENDERING")}
+      </div>
+
     </div>
+/*
+    <div id="example">
+      <div id="column-container">
+      <p>hello</p>
+      </div>
+    </div>*/
   );
 }
 

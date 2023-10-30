@@ -74,7 +74,7 @@ Product.propTypes = {
     }).isRequired
 }
 
-const ProductWrapper = styled.div`
+const ProductWrapper =styled.div`
 .card {
     border-color: transparent;
     transition: all 1s linear;
