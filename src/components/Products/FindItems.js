@@ -116,7 +116,9 @@ const FindProducts = () => {
     }
 
     async function fetchData() {
-
+        searchResultsArray = [];
+        selectedFiles = [];
+        $("#ItemList").empty();
         var searchValue = document.theform.newname.value;
         var tempValue = searchValue.replace(" ", "%20");
         const url = 'https://ebay-search-result.p.rapidapi.com/search/' + tempValue;

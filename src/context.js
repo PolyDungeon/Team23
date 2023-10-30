@@ -50,7 +50,7 @@ class ProductProvider extends Component {
         const conversionRateCent = 1; 
         var total = 0;
         var wholeDollars = parseInt(price);
-        var cents = (price*100)%100;
+        var cents = (Math.round(price*100))%100;
         total = (wholeDollars * conversionRateDollar) + (cents*conversionRateCent);
         console.log(price);
         return total;
