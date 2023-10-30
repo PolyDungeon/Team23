@@ -31,7 +31,7 @@ export default class Details extends Component {
                                     </h4>
                                     <h4 className="text-orange">
                                         <strong>
-                                            Price : <span>$</span>{price}
+                                            Price : {value.convertToPoints(price)}
                                         </strong>
                                     </h4>
                                     <p className="text-capitalize font-weight-bold mt-3 mb-0">

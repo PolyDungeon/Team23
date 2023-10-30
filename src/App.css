@@ -139,6 +139,7 @@ body{
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-align: center;
 }
 
 /* Style the form header */

@@ -29,21 +29,6 @@ export default class Catelog extends Component {
                                         <Sidebar
                                             isSidebarOpen={this.state.isSidebarOpen}
                                             toggleSidebar={this.toggleSidebar}
-                                            onAddProduct={(newTitle, newImg, newPrice, newCompany) => {
-                                                // Add a new product to the storeProducts array
-                                                const newProduct = {
-                                                    id: value.products.length + 1, // Generate a unique ID
-                                                    title: newTitle,
-                                                    img: newImg, // Provide an image URL
-                                                    price: newPrice, // Set the price
-                                                    company: newCompany,
-                                                    info: "",
-                                                    inCart: false,
-                                                    count: 0,
-                                                    total: 0,
-                                                };
-                                                value.addProduct(newProduct);
-                                            }}
                                         />
                                     )}
                                 </TruckerCatelog>
