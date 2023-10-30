@@ -25,16 +25,16 @@ export default function CartTotals({value}) {
                         </button>
                     </Link>
                     <h5>
-                        <span className="text-title">subtotal : $</span>
-                        <strong>{cartSubTotal}</strong>
+                        <span className="text-title">subtotal : </span>
+                        <strong>{value.convertToPoints(cartSubTotal)}</strong>
                     </h5>
                     <h5>
-                        <span className="text-title">tax : $</span>
-                        <strong>{cartTax}</strong>
+                        <span className="text-title">tax : </span>
+                        <strong>{value.convertToPoints(cartTax)}</strong>
                     </h5>
                     <h5>
-                        <span className="text-title">total : $</span>
-                        <strong>{cartTotal}</strong>
+                        <span className="text-title">total : </span>
+                        <strong>{value.convertToPoints(cartTotal)}</strong>
                     </h5>
                     <button
                             className="btn btn-outline-danger text-uppercase mb-3 px-5"

@@ -19,6 +19,11 @@ export default class Navbar extends Component {
                             Login
                         </Link>
                     </li>
+                    <li className='nav-item'>
+                        <Link to="/SignUp" className="nav-link">
+                            SignUp
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link to="/catelog" className="nav-link">
                             Store
@@ -40,7 +45,7 @@ export default class Navbar extends Component {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/driver/signup" className="nav-link">
+                        <Link to="/driver/apply" className="nav-link">
                             Apply
                         </Link>
                     </li>
@@ -53,6 +58,11 @@ export default class Navbar extends Component {
                     )
                     }
                 </ul>
+                <div className='ml-auto' style={{padding: "8px", margin: "0px", textAlign: "right"}}>
+                    <p style={{margin: "0px", fontWeight:"bold", fontSize: "larger"}}>
+                        Your Current Points: {userData.points}
+                    </p>
+                </div>
                 <Link to="/checkout" className="ml-auto">
                     <ButtonContainer>
                         <img src={cart} alt="My Cart" className="navbar-brand" />

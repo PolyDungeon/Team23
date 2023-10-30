@@ -19,6 +19,7 @@ import AdminReports from './components/Admin/adminReports';
 import createAdmin from './components/Admin/createAdmin';
 import createSponsorOrg from './components/Admin/createSponsorOrg';
 import Login from './components/Login';
+import Signup from './components/Signup'
 
 
 
@@ -35,7 +36,8 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
-        <Route path="/driver/signup" component={DriverApp} />
+        <Route path="/Signup" component={Signup} />
+        <Route path="/driver/apply" component={DriverApp} />
         <Route path="/admin">
           <Route path="/admin/home" component={AdminProfile}/>
           <Route path="/admin/reports" component={AdminReports} />
