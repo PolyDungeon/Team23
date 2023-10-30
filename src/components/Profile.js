@@ -1,82 +1,263 @@
 import React from 'react';
 import Title from "./Title";
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { createAuditLog } from './AuditLogging';
+import zxcvbn from 'zxcvbn';
+
+
 
 const Profile = () => {
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState('');
+
   // Initialize state for user data
   const [userData, setUserData] = useState({
-    userID: 'df910ds92sdf', // Database unique identifier
     email: 'ExampleUser@yahoo.com', 
+    username: 'df910ds92sdf', // Database unique identifier
     password: 'password123',
+    maskedPassword: '***********',
     points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
+    isEditing: false,
+  }); 
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    //console.log("handleEdit()");
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      isEditing: true,
+    }));
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    //console.log("handleCancel()");
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      isEditing: false,
+    }));
+  };
+
+  const handleSaveChanges = () => {
+    setIsEditing(false);
+    //console.log("handleSaveChanges()");
+    
+    changeEmail();
+    changeUsername();
+    changePassword();
+
+    
+    //togglePasswordVisibility();
+    
+
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      isEditing: false,
+    }));
+  };
+
+  const emailInputRef = useRef(null);
+  const usernameInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+  const passwordInputRef2 = useRef(null);
+  const passStrengthRef = useRef(null);
+
+
+  const changeEmail = () => {
+    
+    const newEmail = emailInputRef.current.value;
+    setIsEditing(false);
+    //console.log("changeEmail()", newEmail);
+    // Check if newEmail is allowed
+    if(newEmail !== "") {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        email: newEmail,
+      }));
+
+
+    // Make the change in the database
+
+    createAuditLog('emailChange', null, null, 0, null, 'submitted', null);
+    }
+  };
+
+  const changeUsername = () => {
+    const newUsername = usernameInputRef.current.value;
+    //console.log("changeUsername()", newUsername);
+    
+    // Check if newUsername is allowed
+    if(newUsername !== "") {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        username: newUsername,
+      }));
+
+
+    // Make the change in the database
+
+    createAuditLog('usernameChange', null, null, 0, null, 'submitted', null);
+
+    }
+  };
+
+  const changePassword = () => {
+    const newPassword = passwordInputRef.current.value;
+    const newPassword2 = passwordInputRef2.current.value;
+
+    //console.log("changePassword()");
+    
+    if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
+      //console.log(newPassword);
+
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        password: newPassword,
+        maskedPassword: getMaskedPass(),
+      }));
+
+      // Make the change in the database
+
+      createAuditLog('passwordChange', null, null, 0, null, 'submitted', null);
+    }
+    else {
+      if(!(newPassword == "" && newPassword2 == "")) {
+        alert("Passwords do no match");
+      }
+      
+    }
+
+    // Asynchronous issues
+    /*var returnVal = togglePasswordVisibility();
+    console.log("returnVal = " + returnVal);*/
+    
+  };
+
+  const handlePasswordStrength = (event) => {
+    const password = event.target.value; // Get the new value from the input field
+    //console.log("Value = ", password);
+
+    passStrengthRef.current.textContent = "";
+
+    if(password === "") return;
+
+    if (password.length <= 7) {
+      passStrengthRef.current.textContent = "Password is too short.";
+      passStrengthRef.current.style.color = 'red';
+    }
+    else if (zxcvbn(password).score < 3) {
+      passStrengthRef.current.textContent = "Password is weak.";
+      passStrengthRef.current.style.color = 'yellow';
+    }
+    else {
+      passStrengthRef.current.textContent = "Password is good!";
+      passStrengthRef.current.style.color = 'green';
+    }
+  };
+
+const togglePasswordVisibility = (event) => {
+  var btn = document.getElementById("showPassBtn");
+
+  if(btn.textContent == "Show") {
+    btn.textContent = "Hide";
+    //Show the password
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      maskedPassword: userData.password,
+    }));
+  }
+  else {
+    btn.textContent = "Show";
+    //hide password
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      maskedPassword: getMaskedPass(),
+    }));
+   
+  }
+
+  getMaskedPass();
+};
+  
+const getMaskedPass = (event) => {
+  var maskVersion = "";
+  userData.password.split('').forEach((char, index) => {
+    //console.log(`Character ${char} at index ${index}`);
+    maskVersion += "*";
   });
-
-  // Function to handle form input changes
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
-  };
-
-  // Function to handle password change
-  const handleChangePassword = () => {
-    // Add code to handle password change here
-    // You can validate passwords and make API requests to update the password
-    console.log('Password change submitted.');
-  };
-
-  // Function to handle username change
-  const handleChangeUsername = () => {
-    // Add code to handle username change here
-    // You can make API requests to update the username
-    console.log('Username change submitted.');
-  };
+  //console.log("mask version is " + maskVersion);
+  return maskVersion;
+};
+  
 
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <div>
-        <h2>User Information</h2>
-        <p>
-          Email: {userData.email}
-        </p>
-        <p>
-          Points: {userData.points}
-        </p>
+    <div id="profile-container">
+      <div id="profile-container2">
+        <h1>My Pofile</h1>
+        <div>Email: {userData.email} {userData.isEditing ? (
+          <>
+            <input 
+              type="email"
+              size="22"
+              ref={emailInputRef}
+              placeholder="Enter new email..." 
+              required
+              onInvalid={(e) => {
+                e.target.setCustomValidity('Please enter a valid email address.');
+              }}
+              onChange={(e) => {
+                e.target.setCustomValidity('');
+              }}>
+              </input>
+          </>
+        ) : ('')}</div>
+        <p>Username: {userData.username} {userData.isEditing ? (
+          <>
+            <input 
+              type="username" 
+              size="22"
+              ref={usernameInputRef} 
+              placeholder="Enter new username..." >
+              </input>
+          </>
+        ) : ('')}</p>
+        <div id="pass">Password: {userData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {userData.isEditing ? (
+          <>
+            <div className="password-container">
+              <input 
+                type="password" 
+                size = "22"
+                ref={passwordInputRef} 
+                onChange={handlePasswordStrength}
+                placeholder="Enter new password..." >
+                </input>
+              <input 
+                type="password" 
+                size="22"
+                ref={passwordInputRef2} 
+                placeholder="Reenter new password..." >
+              </input>
+              
+              <p ref={passStrengthRef} className="password-strength"></p>
+              </div>
+          </>
+        ) : ('')}</div>
+        <p>Driver Points: {userData.points}</p>
+        {userData.isEditing ? (
+          <>
+            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleSaveChanges}>Save Changes</button>
+          </>
+        ) : (
+          <button onClick={handleEdit}>Edit</button>
+        )}
+
+      {console.log("RENDERING")}
       </div>
-      <div>
-        <h2>Change Password</h2>
-        <input
-          type="password"
-          name="newPassword"
-          placeholder="New Password"
-          value={userData.newPassword}
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="confirmNewPassword"
-          placeholder="Confirm New Password"
-          value={userData.confirmNewPassword}
-          onChange={handleInputChange}
-        />
-        <button onClick={handleChangePassword}>Change Password</button>
-      </div>
-      <div>
-        <h2>Change Username</h2>
-        <input
-          type="text"
-          name="newUsername"
-          placeholder="New Username"
-          value={userData.newUsername}
-          onChange={handleInputChange}
-        />
-        <button onClick={handleChangeUsername}>Change Username</button>
-      </div>
+
     </div>
   );
 }

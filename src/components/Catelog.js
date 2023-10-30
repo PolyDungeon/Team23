@@ -4,7 +4,7 @@ import Title from "./Title";
 import { TruckerCatelog } from '../context';
 import Sidebar from './Sidebar'; // Import the Sidebar component
 
-export default class Catelog  extends Component {
+export default class Catelog extends Component {
     state = {
         isSidebarOpen: false, // Initially, the sidebar is closed
     };
@@ -14,6 +14,7 @@ export default class Catelog  extends Component {
             isSidebarOpen: !prevState.isSidebarOpen,
         }));
     };
+
 
     render() {
         return (
@@ -25,29 +26,13 @@ export default class Catelog  extends Component {
                             <div className={`col-2 ${this.state.isSidebarOpen ? 'open' : ''}`}>
                                 <TruckerCatelog>
                                     {value => (
-                                    <Sidebar
-                                        isSidebarOpen={this.state.isSidebarOpen}
-                                        toggleSidebar={this.toggleSidebar}
-                                        onAddProduct={(newTitle, newImg, newPrice, newCompany) => {
-                                            // Add a new product to the storeProducts array
-                                            const newProduct = {
-                                                id: value.products.length + 1, // Generate a unique ID
-                                                title: newTitle,
-                                                img: newImg, // Provide an image URL
-                                                price: newPrice, // Set the price
-                                                company: newCompany,
-                                                info: "",
-                                                inCart: false,
-                                                count: 0,
-                                                total: 0,
-                                            };
-                                            value.addProduct(newProduct);
-                                            
-                                        }}
+                                        <Sidebar
+                                            isSidebarOpen={this.state.isSidebarOpen}
+                                            toggleSidebar={this.toggleSidebar}
                                         />
                                     )}
-                                            
                                 </TruckerCatelog>
+
                             </div>
                             <div className="text-capitalize text-center col-15 content">
                                 <Title name="" title="Catelog" />
