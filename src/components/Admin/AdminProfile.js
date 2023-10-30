@@ -2,9 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./admin.css"
 import { userData } from '../UserData';
+import UserPool from '../../UserPool';
+import { CurrentUser } from '../Login';
 
 const AdminProfile = () => {
- 
+
+        const user = UserPool.getCurrentUser()
+
+        user.getUserAttributes((err,result)=>{
+            if(err){
+                console.log(err)
+            }
+            console.log(result)
+        })
+
+        console.log(CurrentUser.id)
+
+
         return(
         
         <div className="page">
@@ -29,13 +43,18 @@ const AdminProfile = () => {
                     </Link>
                 </div>
                 <div className='box'>
-                    <Link to="/admin/create/admin">
-                        Create Admin
+                    <Link to="/admin/create/user">
+                        Create New User
                     </Link>
                 </div>
                 <div className='box'>
                     <Link to="/admin/create/sponsororg">
                         Create Sponsor Organization
+                    </Link>
+                </div>
+                <div className='box'>
+                    <Link to="/admin/update/user">
+                        Update User Type
                     </Link>
                 </div>
             </div>

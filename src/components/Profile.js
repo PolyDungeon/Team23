@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from "./Title";
 import { useState, useRef } from 'react';
-import { createAuditLog } from './Functions';
+import { createAuditLog } from './AuditLogging';
 import zxcvbn from 'zxcvbn';
 
 

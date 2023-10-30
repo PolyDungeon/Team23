@@ -15,20 +15,41 @@ import About from './components/About';
 import DriverApp from './components/Driver/DriverApp';
 import AdminProfile from './components/Admin/AdminProfile';
 import ItemsPage from './components/Products/FindItems';
-import AdminReports from './components/Admin/adminReports';
-import createAdmin from './components/Admin/createAdmin';
-import createSponsorOrg from './components/Admin/createSponsorOrg';
+import AdminReports from './components/Admin/AdminReports';
+import AdminCreate from './components/Admin/AdminCreate';
+import CreateSponsorOrg from './components/Admin/CreateSponsorOrg';
 import Login from './components/Login';
-import Signup from './components/Signup'
+import SponsorProfile from './components/Sponsor/SponsorProfile';
+import ChangePassword from './components/ChangePassword';
+import SignUp from './components/SignUp';
+import { CurrentUser } from './components/Login';
+import { Redirect } from 'react-router-dom';
+
 
 
 
 function App() {
+    // Define searchResults state
+    const [searchResults, setPrintableSearchResults] = useState([]);
+
+    // Define addToSearchResults function to update the state
+    function addToSearchResults(newEntry) {
+      // Push the new entry to the existing array
+      setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
+    }
   return (
     <React.Fragment>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Homepage} />
+        <Route exact path="/" render={()=>{
+          return (
+            (CurrentUser.id === '') ?
+            <Redirect to='/login'/> :
+            <Redirect to='/home'/>
+          )
+        }}
+          />
+        <Route exact path="/home" component={Homepage}/>
         <Route path="/login" component={Login}/>
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
@@ -36,17 +57,22 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
-        <Route path="/Signup" component={Signup} />
-        <Route path="/driver/apply" component={DriverApp} />
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/driver/signup" component={DriverApp} />
         <Route path="/admin">
           <Route path="/admin/home" component={AdminProfile}/>
           <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
-            <Route path="/admin/create/admin" component={createAdmin}/>
-            <Route path="/admin/create/sponsororg" component={createSponsorOrg}/>
+            <Route path="/admin/create/user" component={AdminCreate}/>
+            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg}/>
           </Route>
         </Route>
-        <Route path="/Products/FindItems" component={ItemsPage} />
+        <Route
+          path="/Products/FindItems"
+          render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
+        />
+        <Route path="/sponsor/home" component={SponsorProfile}/>
+        <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>
       <Popup />

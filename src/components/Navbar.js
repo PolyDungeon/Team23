@@ -5,8 +5,14 @@ import cart from '../Cart.svg';
 import styled from 'styled-components';
 import { ButtonContainer } from './Button';
 import { userData } from './UserData';
+import { CurrentUser } from './Login';
+
+
+
 
 export default class Navbar extends Component {
+    
+
     render() {
         return (
             <NavWrapper className="navbar navbar-expand-sm navbar-dark px-10">
@@ -19,37 +25,48 @@ export default class Navbar extends Component {
                             Login
                         </Link>
                     </li>
-                    <li className='nav-item'>
-                        <Link to="/SignUp" className="nav-link">
-                            SignUp
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/catelog" className="nav-link">
-                            Store
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/profile" className="nav-link">
-                            My Profile
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/notifications" className="nav-link">
-                            Notifications
-                        </Link>
-                    </li>
-                    <li className="nav-item"> 
-                        <Link to="/about" className="nav-link">
-                            About
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/driver/apply" className="nav-link">
-                            Apply
-                        </Link>
-                    </li>
-                    { userData.type === 'admin' && (
+                    
+                        <li className="nav-item">
+                            <Link to="/catelog" className="nav-link">
+                                Store
+                            </Link>
+                        </li>
+                    
+                    
+                        <li className="nav-item">
+                            <Link to="/profile" className="nav-link">
+                                My Profile
+                            </Link>
+                        </li>
+                    
+                        <li className="nav-item">
+                            <Link to="/notifications" className="nav-link">
+                                Notifications
+                            </Link>
+                        </li>
+                    
+                        <li className="nav-item"> 
+                            <Link to="/about" className="nav-link">
+                                About
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/driver/signup" className="nav-link">
+                                Apply
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/sponsor/home" className="nav-link">
+                                Sponsor
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/signup" className="nav-link">
+                                SignUp
+                            </Link>
+                        </li>
+                    
+                    { userData.type === 'admin'  && (
                     <li className="nav-item">
                         <Link to="/admin/home" className="nav-link">
                             Admin
@@ -73,7 +90,11 @@ export default class Navbar extends Component {
     }
 }
 
+
+
 const NavWrapper = styled.nav`
+
+
 background: rgba(255, 255, 255);
 .nav-link {
     color: black !important;

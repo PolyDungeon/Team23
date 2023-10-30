@@ -10,11 +10,14 @@ const About = () => {
     var ddb = new AWS.DynamoDB();
     //URL will be updated when we have a working database
     const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/items';
-    const [data, setData] = useState([]);
     const [dropDownOpen, setDropDownOpen] = useState(false);
+    const [data, setData] = useState({
+        team: 20,
+        sprint: '',
+        version: '',
+    });
+    
     const teamRef = useRef(null);
-    const versionRef = useRef(null);
-    const sprintRef = useRef(null);
     const toggleDropDown = () => {
         setDropDownOpen(!dropDownOpen);
     };
@@ -39,27 +42,34 @@ const About = () => {
     },[]);
     const fetchData = async() => {
         try{
-            const response = await fetch(url);
+            const response = await fetch(url, {method: 'GET'});
             if(!response.ok){
                 throw new Error('network response was not ok');
             }
-            const data = await response.json();
-            const resultsArray = data
-            sprintRef.current.textContent = "Sprint: " + resultsArray[0].sprintID;
-            versionRef.current.textContent = "Version: " + resultsArray[0].version
+            const resultsArray = await response.json();
+            
+            setData({sprint: resultsArray[0].sprintID, version: resultsArray[0].version})
         }catch( error){
             console.error('error fetching data',error);
         }
     };
-    
-    return (
+
+    useEffect(() => {
+        fetchData()
+    }, [])
         
-        <div className="content">
-            
-            <h1>TruckBucks</h1>
-                <p ref={teamRef}>Team: 20</p>
-                <p ref = {sprintRef}>Sprint: </p>
-                <p ref = {versionRef}>Version:</p>
+    
+    
+        return (
+        
+            <div className="content">
+                
+                <h1>TruckBucks</h1>
+                    <p >Team: {data.team}</p>
+                    <p>Sprint: {data.sprint}</p>
+                    <p>Version: {data.version}</p>
+                    <h5>What is TruckBucks?</h5>
+    
                 <button className="dropdown-button" style = {buttonStyle} onClick={toggleDropDown}>What is TruckBucks?</button>
                 {dropDownOpen && (
                     <div className="dropdown-content"  style={contentStyle}>
