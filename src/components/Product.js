@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { TruckerCatelog } from '../context';
 import PropTypes from 'prop-types';
-
 export default class Product extends Component {
     render() {
         const { id, title, img, price, inCart } = this.props.product;
+
         return (
             <ProductWrapper className="col-* mx-auto col-md-* col-lg-3 my-3">
                 <div className="card">
@@ -30,19 +30,21 @@ export default class Product extends Component {
                                         <span>Add</span>
                                     )}
                                 </button>
+                                <div className="card-footer d-flex justify-content-between">
+                                    <p className="align-self-center mb-0">
+                                        {title.length > 20 ? `${title.slice(0, 20)}...` : title}
+                                    </p>
+                                    <h5 className="text-white font-italic mb-0">
+                                        <span className="mr-1"></span>
+                                        {value.convertToPoints(price)}
+                                    </h5>
+                                </div>
                             </div>
+
                         )}
+
                     </TruckerCatelog>
 
-                    <div className="card-footer d-flex justify-content-between">
-                        <p className="align-self-center mb-0">
-                            {title.length > 20 ? `${title.slice(0, 20)}...` : title}
-                        </p>
-                        <h5 className="text-white font-italic mb-0">
-                            <span className="mr-1">$</span>
-                            {price}
-                        </h5>
-                    </div>
                     {/* Add a Remove button */}
                     <TruckerCatelog>
                         {value => (

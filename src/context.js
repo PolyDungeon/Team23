@@ -45,6 +45,16 @@ class ProductProvider extends Component {
         );
     };
 
+    convertToPoints = price => {
+        const conversionRateDollar = 100;
+        const conversionRateCent = 1; 
+        var total = 0;
+        var wholeDollars = parseInt(price);
+        var cents = (Math.round(price*100))%100;
+        total = (wholeDollars * conversionRateDollar) + (cents*conversionRateCent);
+        console.log(price);
+        return total;
+    };
 
     addToCart = id => {
         let tempProducts = [...this.state.products];
@@ -260,7 +270,8 @@ class ProductProvider extends Component {
                     clearCart: this.clearCart,
                     handlePurchase: this.handlePurchase,
                     addProduct: this.addProduct,
-                    removeProduct: this.removeProduct
+                    removeProduct: this.removeProduct,
+                    convertToPoints: this.convertToPoints
                 }}
             >
                 {this.props.children}
