@@ -14,6 +14,7 @@ const DriverApp = () => {
         email: '',
         organization: '',
         reason: '',
+        status: 'submitted',
         appID: ''
     };
 
