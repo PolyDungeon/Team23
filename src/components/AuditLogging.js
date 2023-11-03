@@ -21,23 +21,14 @@ const postAudit = async () => {
     })
 }
 
-
-async function  checkID(id){
-    console.log(id)
-    const response = await fetch(GetQURL + id, {
-        method: 'GET'     
-    })
-}
-
 export function createAuditLog(type,sp,dr,pts,passType,status, reason){
     
     
     var id = uuidv4()
     
 
-    if(checkID(id)){
-        console.log("True")
-    }
+
+    
     
 
     auditData.auditID = id

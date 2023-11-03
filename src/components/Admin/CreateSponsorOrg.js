@@ -110,11 +110,16 @@ const CreateSponsorOrg = () => {
                     }
                     const oldUser = foundUser[0]
 
+                    orgData.orgID = id
                     orgData.sponsorUsers[0].userID = oldUser.userID
                     orgData.sponsorUsers[0].email = oldUser.email
                     orgData.sponsorUsers[0].username = oldUser.username
-
+                    
+                    userData.sponsorList[0].sponsor = id
+                    //Need to send orgData to database and update user with sponsor
                 })
+            }else if (sponsorType.type === 'new'){
+
             }
 
             
