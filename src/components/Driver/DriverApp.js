@@ -19,7 +19,6 @@ const DriverApp = () => {
 
     // Create state variables for the form data and submission message
     const [formData, setFormData] = useState(initialFormData);
-    const [submissionMessage, setSubmissionMessage] = useState('');
 
     // Handle form input changes
     const handleInputChange = (event) => {
@@ -28,6 +27,8 @@ const DriverApp = () => {
     };
 
     const appUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/applications'
+    const orgUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
+    const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
 
     const postApplication = async() => {
         const response = await fetch(appUrl, {
@@ -37,14 +38,73 @@ const DriverApp = () => {
         return response
     }
 
+    const getOrg = async() => {
+        const response = await fetch(orgUrl + "?name=" + formData.organization, {
+            method: 'GET'
+        })
+        const results = await response.json()
+
+        return results
+    } 
+
+    const getUser = async() => {
+        const response = await fetch(userUrl + "?username=" + formData.username, {
+            method: 'GET'
+        })
+        const results = await response.json()
+
+        return results
+    }
+
+    const getApp = async() => {
+        const response = await fetch(appUrl + "?username=" + formData.username + "&org=" + formData.organization, {
+            method: 'GET'
+        })
+        const results = await response.json()
+        return results
+    }
+
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', null)
+        
 
         const id = uuidv4()
 
         formData.appID = id
+
+        getOrg().then(foundOrg => {
+            if(foundOrg.length === 0){
+                responseMessage.current.textContent = "Organization not found."
+                return
+            }
+        })
+
+        getUser().then(foundUser =>{
+            if(foundUser.length === 0){
+                responseMessage.current.textContent = "User not found."
+                return
+            }
+        })
+        
+        getApp().then(returnApp =>{
+            if(returnApp.length !== 0){
+                responseMessage.current.textContent = "User already applied to this organization."
+                return
+            }
+            postApplication().then(response =>{
+                if(!response.ok){
+                    responseMessage.current.textContent = "Application failed to submit."
+                    createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'failed', "Application failed to submit.")
+                    return
+                }
+                responseMessage.current.textContent = "Successfully submitted applicaiton."
+                createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', formData.reason)
+            }
+            )
+        })
+
+        
 
         
     
