@@ -52,7 +52,6 @@ const AdminCreate = () =>{
 
         let attributeList = [];
         attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
-        attributeList.push( new CognitoUserAttribute({Name : 'custom:type',Value : userData.type}))
         
         UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
             if(err){

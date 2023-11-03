@@ -1,11 +1,15 @@
+import UserPool from '../../UserPool';
 import React, { useRef,useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 
 
 const CreateSponsorOrg = () => {
 
     const responseMessage = useRef(null)
+    const responsePassword = useRef(null)
+    const userMessage = useRef(null)
 
     const [sponsorType,setSponsorType] = useState({
         type: 'old',
@@ -92,6 +96,21 @@ const CreateSponsorOrg = () => {
         return results
     }
 
+    const patchUser = async (user) => {
+        const response = await fetch(userUrl + '/sponsor', {
+            method:'PATCH',
+            body: JSON.stringify(user)
+        })
+        return response
+    }
+    const postUser = async () => {
+        const response = await fetch(userUrl, {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        })
+        return response
+    }
+
     const handleSubmit = (event) =>{
         event.preventDefault()
         
@@ -115,24 +134,60 @@ const CreateSponsorOrg = () => {
                     orgData.sponsorUsers[0].email = oldUser.email
                     orgData.sponsorUsers[0].username = oldUser.username
                     
-                    userData.sponsorList[0].sponsor = id
-                    //Need to send orgData to database and update user with sponsor
+                    
+                    oldUser.sponsorList[0].sponsor = id
+                    oldUser.type = 'sponsor'
+
+                    console.log(oldUser)
+                    
+                    patchUser(oldUser).then(response=>{
+                        if(!response.ok){
+                            responseMessage.current.textContent = "Error updating User."
+                            return
+                        }
+                    })
+
+                    
+
+
                 })
             }else if (sponsorType.type === 'new'){
+                if(userData.username.indexOf(' ') >= 0){
+                    responseMessage.current.textContent = "Username can't have space."
+                    return
+                }
+        
+                userData.password = 'Tb123!' + userData.username
+                userData.sponsorList[0].sponsor = id
+        
+                let attributeList = [];
+                attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
+                
+                UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
+                    if(err){
+                      console.error(err);
+                      responseMessage.current.textContent = err.message + '.'
+                      responsePassword.current.textContent = ''
+                      return
+                    }else{
+                        console.log(data);
+                        userData.userID = data.userSub
+                        userMessage.current.textContent = "Successfully created account " + userData.username + "."
+                        responsePassword.current.textContent = "Temporary Password is: " + userData.password
+        
+                       const postResponse =  postUser()
+                    }
+                  });
 
+                    orgData.orgID = id
+                    orgData.sponsorUsers[0].userID = userData.userID
+                    orgData.sponsorUsers[0].email = userData.email
+                    orgData.sponsorUsers[0].username = userData.username
             }
-
-            
+            postOrg().then(orgResponse => {
+                console.log(orgResponse)
+            })  
         })
-            
-
-
-
-
-
-        
-        
-        
     }
 
     const handleInputChange = (event) => {
@@ -201,6 +256,8 @@ const CreateSponsorOrg = () => {
             </form>
             <div>
                 <p ref={responseMessage} className='submit-response' />
+                <p ref={userMessage} className='submit-reponse' />
+                <p ref={responsePassword} className='submit-response'/>
             </div>
     </div>
     )

@@ -37,6 +37,16 @@ const SponsorProfile = () => {
                         Create Sponsor Account
                     </Link>
                 </div>
+                <div class='box'>
+                    <Link to="/sponsor/applications">
+                        Driver Applications
+                    </Link>
+                </div>
+                <div class='box'>
+                    <Link to="/Products/FindItems">
+                        Create Catalog
+                    </Link>
+                </div>
             </div>
         </div>
         )

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { createAuditLog } from '../AuditLogging';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 
 const DriverApp = () => {
+
+    const responseMessage = useRef(null)
     // Define the initial state for the questionnaire
     const initialFormData = {
-        firstName: '',
-        lastName: '',
-        userName: '',
+        username: '',
         email: '',
-        phone: '',
-        userType: 'Trucker', // Default to Trucker
-        organization: '', 
+        organization: '',
+        reason: '',
+        appID: ''
     };
 
     // Create state variables for the form data and submission message
@@ -26,14 +27,27 @@ const DriverApp = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const appUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/applications'
+
+    const postApplication = async() => {
+        const response = await fetch(appUrl, {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        })
+        return response
+    }
+
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('driverApp', formData.organization, formData.userName, 0, null, 'submitted', null)
-        //put calls to the database here. 
+        createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', null)
 
+        const id = uuidv4()
 
-        setSubmissionMessage('Data submitted successfully!');
+        formData.appID = id
+
+        
+    
     };
 
     return (
@@ -45,32 +59,12 @@ const DriverApp = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>First Name:</label>&nbsp;
-                        <input
-                            type="text"
-                            name="firstName"
-                            required
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Last Name:</label>&nbsp;
-                        <input
-                            type="text"
-                            name="lastName"
-                            required
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
                         <label>User Name:</label>&nbsp;
                         <input
                             type="text"
-                            name="userName"
+                            name="username"
                             required
-                            value={formData.userName}
+                            value={formData.username}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -85,16 +79,6 @@ const DriverApp = () => {
                         />
                     </div>
                     <div>
-                        <label>Phone Number:</label>&nbsp;
-                        <input
-                            type="phone"
-                            name="phone"
-                            required
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
                         <label>Sponsor:</label>&nbsp;
                         <input
                             type="text"
@@ -104,16 +88,27 @@ const DriverApp = () => {
                             onChange={handleInputChange}
                         />
                     </div>
+                    <div>
+                        <label>Reason:</label>&nbsp;
+                        <br/>
+                        <textarea
+                            rows={3}
+                            cols={50}
+                            name='reason'
+                            required
+                            value={formData.reason}
+                            onChange={handleInputChange}
+                        />
+                    </div>
                     
                     <div className=
                         "text-capitalize text-center ">
                         <button type="submit">Submit</button>
                     </div>
                 </form>
-                {submissionMessage && (
-                    <p>{submissionMessage}</p>
-                    
-                )}
+                <div>
+                    <p ref={responseMessage}/>
+                </div>
             </div>
         </div>
             );

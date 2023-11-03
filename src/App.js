@@ -24,6 +24,7 @@ import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
 import { CurrentUser } from './components/Login';
 import { Redirect } from 'react-router-dom';
+import SponsorApplications from './components/Sponsor/Applications';
 
 
 
@@ -72,6 +73,7 @@ function App() {
           render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
         />
         <Route path="/sponsor/home" component={SponsorProfile}/>
+        <Route path="/sponsor/applications" component={SponsorApplications}/>
         <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>
