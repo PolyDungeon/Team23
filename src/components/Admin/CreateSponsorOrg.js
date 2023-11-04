@@ -113,13 +113,14 @@ const CreateSponsorOrg = () => {
 
     const handleSubmit = (event) =>{
         event.preventDefault()
+        const id = uuidv4()
         
         getOrg().then(results =>{
             if(results.length !== 0){
                 responseMessage.current.textContent = "Organization name already taken."
                 return
             }
-            const id = uuidv4()
+            
 
             if(sponsorType.type === 'old'){
                 getUser(sponsorType.user).then(foundUser =>{
@@ -134,8 +135,13 @@ const CreateSponsorOrg = () => {
                     orgData.sponsorUsers[0].email = oldUser.email
                     orgData.sponsorUsers[0].username = oldUser.username
                     
+                    if(oldUser.sponsorList[0].sponsor === ''){
+                        oldUser.sponsorList[0].sponsor = id
+                    }else{
+                        responseMessage.current.textContent = "User already is a sponsor."
+                        return
+                    }
                     
-                    oldUser.sponsorList[0].sponsor = id
                     oldUser.type = 'sponsor'
 
                     console.log(oldUser)
@@ -147,7 +153,9 @@ const CreateSponsorOrg = () => {
                         }
                     })
 
-                    
+                    postOrg().then(orgResponse => {
+                        console.log(orgResponse)
+                    })  
 
 
                 })
@@ -183,10 +191,12 @@ const CreateSponsorOrg = () => {
                     orgData.sponsorUsers[0].userID = userData.userID
                     orgData.sponsorUsers[0].email = userData.email
                     orgData.sponsorUsers[0].username = userData.username
+
+                    postOrg().then(orgResponse => {
+                        console.log(orgResponse)
+                    })  
             }
-            postOrg().then(orgResponse => {
-                console.log(orgResponse)
-            })  
+            
         })
     }
 

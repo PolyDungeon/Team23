@@ -13,6 +13,7 @@ const SponsorApplications = () =>{
     }
 
     const appUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/applications'
+    const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
 
     const getApp = async () =>{
         const response = await fetch(appUrl + "?status=" + appForm.appStatus + "&org=" + appForm.organization, {
@@ -21,6 +22,21 @@ const SponsorApplications = () =>{
         const result = await response.json()
 
         return result
+    }
+
+    const getUser = async (username) => {
+        const response = await fetch(userUrl + "?username=" + username, {
+            method: 'GET'
+        })
+        const result = await response.json()
+        return result
+    }
+    const patchUser = async (user) => {
+        const response = await fetch(userUrl + '/sponsor', {
+            method: 'PATCH',
+            body: JSON.stringify(user)
+        })
+        return response
     }
 
     const addElement = (item) =>{
@@ -38,6 +54,30 @@ const SponsorApplications = () =>{
         acceptButton.addEventListener("click", () =>{
             //This will add driver to sponsor and change status of application.
             //Needs to update driver, org, and application
+
+            getUser(item.driver).then(foundUser => {
+                const user = foundUser[0]
+
+                if(user.sponsorList[0].sponsor === ''){
+                    user.sponsorList[0].sponsor = 'temp'
+                }else{
+                    const newSponsor = {
+                        sponsor: 'temp',
+                        points: 0
+                    }
+                    user.sponsorList.push(newSponsor)
+                }
+                
+                patchUser(user).then(patchResponse =>{
+                    if(!patchResponse.ok){
+                        return
+                    }
+                })
+
+                
+
+            })
+
         })
         const atxt = document.createTextNode("Accept")
         acceptButton.appendChild(atxt)
