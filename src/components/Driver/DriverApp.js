@@ -79,36 +79,31 @@ const DriverApp = () => {
                 responseMessage.current.textContent = "Organization not found."
                 return
             }
-        })
-
-        getUser().then(foundUser =>{
-            if(foundUser.length === 0){
-                responseMessage.current.textContent = "User not found."
-                return
-            }
-        })
-        
-        getApp().then(returnApp =>{
-            if(returnApp.length !== 0){
-                responseMessage.current.textContent = "User already applied to this organization."
-                return
-            }
-            postApplication().then(response =>{
-                if(!response.ok){
-                    responseMessage.current.textContent = "Application failed to submit."
-                    createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'failed', "Application failed to submit.")
+            getUser().then(foundUser =>{
+                if(foundUser.length === 0){
+                    responseMessage.current.textContent = "User not found."
                     return
                 }
-                responseMessage.current.textContent = "Successfully submitted applicaiton."
-                createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', formData.reason)
-            }
-            )
+                getApp().then(returnApp =>{
+                    if(returnApp.length !== 0){
+                        responseMessage.current.textContent = "User already applied to this organization."
+                        return
+                    }
+                    postApplication().then(response =>{
+                        if(!response.ok){
+                            responseMessage.current.textContent = "Application failed to submit."
+                            createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'failed', "Application failed to submit.")
+                            return
+                        }
+                        responseMessage.current.textContent = "Successfully submitted applicaiton."
+                        createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', formData.reason)
+                    }
+                    )
+                })
+            })
         })
 
         
-
-        
-    
     };
 
     return (
