@@ -37,7 +37,7 @@ const CreateSponsorOrg = () => {
         }]
     }
 
-    const [userData, setUserData] = useState({
+    const [uData, setuData] = useState({
         userID: '',
         type: 'sponsor',
         username: '',
@@ -62,7 +62,7 @@ const CreateSponsorOrg = () => {
 
     const updateUser = (event) => {
         const {name, value} = event.target
-        setUserData({...userData, [name]: value})
+        setuData({...uData, [name]: value})
     }
 
     const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
@@ -106,7 +106,7 @@ const CreateSponsorOrg = () => {
     const postUser = async () => {
         const response = await fetch(userUrl, {
             method: 'POST',
-            body: JSON.stringify(userData)
+            body: JSON.stringify(uData)
         })
         return response
     }
@@ -160,18 +160,18 @@ const CreateSponsorOrg = () => {
 
                 })
             }else if (sponsorType.type === 'new'){
-                if(userData.username.indexOf(' ') >= 0){
+                if(uData.username.indexOf(' ') >= 0){
                     responseMessage.current.textContent = "Username can't have space."
                     return
                 }
         
-                userData.password = 'Tb123!' + userData.username
-                userData.sponsorList[0].sponsor = id
+                uData.password = 'Tb123!' + uData.username
+                uData.sponsorList[0].sponsor = id
         
                 let attributeList = [];
-                attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
+                attributeList.push( new CognitoUserAttribute({Name : 'email',Value : uData.email}))
                 
-                UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
+                UserPool.signUp(uData.username, uData.password, attributeList, null, (err, data) => {
                     if(err){
                       console.error(err);
                       responseMessage.current.textContent = err.message + '.'
@@ -179,18 +179,18 @@ const CreateSponsorOrg = () => {
                       return
                     }else{
                         console.log(data);
-                        userData.userID = data.userSub
-                        userMessage.current.textContent = "Successfully created account " + userData.username + "."
-                        responsePassword.current.textContent = "Temporary Password is: " + userData.password
+                        uData.userID = data.userSub
+                        userMessage.current.textContent = "Successfully created account " + uData.username + "."
+                        responsePassword.current.textContent = "Temporary Password is: " + uData.password
         
                        const postResponse =  postUser()
                     }
                   });
 
                     orgData.orgID = id
-                    orgData.sponsorUsers[0].userID = userData.userID
-                    orgData.sponsorUsers[0].email = userData.email
-                    orgData.sponsorUsers[0].username = userData.username
+                    orgData.sponsorUsers[0].userID = uData.userID
+                    orgData.sponsorUsers[0].email = uData.email
+                    orgData.sponsorUsers[0].username = uData.username
 
                     postOrg().then(orgResponse => {
                         console.log(orgResponse)
@@ -248,7 +248,7 @@ const CreateSponsorOrg = () => {
                         <label>Email:</label>&nbsp;
                         <input
                             name='email'
-                            value={userData.email}
+                            value={uData.email}
                             onChange={updateUser}
                         />
                     </div>
@@ -256,7 +256,7 @@ const CreateSponsorOrg = () => {
                         <label>Username:</label>&nbsp;
                         <input
                             name='username'
-                            value={userData.username}
+                            value={uData.username}
                             onChange={updateUser}
                         />
                     </div>

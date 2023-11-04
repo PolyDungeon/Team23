@@ -13,12 +13,12 @@ const AdminCreate = () =>{
     const postUser = async () => {
         const response = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify(userData)
+            body: JSON.stringify(uData)
         })
         return response
     }
 
-    const [userData, setUserData] = useState({
+    const [uData, setuData] = useState({
         userID: '',
         type: 'admin',
         username: '',
@@ -43,26 +43,26 @@ const AdminCreate = () =>{
     
     const handleSubmit = (event) => {
         event.preventDefault()
-        if(userData.username.indexOf(' ') >= 0){
+        if(uData.username.indexOf(' ') >= 0){
             responseMessage.current.textContent = "Username can't have space."
             return
         }
 
-        userData.password = 'Tb123!' + userData.username
+        uData.password = 'Tb123!' + uData.username
 
         let attributeList = [];
-        attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
+        attributeList.push( new CognitoUserAttribute({Name : 'email',Value : uData.email}))
         
-        UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
+        UserPool.signUp(uData.username, uData.password, attributeList, null, (err, data) => {
             if(err){
               console.error(err);
               responseMessage.current.textContent = err.message + '.'
               responsePassword.current.textContent = ''
             }else{
                 console.log(data);
-                userData.userID = data.userSub
-                responseMessage.current.textContent = "Successfully created account " + userData.username + "."
-                responsePassword.current.textContent = "Temporary Password is: " + userData.password
+                uData.userID = data.userSub
+                responseMessage.current.textContent = "Successfully created account " + uData.username + "."
+                responsePassword.current.textContent = "Temporary Password is: " + uData.password
 
                const postResponse =  postUser()
             }
@@ -71,7 +71,7 @@ const AdminCreate = () =>{
     
     const handleInputChange = (event) => {
         const {name,value} = event.target
-        setUserData({...userData, [name]: value})
+        setuData({...uData, [name]: value})
     }
 
 
@@ -85,7 +85,7 @@ const AdminCreate = () =>{
                         type='email'
                         name='email'
                         required
-                        value={userData.email}
+                        value={uData.email}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -95,7 +95,7 @@ const AdminCreate = () =>{
                             type='username'
                             name='username'
                             required
-                            value={userData.username}
+                            value={uData.username}
                             onChange={handleInputChange}
                         />
                 </div>
@@ -103,7 +103,7 @@ const AdminCreate = () =>{
                     <label>User Type:</label>&nbsp;
                         <select
                             name='type'
-                            value={userData.type}
+                            value={uData.type}
                             onChange={handleInputChange}
                         >
                             <option value='admin'>Admin</option>
