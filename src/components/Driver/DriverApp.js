@@ -29,9 +29,11 @@ const DriverApp = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('driverApp', formData.organization, formData.userName, 0, null, 'submitted', null)
-        //put calls to the database here. 
+        createAuditLog('driverApplication', formData.organization, formData.userName, 0, null, 'submitted', null)
 
+        // Sponsor will need to be able to accept/reject this application at a later point.
+        // Should probably update sponsor selection to be a drop down of our sponsors in database.
+        // There will be another 'createAuditLog' when that occurs which will change the status to either 'accept' or 'reject'
 
         setSubmissionMessage('Data submitted successfully!');
     };
