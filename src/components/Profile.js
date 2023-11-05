@@ -121,11 +121,12 @@ const Profile = () => {
 
       // Make the change in the database
 
-      createAuditLog('passwordChange', null, null, 0, null, 'submitted', null);
+      createAuditLog('passwordChange', null, userData.username, 0, null, 'success', null);
     }
     else {
       if(!(newPassword == "" && newPassword2 == "")) {
         alert("Passwords do no match");
+        createAuditLog('passwordChange', null, userData.username, 0, null, 'failure', null);
       }
       
     }
