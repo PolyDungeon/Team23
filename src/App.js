@@ -31,7 +31,7 @@ import { updateUserData } from './components/UserData';
 
 
 window.onload = function() {
-  const user = localStorage.getItem('user')
+  const user = sessionStorage.getItem('user')
   console.log(user)
   updateUserData(JSON.parse(user))
 }

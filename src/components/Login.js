@@ -51,7 +51,7 @@ const Login = () => {
                 updateUserData(user)
                 setSubmissionMessage('Data submitted successfully!');
 
-                localStorage.setItem('user', JSON.stringify(user))
+                sessionStorage.setItem('user', JSON.stringify(user))
                 window.history.pushState(null, '',"./home")
                 window.history.go()
             })
