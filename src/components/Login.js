@@ -2,7 +2,8 @@ import React, { useState} from 'react';
 import { createAuditLog } from './AuditLogging';
 import { authenticate } from './Authenticate';
 import { updateUserData } from './UserData';
-import Homepage from './Homepage';
+import { Link } from 'react-router-dom'
+
 
 export var CurrentUser = {
         id: ''
@@ -93,6 +94,9 @@ const Login = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                         />
+                    </div>
+                    <div>
+                        <Link to="/signup"> Create New Account</Link>
                     </div>
                     <div className=
                         "text-capitalize text-center ">

@@ -74,6 +74,9 @@ const SignUp = () => {
             const postResponse = postUser()
 
             setuData(tempuData)
+
+            window.history.pushState(null,"","./login")
+            window.history.go()
           }
         })
       }else{
