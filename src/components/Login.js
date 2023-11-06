@@ -1,6 +1,9 @@
 import React, { useState} from 'react';
 import { createAuditLog } from './AuditLogging';
 import { authenticate } from './Authenticate';
+import { updateUserData } from './UserData';
+import { Link } from 'react-router-dom'
+
 
 export var CurrentUser = {
         id: ''
@@ -18,11 +21,22 @@ const Login = () => {
     const [formData, setFormData] = useState(initialFormData);
     const [submissionMessage, setSubmissionMessage] = useState('');
 
+    const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
+
     // Handle form input changes
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
+
+    const getUser = async () => {
+        const response = await fetch(userUrl + "/" + CurrentUser.id, {
+            method: 'GET'
+        })
+        const result = await response.json()
+
+        return result
+    }
 
     // Handle form submission
     const handleSubmit = (event) => {
@@ -33,12 +47,24 @@ const Login = () => {
             console.log(data)
             CurrentUser.id = data.accessToken.payload.sub
             console.log(CurrentUser.id)
-            window.history.pushState({},null,'/')
+            getUser().then(foundUsers => {
+                const user =  foundUsers
+                updateUserData(user)
+                setSubmissionMessage('Data submitted successfully!');
+
+                sessionStorage.setItem('user', JSON.stringify(user))
+                window.history.pushState(null, '',"./home")
+                window.history.go()
+            })
         }, (err)=>{
             console.log(err)
         })
         .catch(err=>console.log(err))
-        setSubmissionMessage('Data submitted successfully!');
+
+        
+
+
+        
     };
 
     return (
@@ -68,6 +94,9 @@ const Login = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                         />
+                    </div>
+                    <div>
+                        <Link to="/signup"> Create New Account</Link>
                     </div>
                     <div className=
                         "text-capitalize text-center ">
