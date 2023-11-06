@@ -47,6 +47,11 @@ const SponsorProfile = () => {
                         Create Catalog
                     </Link>
                 </div>
+                <div class='box'>
+                    <Link to="/sponsor/drivers">
+                        View Drivers
+                    </Link>
+                </div>
             </div>
         </div>
         )

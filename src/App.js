@@ -25,6 +25,7 @@ import SignUp from './components/SignUp';
 import { CurrentUser } from './components/Login';
 import { Redirect } from 'react-router-dom';
 import SponsorApplications from './components/Sponsor/Applications';
+import ViewDrivers from './components/Sponsor/ViewDrivers';
 
 
 
@@ -74,6 +75,7 @@ function App() {
         />
         <Route path="/sponsor/home" component={SponsorProfile}/>
         <Route path="/sponsor/applications" component={SponsorApplications}/>
+        <Route path="/sponsor/drivers" component={ViewDrivers}/>
         <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>

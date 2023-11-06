@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { userData } from '../UserData'
+import { createAuditLog } from '../AuditLogging'
 
 
 const SponsorApplications = () =>{
@@ -79,8 +80,6 @@ const SponsorApplications = () =>{
 
         acceptButton.addEventListener("click", () =>{
             //This will add driver to sponsor and change status of application.
-            //Needs to update and application
-
             getUser(item.driver).then(foundUser => {
                 const user = foundUser[0]
 
@@ -101,7 +100,7 @@ const SponsorApplications = () =>{
                 })
                 
                 getOrg().then(foundOrgs =>{
-                    const org = foundOrgs[0]
+                    const org = foundOrgs
 
                     if(org.driverUsers[0].userID === ''){
                         org.driverUsers[0].userID = user.userID
@@ -130,7 +129,9 @@ const SponsorApplications = () =>{
                     return
                 }
             })
-            document.removeChild(newDiv)
+
+            createAuditLog('driverApp', item.org, item.driver, null, null, 'accepted', null)
+            document.getElementById("AppList").removeChild(newDiv);
             return
         })
         const atxt = document.createTextNode("Accept")
@@ -140,6 +141,17 @@ const SponsorApplications = () =>{
         rejectButton.addEventListener("click", () =>{
             //This will change status of application to rejected
             //Just updates application.
+
+            const tempApp = item
+            tempApp.status = 'rejected'
+            patchApp(tempApp).then(patchResponse => {
+                if(!patchResponse.ok){
+                    return
+                }
+            })
+            createAuditLog('driverApp', item.org, item.driver, null, null, 'rejected', null)
+            document.getElementById("AppList").removeChild(newDiv);
+            return
         })
         const rtxt = document.createTextNode("Reject")
         rejectButton.appendChild(rtxt)
@@ -148,13 +160,35 @@ const SponsorApplications = () =>{
         newDiv.appendChild(username);
         newDiv.appendChild(status);
         newDiv.appendChild(reason);
-        newDiv.appendChild(acceptButton);
-        newDiv.appendChild(rejectButton);
+
+        if(item.status === 'submitted'){
+            newDiv.appendChild(acceptButton);
+            newDiv.appendChild(rejectButton);
+        }
         document.getElementById("AppList").appendChild(newDiv);
     }
 
     const findApplications = (event) => {
         event.preventDefault();
+        document.getElementById("AppList").innerHTML = ''
+
+        const headRow = document.createElement('tr') 
+        const headUsername = document.createElement('th')
+        headUsername.className = 'head'
+        headUsername.textContent = 'Username'
+        
+        const headStatus = document.createElement('th')
+        headStatus.className = 'head'
+        headStatus.textContent = 'Status'
+
+        const headReason = document.createElement('th')
+        headReason.className = 'head'
+        headReason.textContent = 'Reason'
+
+        headRow.appendChild(headUsername)
+        headRow.appendChild(headStatus)
+        headRow.appendChild(headReason)
+        document.getElementById("AppList").appendChild(headRow)
 
         getOrg().then(response =>{
             appForm.organization = response.name
@@ -186,11 +220,7 @@ const SponsorApplications = () =>{
             </div>
             <div>
                 <AppTable id='AppList'>
-                    <tr>
-                        <th className='head'>Username</th>
-                        <th className='head'>Status</th>
-                        <th className='head'>Reason</th>
-                    </tr>
+                    
                 </AppTable>
             </div>
         </div>
