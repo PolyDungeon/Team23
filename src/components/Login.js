@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import { createAuditLog } from './AuditLogging';
 import { authenticate } from './Authenticate';
 import { updateUserData } from './UserData';
+import Homepage from './Homepage';
 
 export var CurrentUser = {
         id: ''
@@ -49,6 +50,10 @@ const Login = () => {
                 const user =  foundUsers
                 updateUserData(user)
                 setSubmissionMessage('Data submitted successfully!');
+
+                localStorage.setItem('user', JSON.stringify(user))
+                window.history.pushState(null, '',"./home")
+                window.history.go()
             })
         }, (err)=>{
             console.log(err)

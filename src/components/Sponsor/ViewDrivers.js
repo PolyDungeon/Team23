@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import styled from 'styled-components'
 import { userData } from "../UserData"
+import DriverPage, { updateDriverData } from "./DriverPage"
 
 
 
@@ -9,17 +10,10 @@ const ViewDrivers = () =>{
     const orgName = useRef(null)
 
     const visitUser = (driver) =>{
-        document.getElementById("DriversPage").innerHTML = ''
         getUser(driver.userID).then(user => {
-            const userInfo = document.createElement('div')
-
-            const username = document.createElement('h3')
-            username.textContent = user.username
-
-
-
-            userInfo.appendChild(username)
-            document.getElementById("DriversPage").appendChild(userInfo)
+            updateDriverData(user)
+            window.history.pushState(null,"","drivers/info")
+            window.history.go()
         })
     }
 
