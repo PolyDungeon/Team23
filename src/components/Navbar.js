@@ -11,7 +11,7 @@ import { CurrentUser } from './Login';
 
 
 export default class Navbar extends Component {
-    
+
 
     render() {
         return (
@@ -25,66 +25,79 @@ export default class Navbar extends Component {
                             Login
                         </Link>
                     </li>
-                    
-                        <li className="nav-item">
-                            <Link to="/catelog" className="nav-link">
-                                Store
-                            </Link>
-                        </li>
-                    
-                    
+
+                    <li className="nav-item">
+                        <Link to="/catelog" className="nav-link">
+                            Store
+                        </Link>
+                    </li>
+                    {userData.loggedIn == true &&
                         <li className="nav-item">
                             <Link to="/profile" className="nav-link">
                                 My Profile
                             </Link>
                         </li>
-                    
+                    }
+                    {userData.loggedIn == true &&
                         <li className="nav-item">
                             <Link to="/notifications" className="nav-link">
                                 Notifications
                             </Link>
                         </li>
-                    
-                        <li className="nav-item"> 
-                            <Link to="/about" className="nav-link">
-                                About
-                            </Link>
-                        </li>
+                    }
+
+
+                    <li className="nav-item">
+                        <Link to="/about" className="nav-link">
+                            About
+                        </Link>
+                    </li>
+                    {userData.loggedIn == true &&
                         <li className="nav-item">
                             <Link to="/driver/signup" className="nav-link">
                                 Apply
                             </Link>
                         </li>
+                    }
+
+                    {userData.loggedIn == true && userData.type == 'sponsor' &&
                         <li className="nav-item">
                             <Link to="/sponsor/home" className="nav-link">
                                 Sponsor
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/signup" className="nav-link">
-                                SignUp
-                            </Link>
-                        </li>
-                    
-                    { userData.type === 'admin'  && (
+                    }
+
                     <li className="nav-item">
-                        <Link to="/admin/home" className="nav-link">
-                            Admin
+                        <Link to="/signup" className="nav-link">
+                            SignUp
                         </Link>
                     </li>
-                    )
+
+                    {userData.loggedIn == true && userData.type === 'admin' &&
+
+                        <li className="nav-item">
+                            <Link to="/admin/home" className="nav-link">
+                                Admin
+                            </Link>
+                        </li>
+
                     }
                 </ul>
-                <div className='ml-auto' style={{padding: "8px", margin: "0px", textAlign: "right"}}>
-                    <p style={{margin: "0px", fontWeight:"bold", fontSize: "larger"}}>
-                        Your Current Points: {userData.points}
-                    </p>
-                </div>
-                <Link to="/checkout" className="ml-auto">
-                    <ButtonContainer>
-                        <img src={cart} alt="My Cart" className="navbar-brand" />
-                    </ButtonContainer>
-                </Link>
+                {userData.loggedIn == true &&
+                    <div className='ml-auto' style={{ padding: "8px", margin: "0px", textAlign: "right" }}>
+                        <p style={{ margin: "0px", fontWeight: "bold", fontSize: "larger" }}>
+                            Your Current Points: {userData.points}
+                        </p>
+                    </div>
+                }
+                {userData.loggedIn == true &&
+                    <Link to="/checkout" className="ml-auto">
+                        <ButtonContainer>
+                            <img src={cart} alt="My Cart" className="navbar-brand" />
+                        </ButtonContainer>
+                    </Link>
+                }
             </NavWrapper>
         )
     }

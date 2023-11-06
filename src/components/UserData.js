@@ -8,6 +8,7 @@ const userData ={
     points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
+    loggedIn: false,
   };
 
 
