@@ -23,6 +23,7 @@ import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
 import { CurrentUser } from './components/Login';
+import { userData } from './components/UserData';
 import { Redirect } from 'react-router-dom';
 
 
@@ -43,7 +44,7 @@ function App() {
       <Switch>
         <Route exact path="/" render={()=>{
           return (
-            (CurrentUser.id === '') ?
+            (userData.loggedIn === false) ?
             <Redirect to='/login'/> :
             <Redirect to='/home'/>
           )

@@ -1,20 +1,20 @@
 const userData ={
-    type: 'admin',
-    userID: 'df910ds92sdf', // Database unique identifier
-    name: 'John Smith',
-    email: 'exampleUser@yahoo.com',
-    phone: '123-456-7890',
-    password: 'password123',
+    type: '',
+    userID: '', // Database unique identifier
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
     points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
     loggedIn: false,
-  };
+};
 
 
-  function updateType(type){
+  /*function updateType(type){
     userData.type = type
-  }
+  }*/
 
 
-  export {userData, updateType};
+  export {userData};

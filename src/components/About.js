@@ -3,6 +3,7 @@ import {dynamodb} from "aws-sdk"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 import styled from 'styled-components';
+import { userData } from './UserData';
 const About = () => {
     var AWS = require('aws-sdk')
     AWS.config.update({region:'us-east-1'})
@@ -59,7 +60,9 @@ const About = () => {
     }, [])
         
     
-    
+        console.log(userData.loggedIn);
+
+
         return (
         
             <div className="content">
