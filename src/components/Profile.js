@@ -6,6 +6,7 @@ import zxcvbn from 'zxcvbn';
 
 
 
+
 const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
@@ -81,10 +82,10 @@ const Profile = () => {
 
     // Make the change in the database
 
-    createAuditLog('emailChange', null, userData.username, 0, null, 'submitted', null);
+    createAuditLog('emailChange', null, uData.username, 0, null, 'submitted', null);
     }
     else {
-      createAuditLog('emailChange', null, userData.username, 0, null, 'failed', null);
+      createAuditLog('emailChange', null, uData.username, 0, null, 'failed', null);
     }
   };
 
@@ -102,11 +103,11 @@ const Profile = () => {
 
     // Make the change in the database
 
-    createAuditLog('usernameChange', null, userData.username, 0, null, 'success', null);
+    createAuditLog('usernameChange', null, uData.username, 0, null, 'success', null);
 
     }
     else {
-      createAuditLog('usernameChange', null, userData.username, 0, null, 'failed', null);
+      createAuditLog('usernameChange', null, uData.username, 0, null, 'failed', null);
     }
   };
 
@@ -127,12 +128,12 @@ const Profile = () => {
 
       // Make the change in the database
 
-      createAuditLog('passwordChange', null, userData.username, 0, null, 'success', null);
+      createAuditLog('passwordChange', null, uData.username, 0, null, 'success', null);
     }
     else {
       if(!(newPassword == "" && newPassword2 == "")) {
         alert("Passwords do no match");
-        createAuditLog('passwordChange', null, userData.username, 0, null, 'failure', null);
+        createAuditLog('passwordChange', null, uData.username, 0, null, 'failure', null);
       }
       
     }

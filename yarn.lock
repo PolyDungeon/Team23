@@ -15022,11 +15022,6 @@ yocto-queue@^0.1.0:
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zxcvb@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/zxcvb/-/zxcvb-1.0.0.tgz"
-  integrity sha512-wS28lHPpRUtREx+m2uWGaFZg4ZH8VZo2CTbDlgbsWX8YCy7+ZDjnatK4p7WGhcEz7eNsTGkCdjHIMFh81Fq3uA==
-
 zen-observable-ts@0.8.19:
   version "0.8.19"
   resolved "https://registry.npmjs.org/zen-observable-ts/-/zen-observable-ts-0.8.19.tgz"
@@ -15051,6 +15046,11 @@ zen-push@0.2.1:
   integrity sha512-Qv4qvc8ZIue51B/0zmeIMxpIGDVhz4GhJALBvnKs/FRa2T7jy4Ori9wFwaHVt0zWV7MIFglKAHbgnVxVTw7U1w==
   dependencies:
     zen-observable "^0.7.0"
+
+zxcvb@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/zxcvb/-/zxcvb-1.0.0.tgz"
+  integrity sha512-wS28lHPpRUtREx+m2uWGaFZg4ZH8VZo2CTbDlgbsWX8YCy7+ZDjnatK4p7WGhcEz7eNsTGkCdjHIMFh81Fq3uA==
 
 zxcvbn@4.4.2:
   version "4.4.2"
