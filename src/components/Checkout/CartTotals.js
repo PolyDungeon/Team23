@@ -14,16 +14,12 @@ export default function CartTotals({value})
     
      const pushPurchase= async(value)=>{
         try {
-            const item = {
-                products: value,
-                userID: sessionStorage.getItem('user')
-            }
             const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',
-                body: JSON.stringify(item)
+                body: JSON.stringify(value)
             });
         
             if (response.ok) {
