@@ -81,7 +81,10 @@ const Profile = () => {
 
     // Make the change in the database
 
-    createAuditLog('emailChange', null, null, 0, null, 'submitted', null);
+    createAuditLog('emailChange', null, userData.username, 0, null, 'submitted', null);
+    }
+    else {
+      createAuditLog('emailChange', null, userData.username, 0, null, 'failed', null);
     }
   };
 
@@ -99,8 +102,11 @@ const Profile = () => {
 
     // Make the change in the database
 
-    createAuditLog('usernameChange', null, null, 0, null, 'submitted', null);
+    createAuditLog('usernameChange', null, userData.username, 0, null, 'success', null);
 
+    }
+    else {
+      createAuditLog('usernameChange', null, userData.username, 0, null, 'failed', null);
     }
   };
 
@@ -121,11 +127,12 @@ const Profile = () => {
 
       // Make the change in the database
 
-      createAuditLog('passwordChange', null, null, 0, null, 'submitted', null);
+      createAuditLog('passwordChange', null, userData.username, 0, null, 'success', null);
     }
     else {
       if(!(newPassword == "" && newPassword2 == "")) {
         alert("Passwords do no match");
+        createAuditLog('passwordChange', null, userData.username, 0, null, 'failure', null);
       }
       
     }
