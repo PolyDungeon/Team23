@@ -27,6 +27,7 @@ export default class Catelog extends Component {
                                 <TruckerCatelog>
                                     {value => (
                                         <Sidebar
+                                            isChallengesPage={false}
                                             isSidebarOpen={this.state.isSidebarOpen}
                                             toggleSidebar={this.toggleSidebar}
                                         />

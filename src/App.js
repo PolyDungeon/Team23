@@ -4,6 +4,7 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
 import Catelog from "./components/Catelog";
+import Challenges from "./components/Challenges";
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import Notifications from "./components/Notifications";
@@ -24,9 +25,17 @@ import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
 import { CurrentUser } from './components/Login';
 import { Redirect } from 'react-router-dom';
+import SponsorApplications from './components/Sponsor/Applications';
+import ViewDrivers from './components/Sponsor/ViewDrivers';
+import DriverPage from './components/Sponsor/DriverPage';
+import { updateUserData } from './components/UserData';
 
 
-
+window.onload = function() {
+  const user = sessionStorage.getItem('user')
+  console.log(user)
+  updateUserData(JSON.parse(user))
+}
 
 function App() {
     // Define searchResults state
@@ -54,6 +63,7 @@ function App() {
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
+        <Route path="/challenges" component={Challenges} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
@@ -72,6 +82,9 @@ function App() {
           render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
         />
         <Route path="/sponsor/home" component={SponsorProfile}/>
+        <Route path="/sponsor/applications" component={SponsorApplications}/>
+        <Route path="/sponsor/drivers" component={ViewDrivers}/>
+        <Route path="/sponsor/drivers/info" component={DriverPage}/>
         <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>
