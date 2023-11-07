@@ -7,6 +7,8 @@ import { CurrentUser } from '../Login';
 
 const AdminProfile = () => {
 
+    if(CurrentUser.id !== ''){
+        
         const user = UserPool.getCurrentUser()
 
         user.getUserAttributes((err,result)=>{
@@ -17,6 +19,7 @@ const AdminProfile = () => {
         })
 
         console.log(CurrentUser.id)
+    }
 
 
         return(

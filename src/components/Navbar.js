@@ -66,18 +66,17 @@ export default class Navbar extends Component {
                             </Link>
                         </li>
                     
-                    { userData.type === 'admin'  && (
-                    <li className="nav-item">
-                        <Link to="/admin/home" className="nav-link">
-                            Admin
-                        </Link>
-                    </li>
-                    )
-                    }
+                    
+                        <li className="nav-item">
+                            <Link to="/admin/home" className="nav-link">
+                                Admin
+                            </Link>
+                        </li>
+                    
                 </ul>
                 <div className='ml-auto' style={{padding: "8px", margin: "0px", textAlign: "right"}}>
                     <p style={{margin: "0px", fontWeight:"bold", fontSize: "larger"}}>
-                        Your Current Points: {userData.points}
+                        Your Current Points: {userData.sponsorList[0].points}
                     </p>
                 </div>
                 <Link to="/checkout" className="ml-auto">

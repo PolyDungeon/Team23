@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { storeProducts, detailProduct } from "./data";
+import { createAuditLog } from './components/AuditLogging';
 const ProductContext = React.createContext();
 
 class ProductProvider extends Component {
@@ -228,8 +229,8 @@ class ProductProvider extends Component {
                 successfulPurchasePopup: true,
                 
             });
-
-            // Show successful purchase popup 
+            const reason = `User spent ${totalPrice} points.`;
+            createAuditLog('pointChange', "example Organization", "example user", 0, null, 'success', reason)
 
             // Clear the cart
             this.clearCart();
@@ -238,6 +239,7 @@ class ProductProvider extends Component {
         else {
             console.log("We do not have enough points :(");
 
+            
             // Show failed purchase popup
 
             this.setState({

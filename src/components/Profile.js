@@ -6,13 +6,14 @@ import zxcvbn from 'zxcvbn';
 
 
 
+
 const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
 
   // Initialize state for user data
-  const [userData, setUserData] = useState({
+  const [uData, setuData] = useState({
     email: 'ExampleUser@yahoo.com', 
     username: 'df910ds92sdf', // Database unique identifier
     password: 'password123',
@@ -26,8 +27,8 @@ const Profile = () => {
   const handleEdit = () => {
     setIsEditing(true);
     //console.log("handleEdit()");
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    setuData((prevuData) => ({
+      ...prevuData,
       isEditing: true,
     }));
   };
@@ -35,8 +36,8 @@ const Profile = () => {
   const handleCancel = () => {
     setIsEditing(false);
     //console.log("handleCancel()");
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    setuData((prevuData) => ({
+      ...prevuData,
       isEditing: false,
     }));
   };
@@ -53,8 +54,8 @@ const Profile = () => {
     //togglePasswordVisibility();
     
 
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    setuData((prevuData) => ({
+      ...prevuData,
       isEditing: false,
     }));
   };
@@ -73,15 +74,18 @@ const Profile = () => {
     //console.log("changeEmail()", newEmail);
     // Check if newEmail is allowed
     if(newEmail !== "") {
-      setUserData((prevUserData) => ({
-        ...prevUserData,
+      setuData((prevuData) => ({
+        ...prevuData,
         email: newEmail,
       }));
 
 
     // Make the change in the database
 
-    createAuditLog('emailChange', null, null, 0, null, 'submitted', null);
+    createAuditLog('emailChange', null, uData.username, 0, null, 'submitted', null);
+    }
+    else {
+      createAuditLog('emailChange', null, uData.username, 0, null, 'failed', null);
     }
   };
 
@@ -91,16 +95,19 @@ const Profile = () => {
     
     // Check if newUsername is allowed
     if(newUsername !== "") {
-      setUserData((prevUserData) => ({
-        ...prevUserData,
+      setuData((prevuData) => ({
+        ...prevuData,
         username: newUsername,
       }));
 
 
     // Make the change in the database
 
-    createAuditLog('usernameChange', null, null, 0, null, 'submitted', null);
+    createAuditLog('usernameChange', null, uData.username, 0, null, 'success', null);
 
+    }
+    else {
+      createAuditLog('usernameChange', null, uData.username, 0, null, 'failed', null);
     }
   };
 
@@ -113,19 +120,20 @@ const Profile = () => {
     if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
       //console.log(newPassword);
 
-      setUserData((prevUserData) => ({
-        ...prevUserData,
+      setuData((prevuData) => ({
+        ...prevuData,
         password: newPassword,
         maskedPassword: getMaskedPass(),
       }));
 
       // Make the change in the database
 
-      createAuditLog('passwordChange', null, null, 0, null, 'submitted', null);
+      createAuditLog('passwordChange', null, uData.username, 0, null, 'success', null);
     }
     else {
       if(!(newPassword == "" && newPassword2 == "")) {
         alert("Passwords do no match");
+        createAuditLog('passwordChange', null, uData.username, 0, null, 'failure', null);
       }
       
     }
@@ -164,16 +172,16 @@ const togglePasswordVisibility = (event) => {
   if(btn.textContent == "Show") {
     btn.textContent = "Hide";
     //Show the password
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      maskedPassword: userData.password,
+    setuData((prevuData) => ({
+      ...prevuData,
+      maskedPassword: uData.password,
     }));
   }
   else {
     btn.textContent = "Show";
     //hide password
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    setuData((prevuData) => ({
+      ...prevuData,
       maskedPassword: getMaskedPass(),
     }));
    
@@ -184,7 +192,7 @@ const togglePasswordVisibility = (event) => {
   
 const getMaskedPass = (event) => {
   var maskVersion = "";
-  userData.password.split('').forEach((char, index) => {
+  uData.password.split('').forEach((char, index) => {
     //console.log(`Character ${char} at index ${index}`);
     maskVersion += "*";
   });
@@ -197,7 +205,7 @@ const getMaskedPass = (event) => {
     <div id="profile-container">
       <div id="profile-container2">
         <h1>My Pofile</h1>
-        <div>Email: {userData.email} {userData.isEditing ? (
+        <div>Email: {uData.email} {uData.isEditing ? (
           <>
             <input 
               type="email"
@@ -214,7 +222,7 @@ const getMaskedPass = (event) => {
               </input>
           </>
         ) : ('')}</div>
-        <p>Username: {userData.username} {userData.isEditing ? (
+        <p>Username: {uData.username} {uData.isEditing ? (
           <>
             <input 
               type="username" 
@@ -224,7 +232,7 @@ const getMaskedPass = (event) => {
               </input>
           </>
         ) : ('')}</p>
-        <div id="pass">Password: {userData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {userData.isEditing ? (
+        <div id="pass">Password: {uData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {uData.isEditing ? (
           <>
             <div className="password-container">
               <input 
@@ -245,8 +253,8 @@ const getMaskedPass = (event) => {
               </div>
           </>
         ) : ('')}</div>
-        <p>Driver Points: {userData.points}</p>
-        {userData.isEditing ? (
+        <p>Driver Points: {uData.points}</p>
+        {uData.isEditing ? (
           <>
             <button onClick={handleCancel}>Cancel</button>
             <button onClick={handleSaveChanges}>Save Changes</button>
