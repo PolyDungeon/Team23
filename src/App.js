@@ -4,6 +4,7 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
 import Catelog from "./components/Catelog";
+import Challenges from "./components/Challenges";
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import Notifications from "./components/Notifications";
@@ -54,6 +55,7 @@ function App() {
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
+        <Route path="/challenges" component={Challenges} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
