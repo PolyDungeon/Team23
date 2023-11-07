@@ -27,14 +27,15 @@ const Login = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('loginAttempt', null, formData.username, 0, null, 'submitted', null)
         authenticate(formData.username, formData.password)
         .then((data)=>{
             console.log(data)
             CurrentUser.id = data.accessToken.payload.sub
             console.log(CurrentUser.id)
             window.history.pushState({},null,'/')
+            createAuditLog('loginAttempt', null, formData.username, 0, null, 'submitted', null) // Successful login
         }, (err)=>{
+            createAuditLog('loginAttempt', null, formData.username, 0, null, 'failed', null) // Failed login
             console.log(err)
         })
         .catch(err=>console.log(err))
