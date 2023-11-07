@@ -20,11 +20,13 @@ export default class Navbar extends Component {
                     <img src={logo} alt="store" className="navbar-brand" />
                 </Link>
                 <ul className="navbar-nav align-items-center">
-                    <li className='nav-item'>
-                        <Link to="/login" className="nav-link">
-                            Login
-                        </Link>
-                    </li>
+                    {userData.loggedIn == false &&
+                        <li className='nav-item'>
+                            <Link to="/login" className="nav-link">
+                                Login
+                            </Link>
+                        </li>
+                    }
 
                     <li className="nav-item">
                         <Link to="/catelog" className="nav-link">

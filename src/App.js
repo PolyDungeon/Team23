@@ -29,50 +29,50 @@ import { Redirect } from 'react-router-dom';
 
 
 function App() {
-    // Define searchResults state
-    const [searchResults, setPrintableSearchResults] = useState([]);
+  // Define searchResults state
+  const [searchResults, setPrintableSearchResults] = useState([]);
 
-    // Define addToSearchResults function to update the state
-    function addToSearchResults(newEntry) {
-      // Push the new entry to the existing array
-      setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
-    }
+  // Define addToSearchResults function to update the state
+  function addToSearchResults(newEntry) {
+    // Push the new entry to the existing array
+    setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
+  }
   return (
     <React.Fragment>
       <Navbar />
       <Switch>
-        <Route exact path="/" render={()=>{
+        <Route exact path="/" render={() => {
           return (
             (userData.loggedIn === false) ?
-            <Redirect to='/login'/> :
-            <Redirect to='/home'/>
+              <Redirect to='/login' /> :
+              <Redirect to='/home' />
           )
         }}
-          />
-        <Route exact path="/home" component={Homepage}/>
-        <Route path="/login" component={Login}/>
+        />
+        <Route exact path="/home" component={Homepage} />
+        <Route path="/login" component={Login} />
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
-        <Route path="/signup" component={SignUp}/>
+        <Route path="/signup" component={SignUp} />
         <Route path="/driver/signup" component={DriverApp} />
         <Route path="/admin">
-          <Route path="/admin/home" component={AdminProfile}/>
+          <Route path="/admin/home" component={AdminProfile} />
           <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
-            <Route path="/admin/create/user" component={AdminCreate}/>
-            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg}/>
+            <Route path="/admin/create/user" component={AdminCreate} />
+            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg} />
           </Route>
         </Route>
         <Route
           path="/Products/FindItems"
           render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
         />
-        <Route path="/sponsor/home" component={SponsorProfile}/>
-        <Route path="/changePassword" component={ChangePassword}/>
+        <Route path="/sponsor/home" component={SponsorProfile} />
+        <Route path="/changePassword" component={ChangePassword} />
         <Route component={Default} />
       </Switch>
       <Popup />
