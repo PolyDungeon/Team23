@@ -5,12 +5,14 @@ import EmptyCart from './EmptyCart';
 import { TruckerCatelog} from '../../context';
 import CheckoutList from './CheckoutList';
 import CartTotals from "./CartTotals";
-
+import pushPurchase from './CheckoutList';
+import handlePurchase from '../../context';
 export default class Store extends Component {
     render() {
         return (
             <section>
                 <TruckerCatelog>
+                    
                     {value => {
                         const { checkout } = value;
                         if (checkout.length > 0) {
