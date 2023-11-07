@@ -24,9 +24,17 @@ import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
 import { CurrentUser } from './components/Login';
 import { Redirect } from 'react-router-dom';
+import SponsorApplications from './components/Sponsor/Applications';
+import ViewDrivers from './components/Sponsor/ViewDrivers';
+import DriverPage from './components/Sponsor/DriverPage';
+import { updateUserData } from './components/UserData';
 
 
-
+window.onload = function() {
+  const user = sessionStorage.getItem('user')
+  console.log(user)
+  updateUserData(JSON.parse(user))
+}
 
 function App() {
     // Define searchResults state
@@ -72,6 +80,9 @@ function App() {
           render={() => <ItemsPage addToSearchResults={addToSearchResults} printableSearchResults={searchResults} />}
         />
         <Route path="/sponsor/home" component={SponsorProfile}/>
+        <Route path="/sponsor/applications" component={SponsorApplications}/>
+        <Route path="/sponsor/drivers" component={ViewDrivers}/>
+        <Route path="/sponsor/drivers/info" component={DriverPage}/>
         <Route path="/changePassword" component={ChangePassword}/>
         <Route component={Default} />
       </Switch>
