@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { createAuditLog } from '../AuditLogging';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 
 const DriverApp = () => {
+
+    const responseMessage = useRef(null)
     // Define the initial state for the questionnaire
     const initialFormData = {
-        firstName: '',
-        lastName: '',
-        userName: '',
+        username: '',
         email: '',
-        phone: '',
-        userType: 'Trucker', // Default to Trucker
-        organization: '', 
+        organization: '',
+        reason: '',
+        status: 'submitted',
+        appID: ''
     };
 
     // Create state variables for the form data and submission message
     const [formData, setFormData] = useState(initialFormData);
-    const [submissionMessage, setSubmissionMessage] = useState('');
 
     // Handle form input changes
     const handleInputChange = (event) => {
@@ -26,16 +27,83 @@ const DriverApp = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const appUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/applications'
+    const orgUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
+    const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
+
+    const postApplication = async() => {
+        const response = await fetch(appUrl, {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        })
+        return response
+    }
+
+    const getOrg = async() => {
+        const response = await fetch(orgUrl + "?name=" + formData.organization, {
+            method: 'GET'
+        })
+        const results = await response.json()
+
+        return results
+    } 
+
+    const getUser = async() => {
+        const response = await fetch(userUrl + "?username=" + formData.username, {
+            method: 'GET'
+        })
+        const results = await response.json()
+
+        return results
+    }
+
+    const getApp = async() => {
+        const response = await fetch(appUrl + "?username=" + formData.username + "&org=" + formData.organization, {
+            method: 'GET'
+        })
+        const results = await response.json()
+        return results
+    }
+
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        createAuditLog('driverApplication', formData.organization, formData.userName, 0, null, 'submitted', null)
+        
 
-        // Sponsor will need to be able to accept/reject this application at a later point.
-        // Should probably update sponsor selection to be a drop down of our sponsors in database.
-        // There will be another 'createAuditLog' when that occurs which will change the status to either 'accept' or 'reject'
+        const id = uuidv4()
 
-        setSubmissionMessage('Data submitted successfully!');
+        formData.appID = id
+
+        getOrg().then(foundOrg => {
+            if(foundOrg.length === 0){
+                responseMessage.current.textContent = "Organization not found."
+                return
+            }
+            getUser().then(foundUser =>{
+                if(foundUser.length === 0){
+                    responseMessage.current.textContent = "User not found."
+                    return
+                }
+                getApp().then(returnApp =>{
+                    if(returnApp.length !== 0){
+                        responseMessage.current.textContent = "User already applied to this organization."
+                        return
+                    }
+                    postApplication().then(response =>{
+                        if(!response.ok){
+                            responseMessage.current.textContent = "Application failed to submit."
+                            createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'failed', "Application failed to submit.")
+                            return
+                        }
+                        responseMessage.current.textContent = "Successfully submitted applicaiton."
+                        createAuditLog('driverApp', formData.organization, formData.username, 0, null, 'submitted', formData.reason)
+                    }
+                    )
+                })
+            })
+        })
+
+        
     };
 
     return (
@@ -47,32 +115,12 @@ const DriverApp = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>First Name:</label>&nbsp;
-                        <input
-                            type="text"
-                            name="firstName"
-                            required
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Last Name:</label>&nbsp;
-                        <input
-                            type="text"
-                            name="lastName"
-                            required
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
                         <label>User Name:</label>&nbsp;
                         <input
                             type="text"
-                            name="userName"
+                            name="username"
                             required
-                            value={formData.userName}
+                            value={formData.username}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -87,16 +135,6 @@ const DriverApp = () => {
                         />
                     </div>
                     <div>
-                        <label>Phone Number:</label>&nbsp;
-                        <input
-                            type="phone"
-                            name="phone"
-                            required
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
                         <label>Sponsor:</label>&nbsp;
                         <input
                             type="text"
@@ -106,16 +144,27 @@ const DriverApp = () => {
                             onChange={handleInputChange}
                         />
                     </div>
+                    <div>
+                        <label>Reason:</label>&nbsp;
+                        <br/>
+                        <textarea
+                            rows={3}
+                            cols={50}
+                            name='reason'
+                            required
+                            value={formData.reason}
+                            onChange={handleInputChange}
+                        />
+                    </div>
                     
                     <div className=
                         "text-capitalize text-center ">
                         <button type="submit">Submit</button>
                     </div>
                 </form>
-                {submissionMessage && (
-                    <p>{submissionMessage}</p>
-                    
-                )}
+                <div>
+                    <p ref={responseMessage}/>
+                </div>
             </div>
         </div>
             );
