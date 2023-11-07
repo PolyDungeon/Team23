@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import "./admin.css"
 import { userData } from '../UserData';
 import UserPool from '../../UserPool';
-import { CurrentUser } from '../Login';
 
 const AdminProfile = () => {
 
-    if(CurrentUser.id !== ''){
+    if(userData.userID !== ''){
         
         const user = UserPool.getCurrentUser()
 
@@ -18,7 +17,7 @@ const AdminProfile = () => {
             console.log(result)
         })
 
-        console.log(CurrentUser.id)
+        console.log(userData.userID)
     }
 
 

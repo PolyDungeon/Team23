@@ -22,7 +22,6 @@ import Login from './components/Login';
 import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
-import { CurrentUser } from './components/Login';
 import { userData } from './components/UserData';
 import { Redirect } from 'react-router-dom';
 

@@ -1,10 +1,8 @@
 import React, { useState} from 'react';
 import { createAuditLog } from './AuditLogging';
 import { authenticate } from './Authenticate';
+import { userData } from './UserData';
 
-export var CurrentUser = {
-        id: ''
-}
 
 const Login = () => {
     
@@ -31,8 +29,8 @@ const Login = () => {
         authenticate(formData.username, formData.password)
         .then((data)=>{
             console.log(data)
-            CurrentUser.id = data.accessToken.payload.sub
-            console.log(CurrentUser.id)
+            userData.userID = data.accessToken.payload.sub
+            console.log(userData.userID)
             window.history.pushState({},null,'/')
         }, (err)=>{
             console.log(err)
