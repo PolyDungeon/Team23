@@ -5,6 +5,9 @@ import { updateUserData } from './UserData';
 import { Link } from 'react-router-dom'
 
 
+export var CurrentUser = {
+    id: ''
+}
 
 const Login = () => {
     

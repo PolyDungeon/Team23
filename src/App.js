@@ -73,7 +73,7 @@ function App() {
           <Route path="/admin/home" component={AdminProfile} />
           <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
-            <Route path="/admin/create/user" component={AdminCreate} />
+            <Route path="/admin/create/user" component={AdminCreate} /> 
             <Route path="/admin/create/sponsororg" component={CreateSponsorOrg} />
           </Route>
         </Route>

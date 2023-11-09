@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import "./admin.css"
 import { userData } from '../UserData';
 import UserPool from '../../UserPool';
+import { CurrentUser } from '../Login';
 
 const AdminProfile = () => {
 
-    if(userData.userID !== ''){
+    if(CurrentUser.id !== ''){
         
         const user = UserPool.getCurrentUser()
 

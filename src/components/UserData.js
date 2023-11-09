@@ -69,9 +69,9 @@
   }
 
 
-  /*function updateType(type){
+  function updateType(type){
     userData.type = type
-  }*/
+  }
 
 
   export {userData, updateType, updateUserData};
