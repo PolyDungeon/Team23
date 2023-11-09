@@ -23,7 +23,7 @@ import Login from './components/Login';
 import SponsorProfile from './components/Sponsor/SponsorProfile';
 import ChangePassword from './components/ChangePassword';
 import SignUp from './components/SignUp';
-import { userData } from './components/UserData';
+import { CurrentUser } from './components/Login';
 import { Redirect } from 'react-router-dom';
 import SponsorApplications from './components/Sponsor/Applications';
 import ViewDrivers from './components/Sponsor/ViewDrivers';
@@ -38,28 +38,28 @@ window.onload = function() {
 }
 
 function App() {
-  // Define searchResults state
-  const [searchResults, setPrintableSearchResults] = useState([]);
+    // Define searchResults state
+    const [searchResults, setPrintableSearchResults] = useState([]);
 
-  // Define addToSearchResults function to update the state
-  function addToSearchResults(newEntry) {
-    // Push the new entry to the existing array
-    setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
-  }
+    // Define addToSearchResults function to update the state
+    function addToSearchResults(newEntry) {
+      // Push the new entry to the existing array
+      setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
+    }
   return (
     <React.Fragment>
       <Navbar />
       <Switch>
-        <Route exact path="/" render={() => {
+        <Route exact path="/" render={()=>{
           return (
-            (userData.loggedIn === false) ?
-              <Redirect to='/login' /> :
-              <Redirect to='/home' />
+            (CurrentUser.id === '') ?
+            <Redirect to='/login'/> :
+            <Redirect to='/home'/>
           )
         }}
-        />
-        <Route exact path="/home" component={Homepage} />
-        <Route path="/login" component={Login} />
+          />
+        <Route exact path="/home" component={Homepage}/>
+        <Route path="/login" component={Login}/>
         <Route path="/notifications" component={Notifications} />
         <Route path="/profile" component={Profile} />
         <Route path="/catelog" component={Catelog} />
@@ -67,14 +67,14 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/about" component={About} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/signup" component={SignUp}/>
         <Route path="/driver/signup" component={DriverApp} />
         <Route path="/admin">
-          <Route path="/admin/home" component={AdminProfile} />
+          <Route path="/admin/home" component={AdminProfile}/>
           <Route path="/admin/reports" component={AdminReports} />
           <Route path="/admin/create">
-            <Route path="/admin/create/user" component={AdminCreate} /> 
-            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg} />
+            <Route path="/admin/create/user" component={AdminCreate}/>
+            <Route path="/admin/create/sponsororg" component={CreateSponsorOrg}/>
           </Route>
         </Route>
         <Route
