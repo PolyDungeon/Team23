@@ -25,21 +25,11 @@ export default class Catelog extends Component {
                         <div className="row">
                             {/* Render the sidebar */}
                             <div className={`col-2 ${this.state.isSidebarOpen ? 'open' : ''}`}>
-                                <TruckerCatelog>
-                                    {value => (
-                                        <Sidebar
-                                            isChallengesPage={false}
-                                            isSidebarOpen={this.state.isSidebarOpen}
-                                            toggleSidebar={this.toggleSidebar}
-                                        />
-                                    )}
-                                </TruckerCatelog>
-
-
-                                {userData.loggedIn === true && userData.type !== 'driver' && userData.type !== '' &&  
+                                {userData.loggedIn === true && userData.type !== 'driver' && userData.type !== '' &&
                                     <TruckerCatelog>
                                         {value => (
                                             <Sidebar
+                                                isChallengesPage={false}
                                                 isSidebarOpen={this.state.isSidebarOpen}
                                                 toggleSidebar={this.toggleSidebar}
                                             />
