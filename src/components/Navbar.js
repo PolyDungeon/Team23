@@ -86,30 +86,20 @@ export default class Navbar extends Component {
 
                     }
                 </ul>
-                <div className='ml-auto' style={{padding: "8px", margin: "0px", textAlign: "right"}}>
-                    <p style={{margin: "0px", fontWeight:"bold", fontSize: "larger"}}>
-                        Your Current Points: {userData.sponsorList[0].points}
-                    </p>
+                <div className='ml-auto' style={{ padding: "8px", margin: "0px", textAlign: "right" }}>
+                    {userData.loggedIn == true &&
+                        <p style={{ margin: "0px", fontWeight: "bold", fontSize: "larger" }}>
+                            Your Current Points: {userData.sponsorList[0].points}
+                        </p>
+                    }
                 </div>
                 <Link to="/checkout" className="ml-auto">
-                    <ButtonContainer>
-                        <img src={cart} alt="My Cart" className="navbar-brand" />
-                    </ButtonContainer>
-                </Link>
-                {userData.loggedIn == true &&
-                    <div className='ml-auto' style={{ padding: "8px", margin: "0px", textAlign: "right" }}>
-                        <p style={{ margin: "0px", fontWeight: "bold", fontSize: "larger" }}>
-                            Your Current Points: {userData.points}
-                        </p>
-                    </div>
-                }
-                {userData.loggedIn == true &&
-                    <Link to="/checkout" className="ml-auto">
+                    {userData.loggedIn == true &&
                         <ButtonContainer>
                             <img src={cart} alt="My Cart" className="navbar-brand" />
                         </ButtonContainer>
-                    </Link>
-                }
+                    }
+                </Link>
             </NavWrapper>
         )
     }

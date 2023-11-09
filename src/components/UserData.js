@@ -1,6 +1,6 @@
   const userData = {
     userID: '',
-    type: 'driver',
+    type: '',
     username: '',
     firstName: '',
     lastName: '',
