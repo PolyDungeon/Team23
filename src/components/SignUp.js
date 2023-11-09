@@ -11,7 +11,7 @@ const SignUp = () => {
     const passStrengthRef = useRef(null);
     const responseMessage = useRef(null);
 
-    const tempUserData = {
+    const tempuData = {
       userID: '',
       type: 'driver',
       username: '',
@@ -39,42 +39,44 @@ const SignUp = () => {
   const postUser = async () => {
     const response = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify(userData)
+        body: JSON.stringify(uData)
     })
     return response
 }
 
-    const [userData, setUserData] = useState(tempUserData)
+    const [uData, setuData] = useState(tempuData)
 
     const handleInputChange = (event) => {
         const {name, value} = event.target
-        setUserData({...userData, [name]: value})
+        setuData({...uData, [name]: value})
     }
 
     const handleSubmit =  (event) => {
       event.preventDefault()
 
-      if(userData.password === userData.password){
+      if(uData.password === uData.password){
         let attributeList = [];
-        attributeList.push( new CognitoUserAttribute({Name : 'email',Value : userData.email}))
-        attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + userData.phone}))
-        attributeList.push( new CognitoUserAttribute({Name : 'given_name',Value : userData.firstName}))
-        attributeList.push( new CognitoUserAttribute({Name : 'family_name',Value : userData.lastName}))
-        attributeList.push( new CognitoUserAttribute({Name : 'custom:type',Value : userData.type}))
+        attributeList.push( new CognitoUserAttribute({Name : 'email',Value : uData.email}))
+        attributeList.push( new CognitoUserAttribute({Name : 'phone_number',Value : "+1" + uData.phone}))
+        attributeList.push( new CognitoUserAttribute({Name : 'given_name',Value : uData.firstName}))
+        attributeList.push( new CognitoUserAttribute({Name : 'family_name',Value : uData.lastName}))
         
         
-        UserPool.signUp(userData.username, userData.password, attributeList, null, (err, data) => {
+        UserPool.signUp(uData.username, uData.password, attributeList, null, (err, data) => {
           if(err){
             console.error(err);
             responseMessage.current.textContent = err.message + '.'
           }else{
             console.log(data);
-            userData.userID = data.userSub
-            responseMessage.current.textContent = "Successfully created account " + userData.username + "."
+            uData.userID = data.userSub
+            responseMessage.current.textContent = "Successfully created account " + uData.username + "."
 
             const postResponse = postUser()
 
-            setUserData(tempUserData)
+            setuData(tempuData)
+
+            window.history.pushState(null,"","./login")
+            window.history.go()
           }
         })
       }else{
@@ -117,7 +119,7 @@ const SignUp = () => {
                             type='username'
                             name='username'
                             required
-                            value={userData.username}
+                            value={uData.username}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -127,7 +129,7 @@ const SignUp = () => {
                             type='email'
                             name='email'
                             required
-                            value={userData.email}
+                            value={uData.email}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -136,7 +138,7 @@ const SignUp = () => {
                         <input
                             type='phone'
                             name='phone'
-                            value={userData.phone}
+                            value={uData.phone}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -145,7 +147,7 @@ const SignUp = () => {
                         <input
                             type='firstName'
                             name='firstName'
-                            value={userData.firstName}
+                            value={uData.firstName}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -154,7 +156,7 @@ const SignUp = () => {
                         <input
                             type='lastName'
                             name='lastName'
-                            value={userData.lastName}
+                            value={uData.lastName}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -166,7 +168,7 @@ const SignUp = () => {
                             size = "22"
                             required
                             name='password'
-                            value={userData.password}
+                            value={uData.password}
                             onChange={handlePassChange}
                             />
                             <br/>
@@ -176,7 +178,7 @@ const SignUp = () => {
                             size="22"
                             required
                             name='conpassword'
-                            value={userData.conpassword}
+                            value={uData.conpassword}
                   
                             onChange={handleInputChange}
                             />
