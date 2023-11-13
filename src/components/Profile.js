@@ -3,6 +3,7 @@ import Title from "./Title";
 import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
 import zxcvbn from 'zxcvbn';
+import { userData, updateUserData } from './UserData';
 
 
 
@@ -14,11 +15,8 @@ const Profile = () => {
 
   // Initialize state for user data
   const [uData, setuData] = useState({
-    email: 'ExampleUser@yahoo.com', 
-    username: 'df910ds92sdf', // Database unique identifier
-    password: 'password123',
+    ...userData,
     maskedPassword: '***********',
-    points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
     isEditing: false,
@@ -52,7 +50,7 @@ const Profile = () => {
 
     
     //togglePasswordVisibility();
-    
+    updateUserData(uData)
 
     setuData((prevuData) => ({
       ...prevuData,
@@ -62,11 +60,26 @@ const Profile = () => {
 
   const emailInputRef = useRef(null);
   const usernameInputRef = useRef(null);
+  const firstNameInputRef = useRef(null);
+  const lastNameInputRef = useRef(null);
+  const phoneInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const passwordInputRef2 = useRef(null);
   const passStrengthRef = useRef(null);
 
-
+  const handleChange = (event) => {
+    const { name, value, id } = event.target;
+    console.log(id)
+    if(id != 'address'){
+      setuData({ ...uData, [name]: value });
+    }else{
+      setuData(uData =>(
+        {...uData, 
+          address: {...uData.address, [name]: value}
+        }
+        ))
+    }
+  }
   const changeEmail = () => {
     
     const newEmail = emailInputRef.current.value;
@@ -191,7 +204,7 @@ const togglePasswordVisibility = (event) => {
 };
   
 const getMaskedPass = (event) => {
-  var maskVersion = "";
+  var maskVersion = "*";
   uData.password.split('').forEach((char, index) => {
     //console.log(`Character ${char} at index ${index}`);
     maskVersion += "*";
@@ -204,24 +217,7 @@ const getMaskedPass = (event) => {
   return (
     <div id="profile-container">
       <div id="profile-container2">
-        <h1>My Pofile</h1>
-        <div>Email: {uData.email} {uData.isEditing ? (
-          <>
-            <input 
-              type="email"
-              size="22"
-              ref={emailInputRef}
-              placeholder="Enter new email..." 
-              required
-              onInvalid={(e) => {
-                e.target.setCustomValidity('Please enter a valid email address.');
-              }}
-              onChange={(e) => {
-                e.target.setCustomValidity('');
-              }}>
-              </input>
-          </>
-        ) : ('')}</div>
+        <h1>My Profile</h1>
         <p>Username: {uData.username} {uData.isEditing ? (
           <>
             <input 
@@ -232,6 +228,117 @@ const getMaskedPass = (event) => {
               </input>
           </>
         ) : ('')}</p>
+        <p>Name:  {uData.isEditing ? (
+          <>
+          <input
+            type='firstName'
+            name='firstName'
+            size='22'
+            value={uData.firstName}
+            placeholder='Enter given name...'
+            onChange={handleChange}
+          />
+          <input
+            type='lastName'
+            name='lastName'
+            size='22'
+            value={uData.lastName}
+            placeholder='Enter surname...'
+            onChange={handleChange}
+          />
+          </>
+        ) : 
+        <>{uData.firstName} {uData.lastName}</>
+        }</p>
+
+        <p>Email: {uData.isEditing ? (
+          <>
+            <input 
+              type="email"
+              size="22"
+              ref={emailInputRef}
+              name='email'
+              value={uData.email}
+              placeholder="Enter new email..." 
+              required
+              onChange={handleChange}>
+              </input>
+          </>
+        ) : <>{uData.email}</>}</p>
+
+        <p>Phone: {uData.isEditing ? (
+          <input
+            type='phone'
+            name='phone'
+            size='22'
+            value={uData.phone}
+            placeholder='Enter new phone number...'
+            onChange={handleChange}/>
+        ): <>{uData.phone}</>}</p>
+
+        <p>Address: {uData.isEditing ? (
+          <>
+          <div> Line1: &nbsp;
+            <input
+              id='address'
+              name='line1'
+              value={uData.address.line1}
+              onChange={handleChange}
+            />
+          </div>
+          <div> Line2: &nbsp;
+          <input
+            id='address'
+            name='line2'
+            value={uData.address.line2}
+            onChange={handleChange}
+          />
+        </div>
+        <div> City: &nbsp;
+          <input
+            id='address'
+            name='city'
+            value={uData.address.city}
+            onChange={handleChange}
+          />
+        </div>
+        <div> State: &nbsp;
+          <input
+            id='address'
+            name='state'
+            value={uData.address.state}
+            onChange={handleChange}
+          />
+        </div>
+        <div> Zip: &nbsp;
+          <input
+            id='address'
+            name='zip'
+            value={uData.address.zip}
+            onChange={handleChange}
+          />
+        </div>
+        </>
+        ):
+        uData.address.line1 !== '' &&(
+          <>
+          {uData.address.line1} <br/> {uData.address.line2} <br/> {uData.address.city}, {uData.address.state} {uData.address.zip}
+          </>
+        )}
+        </p>
+        
+        <div>
+          <label>Sponsor: </label>&nbsp;
+          <select
+            name="sponsor"
+          >
+          
+          </select>
+
+        </div>
+
+        <p>Driver Points: {uData.points}</p>
+
         <div id="pass">Password: {uData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {uData.isEditing ? (
           <>
             <div className="password-container">
@@ -253,7 +360,11 @@ const getMaskedPass = (event) => {
               </div>
           </>
         ) : ('')}</div>
-        <p>Driver Points: {uData.points}</p>
+        
+
+
+
+        
         {uData.isEditing ? (
           <>
             <button onClick={handleCancel}>Cancel</button>
