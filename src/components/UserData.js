@@ -1,4 +1,4 @@
-  const userData = {
+  var userData = {
     userID: '',
     type: '',
     username: '',
@@ -19,6 +19,28 @@
         points: 0
     }],
     password: ''
+};
+
+const baseUserData = { //Use this to reset userdata
+  userID: '',
+  type: '',
+  username: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  address: {
+      line1: '',
+      line2: '',
+      city: '',
+      state: '',
+      zip: ''
+  },
+  sponsorList:[{
+      sponsor: '',
+      points: 0
+  }],
+  password: ''
 };
 
   function updateUserData(user){
@@ -62,8 +84,7 @@
       userData.password = user.password
     }
 
-    console.log("Updated userData.")
-    console.log(userData)
+    
 
     return userData
   }
@@ -73,5 +94,11 @@
     userData.type = type
   }
 
+  function logoutUser(){
+    userData = baseUserData
+    console.log("Updated userData.")
+    console.log(userData)
+  }
 
-  export {userData, updateType, updateUserData};
+
+  export {userData, updateType, updateUserData, logoutUser};
