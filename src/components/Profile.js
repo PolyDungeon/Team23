@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import Title from "./Title";
 import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
-import zxcvbn from 'zxcvbn';
 import { userData, updateUserData, logoutUser } from './UserData';
+import styled from 'styled-components'
 
 
 
@@ -80,22 +79,65 @@ const Profile = () => {
 const [sponsors,setSponsors] = useState([])
 const orgUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
 
-const loadSponsors = async () =>{
+const loadSponsors = () =>{
+  setSponsors([])
+  document.getElementById('driverSponsors').innerHTML = ''
+  const headRow = document.createElement('tr') 
+  headRow.style.border = "1px solid black"
+  headRow.style.padding = "10px"
+  headRow.style.width = "25%"
+  headRow.style.alignSelf = 'center'
+  const headUsername = document.createElement('th')
+  headUsername.textContent = 'Sponsor'
+  headUsername.style.borderRight = "1px solid black"
+  headRow.appendChild(headUsername)
+
+  if(userData.type === 'driver'){
+    const headReason = document.createElement('th')
+    headReason.textContent = 'Points'
+    headRow.appendChild(headReason)
+  }
+  document.getElementById("driverSponsors").appendChild(headRow)
   for(var i = 0; i < uData.sponsorList.length; i++){
-    await fetch(orgUrl+ uData.sponsorList[i].sponsor, {
+    fetch(orgUrl + "/" + uData.sponsorList[i].sponsor, {
       method: 'GET'
     }).then(foundOrg => {
-      const sponsor = foundOrg.json()
-      setSponsors(...sponsors, sponsor)
+      foundOrg.json().then(sponsor =>{
+        console.log(sponsor)
+        setSponsors([...sponsors, sponsor])
+        showSponsors(sponsor, i)
+      })
     })
   }
+    
+  
+}
+
+const showSponsors = (spon, i) =>{
+  const sponItem = document.createElement('tr')
+  sponItem.style.border = "1px solid black"
+  sponItem.style.padding = "10px"
+  sponItem.style.width = "25%"
+  sponItem.style.alignSelf = 'center'
+  const sponName = document.createElement('td')
+  sponName.textContent = spon.name
+  sponName.style.borderRight = "1px solid black"
+  sponItem.appendChild(sponName)
+
+  if (userData.type === 'driver'){
+    const sponPoints = document.createElement('td')
+    console.log(i)
+    console.log(userData.sponsorList)
+    sponPoints.textContent = `${userData.sponsorList[i-1].points}`
+    sponItem.appendChild(sponPoints)
+  }
+  document.getElementById("driverSponsors").appendChild(sponItem)
 }
   
 
   return (
     
     <div id="profile-container">
-      <script> loadSponsors()</script>
       <div id="profile-container2">
         <h1>My Profile</h1>
         <p>Username: {uData.isEditing ? (
@@ -214,19 +256,8 @@ const loadSponsors = async () =>{
         </p>
         
         <div>
-          <label>Sponsor: </label>&nbsp;
-            {uData.type === 'sponsor' ?
-            (<>{sponsors[0]}</>
-            ) : (
-              <>
-          
-            <select
-              id='sponsors'
-            >
-              <option>{uData.sponsorList[0].sponsor}</option>
-            </select>
-          <p>Driver Points: {uData.points}</p>
-           </> )}
+          <button onClick={loadSponsors}>Sponsors</button><br/>
+            <SponTable id='driverSponsors'/> 
         </div>
         
         
@@ -244,12 +275,19 @@ const loadSponsors = async () =>{
           <button onClick={handleEdit}>Edit</button>
           </>
         )}
-
-      {console.log("RENDERING")}
       </div>
-
     </div>
   );
 }
 
 export default Profile;
+
+const SponTable = styled.table`
+{
+    width: 50%;
+    padding: 0rem 3rem;
+    margin: 5px;
+    border: 1px solid black;
+    align-self: center;
+}
+`;

@@ -234,7 +234,8 @@ button {
 #profile-container input[type="email"],
 #profile-container input[type="username"],
 #profile-container input[type="password"],
-#profile-container input[type="text"] {
+#profile-container input[type="text"],
+#profile-container input[type="address"] {
   width: 25%;
   padding: 10px;
   margin-top: 5px;
