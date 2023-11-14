@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Title from "./Title";
 import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
@@ -49,14 +49,7 @@ const Profile = () => {
 
   const handleSaveChanges = () => {
     setIsEditing(false);
-    //console.log("handleSaveChanges()");
-    
-    changeEmail();
-    changeUsername();
-    changePassword();
 
-    
-    //togglePasswordVisibility();
     updateUserData(uData)
 
     setuData((prevuData) => ({
@@ -65,19 +58,14 @@ const Profile = () => {
     }));
   };
 
-  const emailInputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-  const firstNameInputRef = useRef(null);
-  const lastNameInputRef = useRef(null);
-  const phoneInputRef = useRef(null);
+
   const passwordInputRef = useRef(null);
   const passwordInputRef2 = useRef(null);
   const passStrengthRef = useRef(null);
 
   const handleChange = (event) => {
-    const { name, value, id } = event.target;
-    console.log(id)
-    if(id != 'address'){
+    const { name, value, type } = event.target;
+    if(type != 'address'){
       setuData({ ...uData, [name]: value });
     }else{
       setuData(uData =>(
@@ -87,162 +75,45 @@ const Profile = () => {
         ))
     }
   }
-  const changeEmail = () => {
-    
-    const newEmail = emailInputRef.current.value;
-    setIsEditing(false);
-    //console.log("changeEmail()", newEmail);
-    // Check if newEmail is allowed
-    if(newEmail !== "") {
-      setuData((prevuData) => ({
-        ...prevuData,
-        email: newEmail,
-      }));
 
 
-    // Make the change in the database
+const [sponsors,setSponsors] = useState([])
+const orgUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
 
-    createAuditLog('emailChange', null, uData.username, 0, null, 'submitted', null);
-    }
-    else {
-      createAuditLog('emailChange', null, uData.username, 0, null, 'failed', null);
-    }
-  };
-
-  const changeUsername = () => {
-    const newUsername = usernameInputRef.current.value;
-    //console.log("changeUsername()", newUsername);
-    
-    // Check if newUsername is allowed
-    if(newUsername !== "") {
-      setuData((prevuData) => ({
-        ...prevuData,
-        username: newUsername,
-      }));
-
-
-    // Make the change in the database
-
-    createAuditLog('usernameChange', null, uData.username, 0, null, 'success', null);
-
-    }
-    else {
-      createAuditLog('usernameChange', null, uData.username, 0, null, 'failed', null);
-    }
-  };
-
-  const changePassword = () => {
-    const newPassword = passwordInputRef.current.value;
-    const newPassword2 = passwordInputRef2.current.value;
-
-    //console.log("changePassword()");
-    
-    if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
-      //console.log(newPassword);
-
-      setuData((prevuData) => ({
-        ...prevuData,
-        password: newPassword,
-        maskedPassword: getMaskedPass(),
-      }));
-
-      // Make the change in the database
-
-      createAuditLog('passwordChange', null, uData.username, 0, null, 'success', null);
-    }
-    else {
-      if(!(newPassword == "" && newPassword2 == "")) {
-        alert("Passwords do no match");
-        createAuditLog('passwordChange', null, uData.username, 0, null, 'failure', null);
-      }
-      
-    }
-
-    // Asynchronous issues
-    /*var returnVal = togglePasswordVisibility();
-    console.log("returnVal = " + returnVal);*/
-    
-  };
-
-  const handlePasswordStrength = (event) => {
-    const password = event.target.value; // Get the new value from the input field
-    //console.log("Value = ", password);
-
-    passStrengthRef.current.textContent = "";
-
-    if(password === "") return;
-
-    if (password.length <= 7) {
-      passStrengthRef.current.textContent = "Password is too short.";
-      passStrengthRef.current.style.color = 'red';
-    }
-    else if (zxcvbn(password).score < 3) {
-      passStrengthRef.current.textContent = "Password is weak.";
-      passStrengthRef.current.style.color = 'yellow';
-    }
-    else {
-      passStrengthRef.current.textContent = "Password is good!";
-      passStrengthRef.current.style.color = 'green';
-    }
-  };
-
-const togglePasswordVisibility = (event) => {
-  var btn = document.getElementById("showPassBtn");
-
-  if(btn.textContent == "Show") {
-    btn.textContent = "Hide";
-    //Show the password
-    setuData((prevuData) => ({
-      ...prevuData,
-      maskedPassword: uData.password,
-    }));
+const loadSponsors = async () =>{
+  for(var i = 0; i < uData.sponsorList.length; i++){
+    await fetch(orgUrl+ uData.sponsorList[i].sponsor, {
+      method: 'GET'
+    }).then(foundOrg => {
+      const sponsor = foundOrg.json()
+      setSponsors(...sponsors, sponsor)
+    })
   }
-  else {
-    btn.textContent = "Show";
-    //hide password
-    setuData((prevuData) => ({
-      ...prevuData,
-      maskedPassword: getMaskedPass(),
-    }));
-   
-  }
-
-  getMaskedPass();
-};
-  
-const getMaskedPass = (event) => {
-  var maskVersion = "*";
-  uData.password.split('').forEach((char, index) => {
-    //console.log(`Character ${char} at index ${index}`);
-    maskVersion += "*";
-  });
-  //console.log("mask version is " + maskVersion);
-  return maskVersion;
-};
-
-const loadSponsors = () =>{
-  console.log("Loading")
 }
   
 
   return (
+    
     <div id="profile-container">
+      <script> loadSponsors()</script>
       <div id="profile-container2">
         <h1>My Profile</h1>
-        <p>Username: {uData.username} {uData.isEditing ? (
+        <p>Username: {uData.isEditing ? (
           <>
             <input 
               type="username" 
               size="22"
-              ref={usernameInputRef} 
+              name='username'
+              value={uData.username}
+              onChange={handleChange}
               placeholder="Enter new username..." >
               </input>
           </>
-        ) : ('')}</p>
+        ) : (<> {uData.username} </>)}</p>
         <p>Name:  {uData.isEditing ? (
           <>
           <input
-            type='firstName'
+            type='text'
             name='firstName'
             size='22'
             value={uData.firstName}
@@ -250,7 +121,7 @@ const loadSponsors = () =>{
             onChange={handleChange}
           />
           <input
-            type='lastName'
+            type='text'
             name='lastName'
             size='22'
             value={uData.lastName}
@@ -267,7 +138,6 @@ const loadSponsors = () =>{
             <input 
               type="email"
               size="22"
-              ref={emailInputRef}
               name='email'
               value={uData.email}
               placeholder="Enter new email..." 
@@ -279,7 +149,7 @@ const loadSponsors = () =>{
 
         <p>Phone: {uData.isEditing ? (
           <input
-            type='phone'
+            type='text'
             name='phone'
             size='22'
             value={uData.phone}
@@ -291,7 +161,7 @@ const loadSponsors = () =>{
           <>
           <div> Line1: &nbsp;
             <input
-              id='address'
+              type='address'
               name='line1'
               value={uData.address.line1}
               placeholder='Enter first line of address...'
@@ -300,7 +170,7 @@ const loadSponsors = () =>{
           </div>
           <div> Line2: &nbsp;
           <input
-            id='address'
+            type='address'
             name='line2'
             placeholder='Enter second line of address...'
             value={uData.address.line2}
@@ -309,7 +179,7 @@ const loadSponsors = () =>{
         </div>
         <div> City: &nbsp;
           <input
-            id='address'
+            type='address'
             name='city'
             placeholder='Enter city...'
             value={uData.address.city}
@@ -318,7 +188,7 @@ const loadSponsors = () =>{
         </div>
         <div> State: &nbsp;
           <input
-            id='address'
+            type='address'
             name='state'
             placeholder='Enter state...'
             value={uData.address.state}
@@ -327,7 +197,7 @@ const loadSponsors = () =>{
         </div>
         <div> Zip: &nbsp;
           <input
-            id='address'
+            type='address'
             name='zip'
             placeholder='Enter zipcode...'
             value={uData.address.zip}
@@ -346,7 +216,8 @@ const loadSponsors = () =>{
         <div>
           <label>Sponsor: </label>&nbsp;
             {uData.type === 'sponsor' ?
-            (<>{uData.sponsorList[0].sponsor}</>) : (
+            (<>{sponsors[0]}</>
+            ) : (
               <>
           
             <select
@@ -357,34 +228,7 @@ const loadSponsors = () =>{
           <p>Driver Points: {uData.points}</p>
            </> )}
         </div>
-
         
-
-        <div id="pass">Password: {uData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {uData.isEditing ? (
-          <>
-            <div className="password-container">
-              <input 
-                type="password" 
-                size = "22"
-                ref={passwordInputRef} 
-                onChange={handlePasswordStrength}
-                placeholder="Enter new password..." >
-                </input>
-              <input 
-                type="password" 
-                size="22"
-                ref={passwordInputRef2} 
-                placeholder="Reenter new password..." >
-              </input>
-              
-              <p ref={passStrengthRef} className="password-strength"></p>
-              </div>
-          </>
-        ) : ('')}</div>
-        
-
-
-
         
         {uData.isEditing ? (
           <>
@@ -392,7 +236,13 @@ const loadSponsors = () =>{
             <button onClick={handleSaveChanges}>Save Changes</button>
           </>
         ) : (
+          <>
+          <button onClick={()=>{
+            window.history.pushState(null, '',"./changePassword")
+            window.history.go()
+          }}>Change Password</button>
           <button onClick={handleEdit}>Edit</button>
+          </>
         )}
 
       {console.log("RENDERING")}
