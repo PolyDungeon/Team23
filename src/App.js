@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -28,26 +28,41 @@ import { Redirect } from 'react-router-dom';
 import SponsorApplications from './components/Sponsor/Applications';
 import ViewDrivers from './components/Sponsor/ViewDrivers';
 import DriverPage from './components/Sponsor/DriverPage';
-import { updateUserData } from './components/UserData';
-
+import { updateUserData, userData } from './components/UserData';
 
 window.onload = function() {
   const user = sessionStorage.getItem('user')
-  console.log(user)
   updateUserData(JSON.parse(user))
 }
+
 
 function App() {
     // Define searchResults state
     const [searchResults, setPrintableSearchResults] = useState([]);
+    const [uData,  setuData] = useState(null)
 
     // Define addToSearchResults function to update the state
     function addToSearchResults(newEntry) {
       // Push the new entry to the existing array
       setPrintableSearchResults(prevResults => [...prevResults, newEntry]);
     }
+    var loggedIn = false
+    useEffect(()=>{
+      if(uData == null){
+        const fetchUser = sessionStorage.getItem('user')
+        if(fetchUser != null){
+          const parseUser = JSON.parse(fetchUser)
+          updateUserData(parseUser)
+          setuData(userData)
+          loggedIn = true
+        }
+      }
+    })
+      
+      
   return (
     <React.Fragment>
+      
       <Navbar />
       <Switch>
         <Route exact path="/" render={()=>{
