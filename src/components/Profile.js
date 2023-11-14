@@ -3,7 +3,10 @@ import Title from "./Title";
 import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
 import zxcvbn from 'zxcvbn';
-import { userData, updateUserData } from './UserData';
+import { userData, updateUserData, logoutUser } from './UserData';
+
+
+
 
 
 
@@ -22,6 +25,10 @@ const Profile = () => {
     isEditing: false,
   }); 
 
+  window.onload = () => {
+    setuData({...uData, ...userData})
+    console.log()
+  }
   const handleEdit = () => {
     setIsEditing(true);
     //console.log("handleEdit()");
@@ -212,6 +219,10 @@ const getMaskedPass = (event) => {
   //console.log("mask version is " + maskVersion);
   return maskVersion;
 };
+
+const loadSponsors = () =>{
+  console.log("Loading")
+}
   
 
   return (
@@ -283,6 +294,7 @@ const getMaskedPass = (event) => {
               id='address'
               name='line1'
               value={uData.address.line1}
+              placeholder='Enter first line of address...'
               onChange={handleChange}
             />
           </div>
@@ -290,6 +302,7 @@ const getMaskedPass = (event) => {
           <input
             id='address'
             name='line2'
+            placeholder='Enter second line of address...'
             value={uData.address.line2}
             onChange={handleChange}
           />
@@ -298,6 +311,7 @@ const getMaskedPass = (event) => {
           <input
             id='address'
             name='city'
+            placeholder='Enter city...'
             value={uData.address.city}
             onChange={handleChange}
           />
@@ -306,6 +320,7 @@ const getMaskedPass = (event) => {
           <input
             id='address'
             name='state'
+            placeholder='Enter state...'
             value={uData.address.state}
             onChange={handleChange}
           />
@@ -314,6 +329,7 @@ const getMaskedPass = (event) => {
           <input
             id='address'
             name='zip'
+            placeholder='Enter zipcode...'
             value={uData.address.zip}
             onChange={handleChange}
           />
@@ -329,15 +345,20 @@ const getMaskedPass = (event) => {
         
         <div>
           <label>Sponsor: </label>&nbsp;
-          <select
-            name="sponsor"
-          >
+            {uData.type === 'sponsor' ?
+            (<>{uData.sponsorList[0].sponsor}</>) : (
+              <>
           
-          </select>
-
+            <select
+              id='sponsors'
+            >
+              <option>{uData.sponsorList[0].sponsor}</option>
+            </select>
+          <p>Driver Points: {uData.points}</p>
+           </> )}
         </div>
 
-        <p>Driver Points: {uData.points}</p>
+        
 
         <div id="pass">Password: {uData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {uData.isEditing ? (
           <>
