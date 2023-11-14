@@ -1,5 +1,6 @@
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import UserPool from "../UserPool";
+import {userData} from './UserData';
 
 export const authenticate = (Email, Password) =>{
     return new Promise((resolve,reject)=>{
