@@ -6,7 +6,6 @@
     lastName: '',
     email: '',
     phone: '',
-    loggedIn: false,
     address: {
         line1: '',
         line2: '',

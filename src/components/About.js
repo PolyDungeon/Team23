@@ -59,8 +59,6 @@ const About = () => {
         fetchData()
     }, [])
         
-    
-        console.log(userData.loggedIn);
 
 
         return (

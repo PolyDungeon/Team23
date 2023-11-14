@@ -117,7 +117,7 @@ export default class Navbar extends Component {
 
                 {userData.type === 'driver' && (
                 <Link to="/checkout" className="ml-auto">
-                    {userData.loggedIn == true &&
+                    {userData.userID !== '' &&
                         <ButtonContainer>
                             <img src={cart} alt="My Cart" className="navbar-brand" />
                         </ButtonContainer>
