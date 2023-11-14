@@ -45,11 +45,23 @@ const Profile = () => {
       isEditing: false,
     }));
   };
-
+  const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
   const handleSaveChanges = () => {
     setIsEditing(false);
 
     updateUserData(uData)
+    sessionStorage.setItem('user', JSON.stringify(userData))
+
+
+    fetch(userUrl, {
+      method:'PATCH',
+      body:JSON.stringify(userData)
+      }).then(response => {
+        if(!response.ok){
+          console.log("Updated user.")
+        }
+      })
+
 
     setuData((prevuData) => ({
       ...prevuData,
@@ -58,13 +70,9 @@ const Profile = () => {
   };
 
 
-  const passwordInputRef = useRef(null);
-  const passwordInputRef2 = useRef(null);
-  const passStrengthRef = useRef(null);
-
   const handleChange = (event) => {
-    const { name, value, type } = event.target;
-    if(type != 'address'){
+    const { name, value, className } = event.target;
+    if(className != 'address'){
       setuData({ ...uData, [name]: value });
     }else{
       setuData(uData =>(
@@ -205,6 +213,7 @@ const showSponsors = (spon, i) =>{
             <input
               type='address'
               name='line1'
+              className='address'
               value={uData.address.line1}
               placeholder='Enter first line of address...'
               onChange={handleChange}
@@ -214,6 +223,7 @@ const showSponsors = (spon, i) =>{
           <input
             type='address'
             name='line2'
+            className='address'
             placeholder='Enter second line of address...'
             value={uData.address.line2}
             onChange={handleChange}
@@ -223,6 +233,7 @@ const showSponsors = (spon, i) =>{
           <input
             type='address'
             name='city'
+            className='address'
             placeholder='Enter city...'
             value={uData.address.city}
             onChange={handleChange}
@@ -232,6 +243,7 @@ const showSponsors = (spon, i) =>{
           <input
             type='address'
             name='state'
+            className='address'
             placeholder='Enter state...'
             value={uData.address.state}
             onChange={handleChange}
@@ -240,6 +252,7 @@ const showSponsors = (spon, i) =>{
         <div> Zip: &nbsp;
           <input
             type='address'
+            className='address'
             name='zip'
             placeholder='Enter zipcode...'
             value={uData.address.zip}

@@ -16,8 +16,7 @@
     sponsorList:[{
         sponsor: '',
         points: 0
-    }],
-    password: ''
+    }]
 };
 
 const baseUserData = { //Use this to reset userdata
@@ -38,8 +37,7 @@ const baseUserData = { //Use this to reset userdata
   sponsorList:[{
       sponsor: '',
       points: 0
-  }],
-  password: ''
+  }]
 };
 
 var activeSponsor = {
@@ -91,13 +89,7 @@ const defaultSponsor = {
 
     if(user.sponsorList[0].sponsor !== ''){
       userData.sponsorList = user.sponsorList
-    }
-
-    if(user.password !== ''){
-      userData.password = user.password
-    }
-
-    
+    }    
 
     return userData
   }
