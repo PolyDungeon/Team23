@@ -18,7 +18,7 @@ const AdminProfile = () => {
             console.log(result)
         })
 
-        console.log(CurrentUser.id)
+        console.log(userData.userID)
     }
 
 

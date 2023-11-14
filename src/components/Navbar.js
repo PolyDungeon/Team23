@@ -13,6 +13,8 @@ import { CurrentUser } from './Login';
 export default class Navbar extends Component {
 
     
+
+
     render() {
         
         return (
@@ -50,7 +52,6 @@ export default class Navbar extends Component {
                             </Link>
                         </li>
                     )}
-                    
                     { userData.type === 'driver' && (
                         <li className="nav-item">
                             <Link to="/driver/signup" className="nav-link">
@@ -116,9 +117,11 @@ export default class Navbar extends Component {
 
                 {userData.type === 'driver' && (
                 <Link to="/checkout" className="ml-auto">
-                    <ButtonContainer>
-                        <img src={cart} alt="My Cart" className="navbar-brand" />
-                    </ButtonContainer>
+                    {userData.userID !== '' &&
+                        <ButtonContainer>
+                            <img src={cart} alt="My Cart" className="navbar-brand" />
+                        </ButtonContainer>
+                    }
                 </Link>
                 )}
             </NavWrapper>

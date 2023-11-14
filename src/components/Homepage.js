@@ -1,5 +1,4 @@
 import React from 'react';
-import { CurrentUser } from './Login';
 
 
 const Homepage = () => {

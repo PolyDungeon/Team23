@@ -3,6 +3,7 @@ import Product from "./Product";
 import Title from "./Title";
 import { TruckerCatelog } from '../context';
 import Sidebar from './Sidebar'; // Import the Sidebar component
+import { userData } from './UserData';
 
 export default class Catelog extends Component {
     state = {
@@ -24,16 +25,17 @@ export default class Catelog extends Component {
                         <div className="row">
                             {/* Render the sidebar */}
                             <div className={`col-2 ${this.state.isSidebarOpen ? 'open' : ''}`}>
-                                <TruckerCatelog>
-                                    {value => (
-                                        <Sidebar
-                                            isChallengesPage={false}
-                                            isSidebarOpen={this.state.isSidebarOpen}
-                                            toggleSidebar={this.toggleSidebar}
-                                        />
-                                    )}
-                                </TruckerCatelog>
-
+                                {userData.userID !== '' && userData.type !== 'driver' && userData.type !== '' &&
+                                    <TruckerCatelog>
+                                        {value => (
+                                            <Sidebar
+                                                isChallengesPage={false}
+                                                isSidebarOpen={this.state.isSidebarOpen}
+                                                toggleSidebar={this.toggleSidebar}
+                                            />
+                                        )}
+                                    </TruckerCatelog>
+                                }
                             </div>
                             <div className="text-capitalize text-center col-15 content">
                                 <Title name="" title="Catelog" />
