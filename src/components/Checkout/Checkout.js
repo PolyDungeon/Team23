@@ -32,9 +32,6 @@ export default class Store extends Component {
                                 </React.Fragment>
                             );
                         } else {
-                            <Link to="/purchasehistory" className="text-uppercase">
-                                Purchase History
-                            </Link>
                             return <EmptyCart />;
                         }
                     }}
