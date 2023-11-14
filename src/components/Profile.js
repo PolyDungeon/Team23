@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
 import zxcvbn from 'zxcvbn';
 import { userData, updateUserData, logoutUser } from './UserData';
+import {notifyUpdate} from "./Notifications";
 
 
 
@@ -94,6 +95,7 @@ const Profile = () => {
     //console.log("changeEmail()", newEmail);
     // Check if newEmail is allowed
     if(newEmail !== "") {
+      notifyUpdate("E-Mail", newEmail);
       setuData((prevuData) => ({
         ...prevuData,
         email: newEmail,
@@ -115,6 +117,7 @@ const Profile = () => {
     
     // Check if newUsername is allowed
     if(newUsername !== "") {
+      notifyUpdate("UserName", newUsername);
       setuData((prevuData) => ({
         ...prevuData,
         username: newUsername,
@@ -139,6 +142,7 @@ const Profile = () => {
     
     if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
       //console.log(newPassword);
+      notifyUpdate("Password");
 
       setuData((prevuData) => ({
         ...prevuData,
