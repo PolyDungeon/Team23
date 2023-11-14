@@ -16,8 +16,7 @@
     sponsorList:[{
         sponsor: '',
         points: 0
-    }],
-    password: ''
+    }]
 };
 
 const baseUserData = { //Use this to reset userdata
@@ -38,9 +37,22 @@ const baseUserData = { //Use this to reset userdata
   sponsorList:[{
       sponsor: '',
       points: 0
-  }],
-  password: ''
+  }]
 };
+
+var activeSponsor = {
+  orgID: '',
+  name: '',
+  catalogID: '',
+  points: 0
+}
+
+const defaultSponsor = {
+  orgID: '',
+  name: '',
+  catalogID: '',
+  points: 0
+}
 
   function updateUserData(user){
     if(user.userID !== ''){
@@ -77,13 +89,7 @@ const baseUserData = { //Use this to reset userdata
 
     if(user.sponsorList[0].sponsor !== ''){
       userData.sponsorList = user.sponsorList
-    }
-
-    if(user.password !== ''){
-      userData.password = user.password
-    }
-
-    
+    }    
 
     return userData
   }
@@ -99,5 +105,20 @@ const baseUserData = { //Use this to reset userdata
     console.log(userData)
   }
 
+  function updateSponsor(sponsor){
+    if(sponsor.orgID !== ''){
+      activeSponsor.orgID = sponsor.orgID
+    }
+    if(sponsor.catalogID !== ''){
+      activeSponsor.catalogID = sponsor.catalogID
+    }
+    if(sponsor.name !== ''){
+      activeSponsor.name = sponsor.name
+    }
+    if(sponsor.points !== null){
+      activeSponsor.points = sponsor.points
+    }
+  }
 
-  export {userData, updateType, updateUserData, logoutUser};
+
+  export {userData, updateType, updateUserData, logoutUser, activeSponsor, updateSponsor};

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { createAuditLog } from '../AuditLogging';
 import { v4 as uuidv4 } from 'uuid';
+import { userData } from '../UserData';
 
 
 
@@ -10,8 +11,8 @@ const DriverApp = () => {
     const responseMessage = useRef(null)
     // Define the initial state for the questionnaire
     const initialFormData = {
-        username: '',
-        email: '',
+        username: userData.username,
+        email: userData.email,
         organization: '',
         reason: '',
         status: 'submitted',

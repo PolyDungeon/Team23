@@ -96,8 +96,7 @@ export default class Navbar extends Component {
                             console.log("Logging Out")
                             logoutUser()
                             sessionStorage.setItem('user', JSON.stringify(userData))
-                            window.history.pushState(null, '',"./")
-                            window.history.go()
+                            window.location.href = '/'
                         }}
                             className="nav-link">
                             Logout
