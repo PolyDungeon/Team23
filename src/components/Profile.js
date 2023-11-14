@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
 import { userData, updateUserData, logoutUser } from './UserData';
 import {notifyUpdate} from "./Notifications";
+import styled from 'styled-components';
 
 
 
@@ -51,7 +52,7 @@ const Profile = () => {
 
     updateUserData(uData)
     sessionStorage.setItem('user', JSON.stringify(userData))
-
+    notifyUpdate('Email', null)
 
     fetch(userUrl, {
       method:'PATCH',
