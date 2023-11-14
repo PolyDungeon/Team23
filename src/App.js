@@ -28,6 +28,7 @@ import { Redirect } from 'react-router-dom';
 import SponsorApplications from './components/Sponsor/Applications';
 import ViewDrivers from './components/Sponsor/ViewDrivers';
 import DriverPage from './components/Sponsor/DriverPage';
+import PurchaseHistory from './components/Checkout/PurchaseHistory'
 import { updateUserData, userData } from './components/UserData';
 
 window.onload = function() {
@@ -81,6 +82,7 @@ function App() {
         <Route path="/challenges" component={Challenges} />
         <Route path="/details" component={Details} />
         <Route path="/checkout" component={Checkout} />
+        <Route path ="/purchasehistory" component = {PurchaseHistory}/>
         <Route path="/about" component={About} />
         <Route path="/signup" component={SignUp}/>
         <Route path="/driver/signup" component={DriverApp} />
