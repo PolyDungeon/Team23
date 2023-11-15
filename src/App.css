@@ -233,11 +233,13 @@ button {
 /* Style form input elements */
 #profile-container input[type="email"],
 #profile-container input[type="username"],
-#profile-container input[type="password"] {
-  width: 100%;
+#profile-container input[type="password"],
+#profile-container input[type="text"],
+#profile-container input[type="address"] {
+  width: 25%;
   padding: 10px;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  margin-top: 5px;
+  margin-bottom: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }

@@ -1,29 +1,42 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-//import { createAuditLog } from '../Functions';
 import CheckoutList from './CheckoutList';
 import CheckoutItem from './CheckoutItem';
 import { TruckerCatelog} from '../../context';
+import { updateUserData } from '../UserData';
+import { CurrentUser } from '../Login';
+import {userData} from '../UserData';
+import { Redirect } from 'react-router-dom';
 const url = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/purchases'
+const userURL = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
+const getUser = async () => {
+    const response = await fetch(userURL + "/" + CurrentUser.id, {
+        method: 'GET'
+    })
+    const result = await response.json()
 
-
+    return result
+}
 export default function CartTotals({value}) 
 {
+   
     const { checkout} =value;
     const {cartSubTotal, cartTax, cartTotal,clearCart} = value;
-    
+    const user = sessionStorage.getItem('user')
+    console.log(user)
+    updateUserData(JSON.parse(user))
      const pushPurchase= async(value)=>{
         try {
-            const item = {
-                products: value,
-                userID: sessionStorage.getItem('user')
+            const temp = {
+                'products': value,
+                'userID': userData.userID
             }
             const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',
-                body: JSON.stringify(item)
+                body: JSON.stringify(temp)
             });
         
             if (response.ok) {
@@ -42,7 +55,6 @@ export default function CartTotals({value})
     
     const handlePurchase = async (event) => {
        // createAuditLog('pointChange', null, 'Name', cartTotal, null, 'spent', null);
-
         <div className="container-fluid">
             {checkout.map(item=>{
             pushPurchase(item.title);

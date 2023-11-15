@@ -239,7 +239,4 @@ const AppTable = styled.table`
     border: 1px solid black;
 }
 
-
-
-
 `;

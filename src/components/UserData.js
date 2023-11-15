@@ -1,6 +1,6 @@
-  const userData = {
+  var userData = {
     userID: '',
-    type: 'driver',
+    type: '',
     username: '',
     firstName: '',
     lastName: '',
@@ -16,9 +16,43 @@
     sponsorList:[{
         sponsor: '',
         points: 0
-    }],
-    password: ''
+    }]
 };
+
+const baseUserData = { //Use this to reset userdata
+  userID: '',
+  type: '',
+  username: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  address: {
+      line1: '',
+      line2: '',
+      city: '',
+      state: '',
+      zip: ''
+  },
+  sponsorList:[{
+      sponsor: '',
+      points: 0
+  }]
+};
+
+var activeSponsor = {
+  orgID: '',
+  name: '',
+  catalogID: '',
+  points: 0
+}
+
+const defaultSponsor = {
+  orgID: '',
+  name: '',
+  catalogID: '',
+  points: 0
+}
 
   function updateUserData(user){
     if(user.userID !== ''){
@@ -55,27 +89,37 @@
 
     if(user.sponsorList[0].sponsor !== ''){
       userData.sponsorList = user.sponsorList
-    }
+    }    
 
     if(user.password !== ''){
       userData.password = user.password
-      }
-
-    if (user.sponsorList.points !== '')
-    {
-        userData.sponsorList.points = user.sponsorList.points;
     }
-
-    console.log("Updated userData.")
-    console.log(userData)
-
-    return userData
-  }
 
 
   function updateType(type){
     userData.type = type
   }
 
+  function logoutUser(){
+    userData = baseUserData
+    console.log("Updated userData.")
+    console.log(userData)
+  }
 
-  export {userData, updateType, updateUserData};
+  function updateSponsor(sponsor){
+    if(sponsor.orgID !== ''){
+      activeSponsor.orgID = sponsor.orgID
+    }
+    if(sponsor.catalogID !== ''){
+      activeSponsor.catalogID = sponsor.catalogID
+    }
+    if(sponsor.name !== ''){
+      activeSponsor.name = sponsor.name
+    }
+    if(sponsor.points !== null){
+      activeSponsor.points = sponsor.points
+    }
+  }
+
+
+  export {userData, updateType, updateUserData, logoutUser, activeSponsor, updateSponsor};

@@ -1,8 +1,12 @@
-import React from 'react';
-import Title from "./Title";
+import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { createAuditLog } from './AuditLogging';
-import zxcvbn from 'zxcvbn';
+import { userData, updateUserData, logoutUser } from './UserData';
+import {notifyUpdate} from "./Notifications";
+import styled from 'styled-components';
+
+
+
 
 
 
@@ -14,16 +18,17 @@ const Profile = () => {
 
   // Initialize state for user data
   const [uData, setuData] = useState({
-    email: 'ExampleUser@yahoo.com', 
-    username: 'df910ds92sdf', // Database unique identifier
-    password: 'password123',
+    ...userData,
     maskedPassword: '***********',
-    points: 100, // Replace with user's actual points
     newPassword: '',
     confirmNewPassword: '',
     isEditing: false,
   }); 
 
+  window.onload = () => {
+    setuData({...uData, ...userData})
+    console.log()
+  }
   const handleEdit = () => {
     setIsEditing(true);
     //console.log("handleEdit()");
@@ -41,18 +46,23 @@ const Profile = () => {
       isEditing: false,
     }));
   };
-
+  const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
   const handleSaveChanges = () => {
     setIsEditing(false);
-    //console.log("handleSaveChanges()");
-    
-    changeEmail();
-    changeUsername();
-    changePassword();
 
-    
-    //togglePasswordVisibility();
-    
+    updateUserData(uData)
+    sessionStorage.setItem('user', JSON.stringify(userData))
+    notifyUpdate('Email', null)
+
+    fetch(userUrl, {
+      method:'PATCH',
+      body:JSON.stringify(userData)
+      }).then(response => {
+        if(!response.ok){
+          console.log("Updated user.")
+        }
+      })
+
 
     setuData((prevuData) => ({
       ...prevuData,
@@ -60,214 +70,238 @@ const Profile = () => {
     }));
   };
 
-  const emailInputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const passwordInputRef2 = useRef(null);
-  const passStrengthRef = useRef(null);
 
-
-  const changeEmail = () => {
-    
-    const newEmail = emailInputRef.current.value;
-    setIsEditing(false);
-    //console.log("changeEmail()", newEmail);
-    // Check if newEmail is allowed
-    if(newEmail !== "") {
-      setuData((prevuData) => ({
-        ...prevuData,
-        email: newEmail,
-      }));
-
-
-    // Make the change in the database
-
-    createAuditLog('emailChange', null, uData.username, 0, null, 'submitted', null);
+  const handleChange = (event) => {
+    const { name, value, className } = event.target;
+    if(className != 'address'){
+      setuData({ ...uData, [name]: value });
+    }else{
+      setuData(uData =>(
+        {...uData, 
+          address: {...uData.address, [name]: value}
+        }
+        ))
     }
-    else {
-      createAuditLog('emailChange', null, uData.username, 0, null, 'failed', null);
-    }
-  };
-
-  const changeUsername = () => {
-    const newUsername = usernameInputRef.current.value;
-    //console.log("changeUsername()", newUsername);
-    
-    // Check if newUsername is allowed
-    if(newUsername !== "") {
-      setuData((prevuData) => ({
-        ...prevuData,
-        username: newUsername,
-      }));
-
-
-    // Make the change in the database
-
-    createAuditLog('usernameChange', null, uData.username, 0, null, 'success', null);
-
-    }
-    else {
-      createAuditLog('usernameChange', null, uData.username, 0, null, 'failed', null);
-    }
-  };
-
-  const changePassword = () => {
-    const newPassword = passwordInputRef.current.value;
-    const newPassword2 = passwordInputRef2.current.value;
-
-    //console.log("changePassword()");
-    
-    if (newPassword === newPassword2 && newPassword !== "") { // If the passwords match
-      //console.log(newPassword);
-
-      setuData((prevuData) => ({
-        ...prevuData,
-        password: newPassword,
-        maskedPassword: getMaskedPass(),
-      }));
-
-      // Make the change in the database
-
-      createAuditLog('passwordChange', null, uData.username, 0, null, 'success', null);
-    }
-    else {
-      if(!(newPassword == "" && newPassword2 == "")) {
-        alert("Passwords do no match");
-        createAuditLog('passwordChange', null, uData.username, 0, null, 'failure', null);
-      }
-      
-    }
-
-    // Asynchronous issues
-    /*var returnVal = togglePasswordVisibility();
-    console.log("returnVal = " + returnVal);*/
-    
-  };
-
-  const handlePasswordStrength = (event) => {
-    const password = event.target.value; // Get the new value from the input field
-    //console.log("Value = ", password);
-
-    passStrengthRef.current.textContent = "";
-
-    if(password === "") return;
-
-    if (password.length <= 7) {
-      passStrengthRef.current.textContent = "Password is too short.";
-      passStrengthRef.current.style.color = 'red';
-    }
-    else if (zxcvbn(password).score < 3) {
-      passStrengthRef.current.textContent = "Password is weak.";
-      passStrengthRef.current.style.color = 'yellow';
-    }
-    else {
-      passStrengthRef.current.textContent = "Password is good!";
-      passStrengthRef.current.style.color = 'green';
-    }
-  };
-
-const togglePasswordVisibility = (event) => {
-  var btn = document.getElementById("showPassBtn");
-
-  if(btn.textContent == "Show") {
-    btn.textContent = "Hide";
-    //Show the password
-    setuData((prevuData) => ({
-      ...prevuData,
-      maskedPassword: uData.password,
-    }));
-  }
-  else {
-    btn.textContent = "Show";
-    //hide password
-    setuData((prevuData) => ({
-      ...prevuData,
-      maskedPassword: getMaskedPass(),
-    }));
-   
   }
 
-  getMaskedPass();
-};
+
+const [sponsors,setSponsors] = useState([])
+const orgUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/orgs'
+
+const loadSponsors = () =>{
+  setSponsors([])
+  document.getElementById('driverSponsors').innerHTML = ''
+  const headRow = document.createElement('tr') 
+  headRow.style.border = "1px solid black"
+  headRow.style.padding = "10px"
+  headRow.style.width = "25%"
+  headRow.style.alignSelf = 'center'
+  const headUsername = document.createElement('th')
+  headUsername.textContent = 'Sponsor'
+  headUsername.style.borderRight = "1px solid black"
+  headRow.appendChild(headUsername)
+
+  if(userData.type === 'driver'){
+    const headReason = document.createElement('th')
+    headReason.textContent = 'Points'
+    headRow.appendChild(headReason)
+  }
+  document.getElementById("driverSponsors").appendChild(headRow)
+  for(var i = 0; i < uData.sponsorList.length; i++){
+    fetch(orgUrl + "/" + uData.sponsorList[i].sponsor, {
+      method: 'GET'
+    }).then(foundOrg => {
+      foundOrg.json().then(sponsor =>{
+        console.log(sponsor)
+        setSponsors([...sponsors, sponsor])
+        showSponsors(sponsor, i)
+      })
+    })
+  }
+    
   
-const getMaskedPass = (event) => {
-  var maskVersion = "";
-  uData.password.split('').forEach((char, index) => {
-    //console.log(`Character ${char} at index ${index}`);
-    maskVersion += "*";
-  });
-  //console.log("mask version is " + maskVersion);
-  return maskVersion;
-};
+}
+
+const showSponsors = (spon, i) =>{
+  const sponItem = document.createElement('tr')
+  sponItem.style.border = "1px solid black"
+  sponItem.style.padding = "10px"
+  sponItem.style.width = "25%"
+  sponItem.style.alignSelf = 'center'
+  const sponName = document.createElement('td')
+  sponName.textContent = spon.name
+  sponName.style.borderRight = "1px solid black"
+  sponItem.appendChild(sponName)
+
+  if (userData.type === 'driver'){
+    const sponPoints = document.createElement('td')
+    console.log(i)
+    console.log(userData.sponsorList)
+    sponPoints.textContent = `${userData.sponsorList[i-1].points}`
+    sponItem.appendChild(sponPoints)
+  }
+  document.getElementById("driverSponsors").appendChild(sponItem)
+}
   
 
   return (
+    
     <div id="profile-container">
       <div id="profile-container2">
-        <h1>My Pofile</h1>
-        <div>Email: {uData.email} {uData.isEditing ? (
-          <>
-            <input 
-              type="email"
-              size="22"
-              ref={emailInputRef}
-              placeholder="Enter new email..." 
-              required
-              onInvalid={(e) => {
-                e.target.setCustomValidity('Please enter a valid email address.');
-              }}
-              onChange={(e) => {
-                e.target.setCustomValidity('');
-              }}>
-              </input>
-          </>
-        ) : ('')}</div>
-        <p>Username: {uData.username} {uData.isEditing ? (
+        <h1>My Profile</h1>
+        <p>Username: {uData.isEditing ? (
           <>
             <input 
               type="username" 
               size="22"
-              ref={usernameInputRef} 
+              name='username'
+              value={uData.username}
+              onChange={handleChange}
               placeholder="Enter new username..." >
               </input>
           </>
-        ) : ('')}</p>
-        <div id="pass">Password: {uData.maskedPassword} <button id="showPassBtn" onClick={togglePasswordVisibility}>Show</button> {uData.isEditing ? (
+        ) : (<> {uData.username} </>)}</p>
+        <p>Name:  {uData.isEditing ? (
           <>
-            <div className="password-container">
-              <input 
-                type="password" 
-                size = "22"
-                ref={passwordInputRef} 
-                onChange={handlePasswordStrength}
-                placeholder="Enter new password..." >
-                </input>
-              <input 
-                type="password" 
-                size="22"
-                ref={passwordInputRef2} 
-                placeholder="Reenter new password..." >
-              </input>
-              
-              <p ref={passStrengthRef} className="password-strength"></p>
-              </div>
+          <input
+            type='text'
+            name='firstName'
+            size='22'
+            value={uData.firstName}
+            placeholder='Enter given name...'
+            onChange={handleChange}
+          />
+          <input
+            type='text'
+            name='lastName'
+            size='22'
+            value={uData.lastName}
+            placeholder='Enter surname...'
+            onChange={handleChange}
+          />
           </>
-        ) : ('')}</div>
-        <p>Driver Points: {uData.points}</p>
+        ) : 
+        <>{uData.firstName} {uData.lastName}</>
+        }</p>
+
+        <p>Email: {uData.isEditing ? (
+          <>
+            <input 
+              type="email"
+              size="22"
+              name='email'
+              value={uData.email}
+              placeholder="Enter new email..." 
+              required
+              onChange={handleChange}>
+              </input>
+          </>
+        ) : <>{uData.email}</>}</p>
+
+        <p>Phone: {uData.isEditing ? (
+          <input
+            type='text'
+            name='phone'
+            size='22'
+            value={uData.phone}
+            placeholder='Enter new phone number...'
+            onChange={handleChange}/>
+        ): <>{uData.phone}</>}</p>
+
+        <p>Address: {uData.isEditing ? (
+          <>
+          <div> Line1: &nbsp;
+            <input
+              type='address'
+              name='line1'
+              className='address'
+              value={uData.address.line1}
+              placeholder='Enter first line of address...'
+              onChange={handleChange}
+            />
+          </div>
+          <div> Line2: &nbsp;
+          <input
+            type='address'
+            name='line2'
+            className='address'
+            placeholder='Enter second line of address...'
+            value={uData.address.line2}
+            onChange={handleChange}
+          />
+        </div>
+        <div> City: &nbsp;
+          <input
+            type='address'
+            name='city'
+            className='address'
+            placeholder='Enter city...'
+            value={uData.address.city}
+            onChange={handleChange}
+          />
+        </div>
+        <div> State: &nbsp;
+          <input
+            type='address'
+            name='state'
+            className='address'
+            placeholder='Enter state...'
+            value={uData.address.state}
+            onChange={handleChange}
+          />
+        </div>
+        <div> Zip: &nbsp;
+          <input
+            type='address'
+            className='address'
+            name='zip'
+            placeholder='Enter zipcode...'
+            value={uData.address.zip}
+            onChange={handleChange}
+          />
+        </div>
+        </>
+        ):
+        uData.address.line1 !== '' &&(
+          <>
+          {uData.address.line1} <br/> {uData.address.line2} <br/> {uData.address.city}, {uData.address.state} {uData.address.zip}
+          </>
+        )}
+        </p>
+        
+        <div>
+          <button onClick={loadSponsors}>Sponsors</button><br/>
+            <SponTable id='driverSponsors'/> 
+        </div>
+        
+        
         {uData.isEditing ? (
           <>
             <button onClick={handleCancel}>Cancel</button>
             <button onClick={handleSaveChanges}>Save Changes</button>
           </>
         ) : (
+          <>
+          <button onClick={()=>{
+            window.history.pushState(null, '',"./changePassword")
+            window.history.go()
+          }}>Change Password</button>
           <button onClick={handleEdit}>Edit</button>
+          </>
         )}
-
-      {console.log("RENDERING")}
       </div>
-
     </div>
   );
 }
 
 export default Profile;
+
+const SponTable = styled.table`
+{
+    width: 50%;
+    padding: 0rem 3rem;
+    margin: 5px;
+    border: 1px solid black;
+    align-self: center;
+}
+`;

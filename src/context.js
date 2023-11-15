@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { storeProducts, detailProduct } from "./data";
 import { createAuditLog } from './components/AuditLogging';
+import {notifyPurchase} from './components/Notifications';
 const ProductContext = React.createContext();
 
 class ProductProvider extends Component {
@@ -219,9 +220,10 @@ class ProductProvider extends Component {
     handlePurchase = () => {
         console.log("We called the purchaseItems function yay!");
 
+
         // Add up the points for all items in the cart (checkout array)
         var totalPrice = this.state.checkout.reduce((accumulator, item) => accumulator + item.total, 0);
-
+        notifyPurchase(totalPrice);
         // Temporary set points
         totalPrice = 10;
 
