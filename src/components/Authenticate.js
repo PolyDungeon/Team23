@@ -32,3 +32,48 @@ export const logout = () => {
     user.signOut();
     window.location.href = '/';
 }
+
+export function resetPassword(username) {
+    // const poolData = { UserPoolId: xxxx, ClientId: xxxx };
+    // userPool is const userPool = new AWSCognito.CognitoUserPool(poolData);
+
+    // setup cognitoUser first
+    const cognitoUser = new CognitoUser({
+        Username: username,
+        Pool: UserPool
+    });
+
+    // call forgotPassword on cognitoUser
+    cognitoUser.forgotPassword({
+        onSuccess: function(result) {
+            console.log('call result: ' + result);
+        },
+        onFailure: function(err) {
+            alert(err);
+        },
+        inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
+            var verificationCode = prompt('Please input verification code ', '');
+            var newPassword = prompt('Enter new password ', '');
+            cognitoUser.confirmPassword(verificationCode, newPassword, this);
+        }
+    });
+}
+
+// confirmPassword can be separately built out as follows...  
+export function confirmPassword(username, verificationCode, newPassword) {
+    const cognitoUser = new CognitoUser({
+        Username: username,
+        Pool: UserPool
+    });
+
+    return new Promise((resolve, reject) => {
+        cognitoUser.confirmPassword(verificationCode, newPassword, {
+            onFailure(err) {
+                reject(err);
+            },
+            onSuccess() {
+                resolve();
+            },
+        });
+    });
+}

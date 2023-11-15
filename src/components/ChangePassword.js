@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react'
 import zxcvbn from 'zxcvbn';
 import { createAuditLog } from './AuditLogging';
+import { resetPassword } from './Authenticate';
+import { userData } from './UserData';
 
 
 
@@ -27,7 +29,7 @@ const ChangePassword = () => {
     
     
           // Make the change in the database
-    
+          resetPassword(userData.username)
           
         }
         else {
