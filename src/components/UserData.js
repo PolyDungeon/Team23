@@ -59,6 +59,11 @@
 
     if(user.password !== ''){
       userData.password = user.password
+      }
+
+    if (user.sponsorList.points !== '')
+    {
+        userData.sponsorList.points = user.sponsorList.points;
     }
 
     console.log("Updated userData.")

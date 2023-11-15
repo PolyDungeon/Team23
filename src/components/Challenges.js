@@ -30,6 +30,7 @@ export default class Challenges extends Component {
 
     // Function to add a new challenge to the challenges list
     addNewChallenge = (newChallenge) => {
+
         this.setState((prevState) => ({
             challenges: [...prevState.challenges, newChallenge],
         }));

@@ -37,6 +37,14 @@ class ProductProvider extends Component {
         return product;
     };
 
+    addPoints = pts => {
+        let newPoints = this.state.products.find(item => item.userPoints);
+        newPoints = newPoints + pts;
+        return newPoints;
+
+
+    }
+
 
     handleDetail = id => {
         const product = this.getItem(id);

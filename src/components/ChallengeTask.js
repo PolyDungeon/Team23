@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
+import { useContext } from 'react';
+
+import { TruckerCatelog } from '../context';
+import { userData } from '../UserData';
 
 const ChallengeTask = ({ task, isEditMode, handleDeleteTask }) => {
     const [isComplete, setComplete] = useState(task.isComplete);
+    const { addPoints } = useContext(TruckerCatelog);
+    const { } = useContext(userData);
+
 
     const handleCompleteToggle = () => {
-        setComplete(!isComplete);
         // You can also update the task's complete status in your data here if needed.
+        setComplete(!isComplete);
+        addPoints(task.points);
     };
 
 
     return (
+        
         <div className="task-container">
+            <TruckerCatelog>
             <div className="task-details">
                 <div className="task-pair">
                     <h3>Name:</h3>
@@ -33,10 +43,12 @@ const ChallengeTask = ({ task, isEditMode, handleDeleteTask }) => {
                 <button onClick={handleCompleteToggle}>
                     {isComplete ? "Mark Incomplete" : "Mark Complete"}
                 </button>
+
             </div>
             {isEditMode && ( // Render delete button when in edit mode
                 <button onClick={handleDeleteTask}>Delete</button>
-            )}
+                )}
+            </TruckerCatelog>
         </div>
     );
 };
