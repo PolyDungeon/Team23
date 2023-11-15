@@ -68,7 +68,7 @@ function App() {
       <Switch>
         <Route exact path="/" render={()=>{
           return (
-            (CurrentUser.id === '') ?
+            (userData.userID === '') ?
             <Redirect to='/login'/> :
             <Redirect to='/home'/>
           )

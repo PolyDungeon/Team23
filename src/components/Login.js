@@ -43,30 +43,30 @@ const Login = () => {
         event.preventDefault();
         authenticate(formData.username, formData.password)
         .then((data)=>{
-            console.log(data)
             CurrentUser.id = data.accessToken.payload.sub
-            console.log(CurrentUser.id)
+            console.log(data.accessToken.payload)
             createAuditLog('loginAttempt', null, formData.username, 0, null, 'submitted', null) // Successful login
             getUser().then(foundUsers => {
                 const user =  foundUsers
-                updateUserData(user)
+                const newUser = {
+                    ...user,
+                    password:formData.password
+                }
+                updateUserData(newUser)
                 setSubmissionMessage('Data submitted successfully!');
 
-                sessionStorage.setItem('user', JSON.stringify(user))
+                sessionStorage.setItem('user', JSON.stringify(newUser))
                 window.history.pushState(null, '',"./home")
                 window.history.go()
             })
-            
-        }, (err)=>{
+            }
+        , (err)=>{
             createAuditLog('loginAttempt', null, formData.username, 0, null, 'failed', null) // Failed login
+            setSubmissionMessage(err.message)
+            setFormData(initialFormData)
             console.log(err)
         })
-        .catch(err=>console.log(err))
-
-        
-
-
-        
+        .catch(err=>console.log(err)) 
     };
 
     return (

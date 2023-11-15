@@ -4,6 +4,9 @@ import { createAuditLog } from './AuditLogging';
 import { userData, updateUserData, logoutUser } from './UserData';
 import {notifyUpdate} from "./Notifications";
 import styled from 'styled-components';
+import UserPool from '../UserPool';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { authenticate } from './Authenticate';
 
 
 
@@ -27,11 +30,9 @@ const Profile = () => {
 
   window.onload = () => {
     setuData({...uData, ...userData})
-    console.log()
   }
   const handleEdit = () => {
     setIsEditing(true);
-    //console.log("handleEdit()");
     setuData((prevuData) => ({
       ...prevuData,
       isEditing: true,
@@ -40,19 +41,32 @@ const Profile = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
-    //console.log("handleCancel()");
     setuData((prevuData) => ({
       ...prevuData,
       isEditing: false,
     }));
   };
   const userUrl = 'https://qjjhd7tdf1.execute-api.us-east-1.amazonaws.com/users'
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     setIsEditing(false);
+
+    if(uData.username !== userData.username){
+      console.log('Username change.')
+      console.log(userData.password)
+  
+        var cognitoUser = UserPool.getCurrentUser()
+        await new Promise(res => cognitoUser.getSession(res));
+        console.log(cognitoUser)
+        const customAttribute = new CognitoUserAttribute({Name: 'preferred_username', Value:uData.username})
+
+        cognitoUser.updateAttributes([customAttribute], function (err, result) {
+                  console.log({ err, result });
+        });
+        }
 
     updateUserData(uData)
     sessionStorage.setItem('user', JSON.stringify(userData))
-    notifyUpdate('Email', null)
+    notifyUpdate('Account details', null)
 
     fetch(userUrl, {
       method:'PATCH',

@@ -1,3 +1,5 @@
+import UserPool from "../UserPool";
+
   var userData = {
     userID: '',
     type: '',
@@ -16,7 +18,8 @@
     sponsorList:[{
         sponsor: '',
         points: 0
-    }]
+    }],
+    password: ''
 };
 
 const baseUserData = { //Use this to reset userdata
@@ -37,7 +40,8 @@ const baseUserData = { //Use this to reset userdata
   sponsorList:[{
       sponsor: '',
       points: 0
-  }]
+  }],
+  password: ''
 };
 
 var activeSponsor = {
@@ -89,7 +93,10 @@ const defaultSponsor = {
 
     if(user.sponsorList[0].sponsor !== ''){
       userData.sponsorList = user.sponsorList
-    }    
+    }
+    if(user.password !== ''){
+      userData.password = user.password
+    } 
 
     return userData
   }
@@ -100,6 +107,11 @@ const defaultSponsor = {
   }
 
   function logoutUser(){
+    var cognitoUser = UserPool.getCurrentUser()
+
+    if(cognitoUser != null){
+      cognitoUser.signOut()
+    }
     userData = baseUserData
     console.log("Updated userData.")
     console.log(userData)
