@@ -2,23 +2,27 @@ import React, { useState, useRef } from 'react'
 import zxcvbn from 'zxcvbn';
 import { createAuditLog } from './AuditLogging';
 import { resetPassword } from './Authenticate';
-import { userData } from './UserData';
+import { updateUserData, userData } from './UserData';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+import UserPool from '../UserPool';
 
 
 
 const ChangePassword = () => {
-
+    const [tempUser,setTempUser] = useState(userData)
     const [uData, setuData] = useState({
         maskedPassword: '***********',
         newPassword: '',
         confirmNewPassword: '',
+        confirmationCode: ''
       }); 
 
     const passwordInputRef = useRef(null);
     const passwordInputRef2 = useRef(null);
     const passStrengthRef = useRef(null);
+    const [submissionMessage, setSubmissionMessage] = useState('');
 
-    const changePassword = () => {
+    const changePassword = async () => {
         const newPassword = passwordInputRef.current.value;
         const newPassword2 = passwordInputRef2.current.value;
     
@@ -29,12 +33,17 @@ const ChangePassword = () => {
     
     
           // Make the change in the database
-          resetPassword(userData.username)
-          
+          const cognitoUser = UserPool.getCurrentUser()
+          await new Promise(res => cognitoUser.getSession(res));
+          cognitoUser.changePassword(userData.password,newPassword)
+
+          setTempUser({...tempUser, password:newPassword})
+          updateUserData(tempUser)
+          setSubmissionMessage("Password changed!")
         }
         else {
           if(!(newPassword == "" && newPassword2 == "")) {
-            alert("Passwords do no match");
+            setSubmissionMessage("Passwords do no match.")
           }
           
         }
@@ -67,26 +76,30 @@ const ChangePassword = () => {
             <div>
                 <h3>Change Password</h3>          
             </div>
-
-            
-            <div className="password-container">
-              <input 
-                type="password" 
-                size = "22"
-                ref={passwordInputRef} 
-                onChange={handlePasswordStrength}
-                placeholder="Enter new password..." >
+            <form onSubmit={changePassword}>
+              <div className="password-container">
+                <input 
+                  type="password" 
+                  size = "22"
+                  ref={passwordInputRef} 
+                  onChange={handlePasswordStrength}
+                  placeholder="Enter new password..." >
+                  </input>
+                <input 
+                  type="password" 
+                  size="22"
+                  ref={passwordInputRef2} 
+                  placeholder="Reenter new password..." >
                 </input>
-              <input 
-                type="password" 
-                size="22"
-                ref={passwordInputRef2} 
-                placeholder="Reenter new password..." >
-              </input>
-              
-              <p ref={passStrengthRef} className="password-strength"></p>
-              </div>
-              <button onClick={changePassword}>Submit</button>
+                
+                <p ref={passStrengthRef} className="password-strength"></p>
+                </div>
+                <button type='submit'>Submit</button>
+              </form>
+
+              {submissionMessage && (
+                <p>{submissionMessage}</p>
+              )}
           
 
 

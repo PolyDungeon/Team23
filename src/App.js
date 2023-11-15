@@ -30,6 +30,7 @@ import ViewDrivers from './components/Sponsor/ViewDrivers';
 import DriverPage from './components/Sponsor/DriverPage';
 import PurchaseHistory from './components/Checkout/PurchaseHistory'
 import { updateUserData, userData } from './components/UserData';
+import RecoverPassword from './components/RecoverPassword';
 
 window.onload = function() {
   const user = sessionStorage.getItem('user')
@@ -103,6 +104,7 @@ function App() {
         <Route path="/sponsor/drivers" component={ViewDrivers}/>
         <Route path="/sponsor/drivers/info" component={DriverPage}/>
         <Route path="/changePassword" component={ChangePassword}/>
+        <Route path="/recoverPass" component={RecoverPassword}/>
         <Route component={Default} />
       </Switch>
       <Popup />

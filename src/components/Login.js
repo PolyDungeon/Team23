@@ -98,7 +98,8 @@ const Login = () => {
                         />
                     </div>
                     <div>
-                        <Link to="/signup"> Create New Account</Link>
+                        <Link to="/signup"> Create New Account</Link>&emsp;
+                        <Link to="/recoverPass">Forgot Password?</Link>
                     </div>
                     <div className=
                         "text-capitalize text-center ">
