@@ -98,6 +98,7 @@ const defaultSponsor = {
       userData.password = user.password
     } 
 
+    sessionStorage.setItem('user', JSON.stringify(userData))
     return userData
   }
 

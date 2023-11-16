@@ -216,6 +216,7 @@ button {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
+  align-items: center;
 }
 
 /* Style the form header */
@@ -265,3 +266,14 @@ button {
   font-size: 14px;
   margin-top: 5px;
 }
+
+#driverSponsors{
+    width: 50%;
+    position: relative;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin: 5px;
+    border: 1px solid black;
+    align-self: center;
+}
+

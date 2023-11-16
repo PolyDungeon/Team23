@@ -34,7 +34,9 @@ import RecoverPassword from './components/RecoverPassword';
 
 window.onload = function() {
   const user = sessionStorage.getItem('user')
-  updateUserData(JSON.parse(user))
+  if(user != null){
+    updateUserData(JSON.parse(user))
+  }
 }
 
 

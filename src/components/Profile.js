@@ -107,7 +107,8 @@ const loadSponsors = () =>{
   document.getElementById('driverSponsors').innerHTML = ''
   const headRow = document.createElement('tr') 
   headRow.style.border = "1px solid black"
-  headRow.style.padding = "10px"
+  headRow.style.paddingLeft = "25%"
+  headRow.style.paddingRight = "25%"
   headRow.style.width = "25%"
   headRow.style.alignSelf = 'center'
   const headUsername = document.createElement('th')
@@ -284,8 +285,10 @@ const showSponsors = (spon, i) =>{
         </p>
         
         <div>
-          <button onClick={loadSponsors}>Sponsors</button><br/>
-            <SponTable id='driverSponsors'/> 
+          <button onClick={loadSponsors}>Sponsors</button>
+        </div>
+        <div>
+          <table id='driverSponsors'/> 
         </div>
         
         
@@ -309,13 +312,3 @@ const showSponsors = (spon, i) =>{
 }
 
 export default Profile;
-
-const SponTable = styled.table`
-{
-    width: 50%;
-    padding: 0rem 3rem;
-    margin: 5px;
-    border: 1px solid black;
-    align-self: center;
-}
-`;

@@ -1,6 +1,7 @@
 import { CognitoUser } from "amazon-cognito-identity-js";
 import React, { useState } from "react";
 import UserPool from "../UserPool";
+import { updateUserData, userData } from "./UserData";
 
 
 const RecoverPassword = () =>{
@@ -12,6 +13,7 @@ const [recoverInfo, setRecoverInfo] = useState({
 })
 
 const [verified, setVerified] = useState(false)
+const [submissionMessage, setSubmissionMessage] = useState('')
 
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,23 +30,40 @@ const sendRecoverCode = () =>{
     cognitoUser.forgotPassword({
         onSuccess: function(result) {
             console.log('call result: ' + result);
+            setSubmissionMessage('Verification Code Sent. Check your email.')
+            setVerified(true)
         },
         onFailure: function(err) {
-            alert(err);
+            setSubmissionMessage(err.message)
         }})
 
-        setVerified(true)
+        
 }
 
 const setNewPassword = () =>{
-    console.log('Setting new password.')
+    const cognitoUser = new CognitoUser({
+        Username: recoverInfo.username,
+        Pool: UserPool
+    })
+
+    cognitoUser.confirmPassword(recoverInfo.code,recoverInfo.newPass, {
+        onFailure(err){
+            setSubmissionMessage(err.message)
+        },
+        onSuccess(){
+            setSubmissionMessage("Password Successfully Changed.")
+            window.history.pushState(null, '',"./login")
+            window.history.go()
+        }
+    })
 }
 
 return(
     <div>
         <h3>Recover Password</h3>
 
-        {!verified ? (
+        {!verified && (
+            <div>
             <form onSubmit={sendRecoverCode}>
                 <label>Username: </label>&nbsp;
                 <input
@@ -57,8 +76,12 @@ return(
                 <br/>
                 <button type="submit">Send Verification</button>
             </form>
-        ):(
-            <form onSubmit={setNewPassword}>
+            </div>
+        )
+        }
+        {verified && (
+            <div>
+            <form>
                 <div>
                     <label>Verification Code: </label>&nbsp;
                     <input
@@ -79,14 +102,15 @@ return(
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" onClick={setNewPassword}>Submit</button>
             </form>
-        )}
-        
-        
+            </div>
+            )}
 
-
-
+            {submissionMessage && (
+                <p>{submissionMessage}</p>
+            )}
+            
     </div>
 )}
 
